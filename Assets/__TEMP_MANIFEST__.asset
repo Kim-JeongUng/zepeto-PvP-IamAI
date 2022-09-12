@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -340528575, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: __TEMP_MANIFEST__
+  m_EditorClassIdentifier: 
+  manifestVersion: 2020.8.15
+  unityVersion: 2020.3.9f1
+  identifier: com.zepeto.gamesystem.sample
+  version: 0.1
+  scenes:
+  - Assets/Scenes/SampleSceneV2.unity
+  scripts:
+  - Assets/ZepetoScripts/ClientStarter.ts
+  - Assets/ZepetoScripts/ClientStarterV2.ts
+  - Assets/ZepetoScripts/Multiplay/ClientStarter.ts
+  - Assets/ZepetoScripts/QuarterView/QuarterViewController.ts
+  - Assets/ZepetoScripts/ScreenShotScripts/GestureController.ts
+  - Assets/ZepetoScripts/ScreenShotScripts/IKController.ts
+  - Assets/ZepetoScripts/ScreenShotScripts/PlayerCreator.ts
+  - Assets/ZepetoScripts/ScreenShotScripts/ScreenShotController.ts
+  - Assets/ZepetoScripts/ScreenShotScripts/ScreenShotModeManager.ts
+  - Assets/ZepetoScripts/ScreenShotScripts/SelfieCamera.ts
+  - Assets/ZepetoScripts/ScreenShotScripts/UIController.ts
+  - Assets/ZepetoScripts/SideView/SideViewController.ts
+  - Assets/ZepetoScripts/TPS/TPSController.ts
+  - Packages/zepeto.world/Editor/Builds/QRCode.js
+  - Packages/zepeto.character.controller/Runtime/Scripts/JS/Classes/ZepetoDefaultInputReceiver.js
+  assets:
+  - Packages/zepeto.character.controller/Runtime/_Resources/Images/touchpad_handle_base.png
+  - Packages/zepeto.character.controller/Runtime/_Resources/Prefabs/UIController_Touchpad_Vertical.prefab
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/idle.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Images/touchpad_handle_icon.png
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/JumpIdle.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/Stamp.anim
+  - Packages/com.unity.inputsystem/InputSystem/Editor/Icons/InputSystemUIInputModule@64.png
+  - Packages/zepeto.character.controller/Runtime/_Resources/Images/touchpad_jump_icon.png
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/UI/Controller/touchpad_handle_off.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/AnimatorController/UIControllerTouchpadHandle.controller
+  - Packages/zepeto.character.controller/Runtime/_Resources/InputActions/ZepetoInputControl.inputactions
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/LandingSlight.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/jumpdash.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/action1.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Prefabs/Shadow/FxT_BlobShadow.png
+  - Packages/zepeto.character.controller/Runtime/_Resources/Camera/ZepetoCamera.prefab
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/run.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Prefabs/Shadow/CharacterShadow.prefab
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/MoveWalkFast.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/AnimatorController/ZepetoAnimatorV2.controller
+  - Packages/zepeto.character.controller/Runtime/_Resources/Images/touchpad_jump_base.png
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/Gesture/4_ok.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/UI/Controller/touchpad_handle_ziggle.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/walk.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/MoveRunFast.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/MoveTurn.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/UI/Controller/touchpad_handle_on.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/jumpmove.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/gesture.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/MoveWalk.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/LandingDeep.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/AnimatorController/ZepetoAnimator.controller
+  - Packages/zepeto.character.controller/Runtime/_Resources/Prefabs/Shadow/FxT_BlobShadow.mat
+  - Packages/zepeto.character.controller/Runtime/_Resources/Prefabs/EventSystem.prefab
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/idle.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/fall_end.anim
+  - Assets/_Resources/100_SampleMap/Plane.mat
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/UI/Controller/touchpad_handle_origin_on.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/MoveRun.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/jumpdouble.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/jump_idle.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/jump_move.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/hand_idle_01.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Prefabs/UIController_Touchpad_Horizontal.prefab
+  - Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/DefaultInputActions.inputactions
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/UI/Controller/touchpad_handle_origin_off.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/AnimatorController/UIControllerTouchpadHandleOrigin.controller
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/LandingRoll.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/V2/Falling.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/base/action2.anim
+  - Packages/zepeto.character.controller/Runtime/_Resources/Animations/UI/Controller/touchpad_handle_origin_ziggle.anim
+  resources:
+  - Assets/Resources
+  streamingAssets: []
+  tags:
+  - ObjectArea
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  packages:
+  - zepeto.character@3.1.12
+  - zepeto.world@1.4.0
+  - zepeto.world.shared@1.3.0
+  - zepeto.script@1.3.0
+  - zepeto.multiplay@1.3.0
+  - zepeto.multiplay.script@1.3.0
+  - zepeto.character.controller@1.2.1
+  - zepeto.script.unityengine.typings@1.0.3
+  - zepeto.iwp@1.1.0
+  - zepeto.script.leaderboard@1.1.2
+  - zepeto.world.common@1.0.0
+  - zepeto.asset@1.0.11
+  extensions: []
