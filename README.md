@@ -18,4 +18,5 @@ https://github.com/naverz/zepeto-multiplay-example<br>
 ## 진행상황
 ![image](https://user-images.githubusercontent.com/82865325/189647394-2183dad8-ac5d-4e7c-b9d9-339af697640c.png)
 멀티플레이 샘플 씬 내 나의 제페토 캐릭터 불러오기
-
+![image](https://user-images.githubusercontent.com/82865325/190448346-6f9d9b73-5dd2-4f0e-bd6a-a30569750d86.png)
+모바일 빌드 확인 및 펀치 모션, ai 프리셋 캐릭터 추가
