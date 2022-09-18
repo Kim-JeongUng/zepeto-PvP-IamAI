@@ -1,6 +1,6 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import { ZepetoPlayers, ZepetoCharacter, ZepetoScreenTouchpad, ZepetoCamera } from 'ZEPETO.Character.Controller';
-import { Vector3, Time, Quaternion} from 'UnityEngine';
+import { Vector3, Time, Quaternion, AnimationClip} from 'UnityEngine';
 import {ZepetoInputControl} from 'RootNamespace';
 
 export default class TPSController extends ZepetoScriptBehaviour {

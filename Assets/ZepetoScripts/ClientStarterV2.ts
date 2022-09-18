@@ -2,13 +2,14 @@ import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay} from 'ZEPETO.World'
 import {Room, RoomData} from 'ZEPETO.Multiplay'
 import {Player, State, Vector3} from 'ZEPETO.Multiplay.Schema'
-import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState} from 'ZEPETO.Character.Controller'
+import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState, ZepetoCharacter} from 'ZEPETO.Character.Controller'
 import * as UnityEngine from "UnityEngine";
 
 
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
     public multiplay: ZepetoWorldMultiplay;
+    public punchGesture: UnityEngine.AnimationClip;
 
     private room: Room;
     private currentPlayers: Map<string, Player> = new Map<string, Player>();
@@ -93,7 +94,6 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         const rotation = this.ParseVector3(player.transform.rotation);
         spawnInfo.position = position;
         spawnInfo.rotation = UnityEngine.Quaternion.Euler(rotation);
-
         const isLocal = this.room.SessionId === player.sessionId;
         ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, player.zepetoUserId, spawnInfo, isLocal);
     }
@@ -126,16 +126,19 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
             if (zepetoPlayer.character.CurrentState !== CharacterState.Jump) {
                 zepetoPlayer.character.Jump();
             }
-
             if (player.subState === CharacterJumpState.JumpDouble) {
                 zepetoPlayer.character.DoubleJump();
             }
+        }
+        if (player.state === CharacterState.Gesture) {
+            zepetoPlayer.character.StopMoving();
+            zepetoPlayer.character.SetGesture(this.punchGesture);
         }
     }
 
     private SendTransform(transform: UnityEngine.Transform) {
         const data = new RoomData();
-
+        
         const pos = new RoomData();
         pos.Add("x", transform.localPosition.x);
         pos.Add("y", transform.localPosition.y);
