@@ -16,8 +16,10 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
     private zepetoPlayer: ZepetoPlayer;
 
-    private Start() {
+    private isPlayZesture: boolean;
 
+    private Start() {
+        this.isPlayZesture = false;
         this.multiplay.RoomCreated += (room: Room) => {
             this.room = room;
         };
@@ -130,10 +132,16 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
                 zepetoPlayer.character.DoubleJump();
             }
         }
-        if (player.state === CharacterState.Gesture) {
-            zepetoPlayer.character.StopMoving();
+        if (player.state === CharacterState.Gesture && !this.isPlayZesture ) {
             zepetoPlayer.character.SetGesture(this.punchGesture);
+            this.isPlayZesture = true;
+            this.StartCoroutine(this.DoRoutine(zepetoPlayer));
         }
+    }
+    * DoRoutine(zepetoPlayer : ZepetoPlayer) {
+        yield new UnityEngine.WaitForSeconds(2);
+        this.isPlayZesture = false;
+        zepetoPlayer.character.CancelGesture();
     }
 
     private SendTransform(transform: UnityEngine.Transform) {

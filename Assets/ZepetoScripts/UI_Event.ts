@@ -21,7 +21,6 @@ export default class UI_Event extends ZepetoScriptBehaviour {
         
         });
     }
-    //after 3 seconds later, stop gesture
     * DoRoutine() {
         yield new WaitForSeconds(2);
         this.zepetoCharacter.CancelGesture();
