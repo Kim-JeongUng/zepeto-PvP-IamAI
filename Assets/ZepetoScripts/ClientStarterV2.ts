@@ -97,8 +97,9 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         spawnInfo.position = position;
         spawnInfo.rotation = UnityEngine.Quaternion.Euler(rotation);
         const isLocal = this.room.SessionId === player.sessionId;
-        ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, player.zepetoUserId, spawnInfo, isLocal);
-        
+        //ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, player.zepetoUserId, spawnInfo, isLocal);
+        ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, "", spawnInfo, isLocal);
+        console.log("ASDSADASD");
     }
 
     private OnLeavePlayer(sessionId: string, player: Player) {
