@@ -4,6 +4,7 @@ import {Room, RoomData} from 'ZEPETO.Multiplay'
 import {Player, State, Vector3} from 'ZEPETO.Multiplay.Schema'
 import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState, ZepetoCharacter} from 'ZEPETO.Character.Controller'
 import * as UnityEngine from "UnityEngine";
+import { GameObject } from 'UnityEngine'
 
 
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
@@ -29,6 +30,10 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         };
 
         this.StartCoroutine(this.SendMessageLoop(0.04));
+        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+            ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.tag = "Player";
+            console.log("playerAdd");
+        });
     }
 
     // Send the local character transform to the server at the scheduled Interval Time.
@@ -99,7 +104,6 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         const isLocal = this.room.SessionId === player.sessionId;
         //ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, player.zepetoUserId, spawnInfo, isLocal);
         ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, "", spawnInfo, isLocal);
-        console.log("ASDSADASD");
     }
 
     private OnLeavePlayer(sessionId: string, player: Player) {
@@ -140,7 +144,8 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
             this.StartCoroutine(this.DoRoutine(zepetoPlayer));
         }
     }
-    * DoRoutine(zepetoPlayer : ZepetoPlayer) {
+    * DoRoutine(zepetoPlayer: ZepetoPlayer) {
+        //UnityEngine.RaycastHit(zepetoPlayer.character.transform.position, zepetoPlayer.character.transform.forward,))
         yield new UnityEngine.WaitForSeconds(2);
         this.isPlayZesture = false;
         zepetoPlayer.character.CancelGesture();
