@@ -5,6 +5,7 @@ import {Player, State, Vector3} from 'ZEPETO.Multiplay.Schema'
 import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState, ZepetoCharacter} from 'ZEPETO.Character.Controller'
 import * as UnityEngine from "UnityEngine";
 import { GameObject } from 'UnityEngine'
+import ZepetoGameCharacter from './Game/ZepetoGameCharacter'
 
 
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
@@ -32,7 +33,7 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         this.StartCoroutine(this.SendMessageLoop(0.04));
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.tag = "Player";
-            console.log("playerAdd");
+            ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.transform.GetChild(0).gameObject.AddComponent<ZepetoGameCharacter>();
         });
     }
 

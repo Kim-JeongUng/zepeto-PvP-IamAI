@@ -1,4 +1,4 @@
-import { Animator, HumanBodyBones, SphereCollider, Transform } from 'UnityEngine'
+import { Animator, Collider, HumanBodyBones, SphereCollider, Transform } from 'UnityEngine'
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 
 export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
@@ -12,6 +12,7 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
         this.isPunchStop();
     }
     public isPunchStart() {
+        console.log("SADA");
         this.rightHand.enabled = true;
     }
     public isPunchStop() {
