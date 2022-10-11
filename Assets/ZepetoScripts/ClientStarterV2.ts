@@ -6,6 +6,7 @@ import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpSta
 import * as UnityEngine from "UnityEngine";
 import { GameObject } from 'UnityEngine'
 import ZepetoGameCharacter from './Game/ZepetoGameCharacter'
+import CollTest from './Game/CollTest'
 
 
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
@@ -29,6 +30,7 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         this.multiplay.RoomJoined += (room: Room) => {
             room.OnStateChange += this.OnStateChange;
         };
+
 
         this.StartCoroutine(this.SendMessageLoop(0.04));
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
