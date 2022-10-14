@@ -1,17 +1,16 @@
 import { Enum } from 'System'
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 
-enum UpdataAuthority{
+export enum UpdateAuthority{
     "Server"=0,
     "Client"
 }
 
 export default class PlayChooseSample extends ZepetoScriptBehaviour {
     
-    public Upd:UpdataAuthority;
+    public format:UpdateAuthority;
     public aa:int;
     Start() {    
-        
     }
 
 }
