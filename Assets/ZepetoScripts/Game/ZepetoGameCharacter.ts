@@ -1,4 +1,5 @@
-import { Animator, Collider, HumanBodyBones, SphereCollider, Transform ,Collision} from 'UnityEngine'
+import { Animator, Collider, HumanBodyBones, SphereCollider, Transform ,Collision, ControllerColliderHit, CharacterController} from 'UnityEngine'
+import { ZepetoCharacter } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 
 export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
@@ -10,14 +11,6 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
         this.animator = this.GetComponentInChildren<Animator>();
         this.rightHand = this.animator.GetBoneTransform(HumanBodyBones.RightHand).gameObject.AddComponent<SphereCollider>();
         this.isPunchStop();
-    }
-    
-    //피격 받았을 때
-    OnCollisionEnter(coll: Collision){
-        console.log(coll.transform.name);
-        if(coll.transform.name=="hand_R"){
-            console.log("hand");
-        }
     }
     public isPunchStart() {
         console.log("not use");

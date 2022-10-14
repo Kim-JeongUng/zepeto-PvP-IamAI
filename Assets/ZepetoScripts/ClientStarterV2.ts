@@ -35,6 +35,7 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         this.StartCoroutine(this.SendMessageLoop(0.04));
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.tag = "Player";
+            ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.gameObject.AddComponent<CollTest>();
             ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.transform.GetChild(0).gameObject.AddComponent<ZepetoGameCharacter>();
         });
     }

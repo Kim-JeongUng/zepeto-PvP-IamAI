@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: 84cbc45e210f541e39392481694388df
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nvar
+    UpdataAuthority;\r\n(function (UpdataAuthority) {\r\n    UpdataAuthority[UpdataAuthority[\"Server\"]
+    = 0] = \"Server\";\r\n    UpdataAuthority[UpdataAuthority[\"Client\"] = 1] =
+    \"Client\";\r\n})(UpdataAuthority || (UpdataAuthority = {}));\r\nclass PlayChooseSample
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start() {\r\n    }\r\n}\r\nexports.default
+    = PlayChooseSample;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUGxheUNob29zZVNhbXBsZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlBsYXlDaG9vc2VTYW1wbGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFDQSxpREFBcUQ7QUFFckQsSUFBSyxlQUdKO0FBSEQsV0FBSyxlQUFlO0lBQ2hCLHlEQUFVLENBQUE7SUFDVix5REFBUSxDQUFBO0FBQ1osQ0FBQyxFQUhJLGVBQWUsS0FBZixlQUFlLFFBR25CO0FBRUQsTUFBcUIsZ0JBQWlCLFNBQVEscUNBQXFCO0lBSS9ELEtBQUs7SUFFTCxDQUFDO0NBRUo7QUFSRCxtQ0FRQyJ9","assetPath":"Assets/ZepetoScripts/PlayChooseSample.ts","manifest":{"properties":[{"assembly":"","name":"Upd","type":"UpdataAuthority","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"aa","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"PlayChooseSample","description":""},"isCompiled":true}'
+  typescriptHash: 82a393422a69b261e1fd214a285eabab
+  onlyWriteTrigger: 0
