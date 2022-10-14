@@ -16,7 +16,8 @@ export default class AISpawner extends ZepetoScriptBehaviour {
         const rotation = this.ParseVector3(new Vector3(0, Random.Range(-180, 180),0));
         spawnInfo.position = position;
         spawnInfo.rotation = UnityEngine.Quaternion.Euler(rotation);
-        ZepetoPlayers.instance.CreatePlayerWithUserId("", spawnInfo, false);
+        ZepetoPlayers.instance.CreatePlayerWithUserId("ai" + i.toString(), "", spawnInfo, false);
+        ZepetoPlayers.instance.name
     }
     private ParseVector3(vector3: Vector3): UnityEngine.Vector3 {
         return new UnityEngine.Vector3
