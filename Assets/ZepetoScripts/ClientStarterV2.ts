@@ -34,10 +34,7 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
         this.StartCoroutine(this.SendMessageLoop(0.04));
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.tag = "Player";
-            ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.gameObject.AddComponent<CollTest>();
-            ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.transform.GetChild(0).gameObject.AddComponent<ZepetoGameCharacter>();
-        });
+            });
     }
 
     // Send the local character transform to the server at the scheduled Interval Time.
@@ -76,6 +73,11 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
                     // [RoomState] Called whenever the state of the player instance is updated. 
                     player.OnChange += (changeValues) => this.OnUpdatePlayer(sessionId, player);
                 }
+                const nowJoinPlayer = ZepetoPlayers.instance.GetPlayer(sessionId).character;
+                nowJoinPlayer.tag = "Player";
+                nowJoinPlayer.gameObject.AddComponent<CollTest>();
+                nowJoinPlayer.transform.GetChild(0).gameObject.AddComponent<ZepetoGameCharacter>();
+
             });
         }
 

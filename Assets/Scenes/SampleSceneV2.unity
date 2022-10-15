@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45142233, g: 0.5008327, b: 0.57186896, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142233, g: 0.5008327, b: 0.571869, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -156,9 +156,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script:
-    keys: []
-    unityValues: []
-    values: []
+    keys:
+    - cc
+    unityValues:
+    - {fileID: 0}
+    values:
+    - 
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: b01b0eb974d3045fe93b83cc06466a02, type: 3}
@@ -835,13 +838,13 @@ MonoBehaviour:
   script:
     keys:
     - aa
-    - Upd
+    - format
     unityValues:
     - {fileID: 0}
     - {fileID: 0}
     values:
     - '{"type":"System.Int32, mscorlib","value":"0"}'
-    - 
+    - '{"type":"System.String, mscorlib","value":"1"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: 84cbc45e210f541e39392481694388df, type: 3}
