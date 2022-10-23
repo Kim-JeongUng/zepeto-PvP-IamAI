@@ -19,13 +19,10 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
-    \\\"__esModule\\\", { value: true });\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst
-    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nclass CollTest extends ZEPETO_Script_1.ZepetoScriptBehaviour
-    {\\r\\n    Awkae() {\\r\\n        console.log(\\\"HI\\\");\\r\\n        this.cc
-    = this.GetComponent($typeof(UnityEngine_1.CharacterController));\\r\\n    }\\r\\n   
-    Update() {\\r\\n    }\\r\\n    //\uD53C\uACA9 \uBC1B\uC558\uC744 \uB54C\\r\\n   
-    OnControllerColliderHit(hit) {\\r\\n        console.log(\\\"\u3141\u3134\u3147\u3141\u3134\\\");\\r\\n       
+    \\\"__esModule\\\", { value: true });\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nclass
+    CollTest extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    //\uD53C\uACA9
+    \uBC1B\uC558\uC744 \uB54C\\r\\n    OnControllerColliderHit(hit) {\\r\\n       
     if (hit.transform.name == \\\"hand_R\\\") {\\r\\n            console.log(\\\"hand\\\");\\r\\n       
-    }\\r\\n    }\\r\\n}\\r\\nexports.default = CollTest;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29sbFRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJDb2xsVGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFxRDtBQUNyRCw2Q0FBNEY7QUFFNUYsTUFBcUIsUUFBUyxTQUFRLHFDQUFxQjtJQUV2RCxLQUFLO1FBQ0QsT0FBTyxDQUFDLEdBQUcsQ0FBQyxJQUFJLENBQUMsQ0FBQTtRQUNqQixJQUFJLENBQUMsRUFBRSxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsaUNBQW1CLEVBQUcsQ0FBQztJQUN2RCxDQUFDO0lBQ0QsTUFBTTtJQUNOLENBQUM7SUFFRCxVQUFVO0lBQ1YsdUJBQXVCLENBQUMsR0FBMEI7UUFFOUMsT0FBTyxDQUFDLEdBQUcsQ0FBQyxPQUFPLENBQUMsQ0FBQztRQUNyQixJQUFHLEdBQUcsQ0FBQyxTQUFTLENBQUMsSUFBSSxJQUFFLFFBQVEsRUFBQztZQUM1QixPQUFPLENBQUMsR0FBRyxDQUFDLE1BQU0sQ0FBQyxDQUFDO1NBQ3ZCO0lBQ0wsQ0FBQztDQUVKO0FBbEJELDJCQWtCQyJ9\",\"assetPath\":\"Assets/ZepetoScripts/Game/CollTest.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"UnityEngine.PhysicsModule\",\"name\":\"cc\",\"type\":\"UnityEngine.CharacterController\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"CollTest\",\"description\":\"\"},\"isCompiled\":true}"
-  typescriptHash: 1563a178a67b5229e13ea398bd1afd7c
+    }\\r\\n    }\\r\\n}\\r\\nexports.default = CollTest;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29sbFRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJDb2xsVGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFxRDtBQUdyRCxNQUFxQixRQUFTLFNBQVEscUNBQXFCO0lBRXZELFVBQVU7SUFDVix1QkFBdUIsQ0FBQyxHQUEwQjtRQUM5QyxJQUFHLEdBQUcsQ0FBQyxTQUFTLENBQUMsSUFBSSxJQUFFLFFBQVEsRUFBQztZQUM1QixPQUFPLENBQUMsR0FBRyxDQUFDLE1BQU0sQ0FBQyxDQUFDO1NBQ3ZCO0lBQ0wsQ0FBQztDQUVKO0FBVEQsMkJBU0MifQ==\",\"assetPath\":\"Assets/ZepetoScripts/Game/CollTest.ts\",\"manifest\":{\"properties\":[],\"name\":\"CollTest\",\"description\":\"\"},\"isCompiled\":true}"
+  typescriptHash: 3a2f1336f1fcf70c4cdcf432412a8bf9
   onlyWriteTrigger: 0

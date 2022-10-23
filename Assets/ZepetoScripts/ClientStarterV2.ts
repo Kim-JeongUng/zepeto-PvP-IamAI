@@ -72,12 +72,11 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
                     // [RoomState] Called whenever the state of the player instance is updated. 
                     player.OnChange += (changeValues) => this.OnUpdatePlayer(sessionId, player);
-                }
+                }    
                 const nowJoinPlayer = ZepetoPlayers.instance.GetPlayer(sessionId).character;
                 nowJoinPlayer.tag = "Player";
                 nowJoinPlayer.gameObject.AddComponent<CollTest>();
                 nowJoinPlayer.transform.GetChild(0).gameObject.AddComponent<ZepetoGameCharacter>();
-
             });
         }
 
@@ -144,17 +143,6 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
                 zepetoPlayer.character.DoubleJump();
             }
         }
-        if (player.state === CharacterState.Gesture && !this.isPlayZesture ) {
-            zepetoPlayer.character.SetGesture(this.punchGesture);
-            this.isPlayZesture = true;
-            this.StartCoroutine(this.DoRoutine(zepetoPlayer));
-        }
-    }
-    * DoRoutine(zepetoPlayer: ZepetoPlayer) {
-        //UnityEngine.RaycastHit(zepetoPlayer.character.transform.position, zepetoPlayer.character.transform.forward,))
-        yield new UnityEngine.WaitForSeconds(2);
-        this.isPlayZesture = false;
-        zepetoPlayer.character.CancelGesture();
     }
 
     private SendTransform(transform: UnityEngine.Transform) {
