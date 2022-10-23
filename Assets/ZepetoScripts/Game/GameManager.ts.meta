@@ -1,0 +1,70 @@
+fileFormatVersion: 2
+guid: c93fadd45f3967c4bb295611c352696d
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    UnityEngine_UI_1 = require(\\\"UnityEngine.UI\\\");\\r\\nconst ZEPETO_Character_Controller_1
+    = require(\\\"ZEPETO.Character.Controller\\\");\\r\\nconst ZEPETO_Multiplay_1
+    = require(\\\"ZEPETO.Multiplay\\\");\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nvar
+    MotionIndex;\\r\\n(function (MotionIndex) {\\r\\n    MotionIndex[MotionIndex[\\\"Punch\\\"]
+    = 0] = \\\"Punch\\\";\\r\\n    MotionIndex[MotionIndex[\\\"Shield\\\"] = 1] =
+    \\\"Shield\\\";\\r\\n    MotionIndex[MotionIndex[\\\"Die\\\"] = 2] = \\\"Die\\\";\\r\\n})(MotionIndex
+    || (MotionIndex = {}));\\r\\nclass GameManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\\r\\n    constructor() {\\r\\n        super(...arguments);\\r\\n        this._punchCoolTime
+    = 5;\\r\\n        this.MESSAGE = {\\r\\n            OnPunchGesture: \\\"OnPunchGesture\\\",\\r\\n           
+    OnHitPlayer: \\\"OnHitPlayer\\\"\\r\\n        };\\r\\n    }\\r\\n    Start()
+    {\\r\\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\\r\\n            this._myCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\\r\\n           
+    this._punchBtn = UnityEngine_1.GameObject.Find(\\\"PunchBtn\\\").GetComponent($typeof(UnityEngine_UI_1.Button));\\r\\n           
+    this._punchBtn.onClick.AddListener(() => {\\r\\n                console.log(this.MESSAGE.OnPunchGesture);\\r\\n               
+    this.Punch();\\r\\n            });\\r\\n            //\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\u03BA\uFFFD\uFFFD\uFFFD
+    \uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD \uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD \uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD
+    \uFFFD\uFFFD\uFFFD\uFFFD\\r\\n            this.room.AddMessageHandler(this.MESSAGE.OnPunchGesture,
+    (message) => {\\r\\n                this.StartCoroutine(this.GestureSync(message));\\r\\n           
+    });\\r\\n            this.room.AddMessageHandler(this.MESSAGE.OnHitPlayer, (message)
+    => {\\r\\n                this.KillLog(message);\\r\\n            });\\r\\n       
+    });\\r\\n        this._multiplay.add_RoomCreated((room) => {\\r\\n           
+    this.SpawnAI(10);\\r\\n            this.room = room;\\r\\n        });\\r\\n   
+    }\\r\\n    Punch() {\\r\\n        if (!this._punchFlag) {\\r\\n            this._punchFlag
+    = true;\\r\\n            const data = new ZEPETO_Multiplay_1.RoomData();\\r\\n           
+    data.Add(\\\"gestureIndex\\\", MotionIndex.Punch);\\r\\n            this.room.Send(this.MESSAGE.OnPunchGesture,
+    data.GetObject());\\r\\n            this.StartCoroutine(this.punchCoolTime(this._punchCoolTime));\\r\\n       
+    }\\r\\n    }\\r\\n    *GestureSync(playerGestureInfo) {\\r\\n        const zepetoPlayer
+    = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId);\\r\\n       
+    if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {\\r\\n            zepetoPlayer.character.SetGesture(this._punchGesture);\\r\\n       
+    }\\r\\n        yield new UnityEngine_1.WaitForSeconds(2);\\r\\n        zepetoPlayer.character.CancelGesture();\\r\\n       
+    if (this.room.SessionId == playerGestureInfo.sessionId)\\r\\n            this._punchFlag;\\r\\n   
+    }\\r\\n    *punchCoolTime(waitPunchCool) {\\r\\n        yield new UnityEngine_1.WaitForSeconds(waitPunchCool);\\r\\n       
+    this._punchFlag = false;\\r\\n    }\\r\\n    KillLog(playerKillInfo) {\\r\\n       
+    let playerGestureInfo;\\r\\n        playerGestureInfo.sessionId = playerKillInfo.victimSessionId;\\r\\n       
+    playerGestureInfo.gestureIndex = MotionIndex.Die;\\r\\n        this.GestureSync(playerGestureInfo);\\r\\n   
+    }\\r\\n    //AI Spawn\\r\\n    SpawnAI(required) {\\r\\n        for (let i =
+    0; i < required; i++) {\\r\\n            const spawnInfo = new ZEPETO_Character_Controller_1.SpawnInfo();\\r\\n           
+    const position = this.ParseVector3(new UnityEngine_1.Vector3(UnityEngine_1.Random.Range(-25,
+    25), 0, UnityEngine_1.Random.Range(-25, 25)));\\r\\n            const rotation
+    = this.ParseVector3(new UnityEngine_1.Vector3(0, UnityEngine_1.Random.Range(-180,
+    180), 0));\\r\\n            spawnInfo.position = position;\\r\\n            spawnInfo.rotation
+    = UnityEngine_1.Quaternion.Euler(rotation);\\r\\n            $extension(\\\"ZEPETO.Character.Controller.ZepetoPlayersExtension\\\").CreatePlayerWithUserId(ZEPETO_Character_Controller_1.ZepetoPlayers.instance,
+    \\\"ai\\\" + i.toString(), \\\"\\\", spawnInfo, false);\\r\\n        }\\r\\n   
+    }\\r\\n    ParseVector3(vector3) {\\r\\n        return new UnityEngine_1.Vector3(vector3.x,
+    vector3.y, vector3.z);\\r\\n    }\\r\\n}\\r\\nexports.default = GameManager;\\r\\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2FtZU1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHYW1lTWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUEySTtBQUMzSSxtREFBd0M7QUFDeEMsNkVBQW1IO0FBQ25ILHVEQUFrRDtBQUNsRCxpREFBcUQ7QUFZckQsSUFBSyxXQUlKO0FBSkQsV0FBSyxXQUFXO0lBQ1osK0NBQVcsQ0FBQTtJQUNYLGlEQUFRLENBQUE7SUFDUiwyQ0FBSyxDQUFBO0FBQ1QsQ0FBQyxFQUpJLFdBQVcsS0FBWCxXQUFXLFFBSWY7QUFFRCxNQUFxQixXQUFZLFNBQVEscUNBQXFCO0lBQTlEOztRQU9ZLG1CQUFjLEdBQVcsQ0FBQyxDQUFDO1FBSW5DLFlBQU8sR0FBRztZQUNOLGNBQWMsRUFBRSxnQkFBZ0I7WUFDaEMsV0FBVyxFQUFFLGFBQWE7U0FDN0IsQ0FBQztJQStFTixDQUFDO0lBN0VHLEtBQUs7UUFDRCwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3ZELElBQUksQ0FBQyxZQUFZLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUM7WUFDOUUsSUFBSSxDQUFDLFNBQVMsR0FBRyx3QkFBVSxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQyxZQUFZLFNBQUMsdUJBQU0sRUFBYSxDQUFDO1lBQzlFLElBQUksQ0FBQyxTQUFTLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7Z0JBQ3BDLE9BQU8sQ0FBQyxHQUFHLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxjQUFjLENBQUMsQ0FBQztnQkFDekMsSUFBSSxDQUFDLEtBQUssRUFBRSxDQUFDO1lBQ2pCLENBQUMsQ0FBQyxDQUFDO1lBQ0gscUNBQXFDO1lBQ3JDLElBQUksQ0FBQyxJQUFJLENBQUMsaUJBQWlCLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FB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\",\"assetPath\":\"Assets/ZepetoScripts/Game/GameManager.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"ZEPETO.World\",\"name\":\"_multiplay\",\"type\":\"ZEPETO.World.ZepetoWorldMultiplay\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"SerializeField\",\"args\":[]}]},{\"assembly\":\"UnityEngine.AnimationModule\",\"name\":\"_punchGesture\",\"type\":\"UnityEngine.AnimationClip\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"SerializeField\",\"args\":[]}]},{\"assembly\":\"UnityEngine.UI\",\"name\":\"_punchBtn\",\"type\":\"UnityEngine.UI.Button\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"SerializeField\",\"args\":[]}]},{\"assembly\":\"\",\"name\":\"MESSAGE\",\"type\":\"__object\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"GameManager\",\"description\":\"\"},\"isCompiled\":true}"
+  typescriptHash: adf39e0c7519d8d81861964d94f6bf67
+  onlyWriteTrigger: 0

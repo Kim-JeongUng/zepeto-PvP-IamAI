@@ -2,8 +2,22 @@ import {Sandbox, SandboxOptions, SandboxPlayer} from "ZEPETO.Multiplay";
 import {DataStorage} from "ZEPETO.Multiplay.DataStorage";
 import {Player, Transform, Vector3} from "ZEPETO.Multiplay.Schema";
 
+interface PlayerGestureInfo {
+    sessionId: string,
+    gestureIndex: number,
+}
+
+interface PlayerKillInfo {
+    attackerSessionId: string,
+    victimSessionId: string,
+}
+
 export default class extends Sandbox {
 
+    MESSAGE_TYPE = {
+        OnPunchGesture: "OnPunchGesture",
+        OnHitPlayer: "OnHitPlayer"
+    };
 
     storageMap:Map<string,DataStorage> = new Map<string, DataStorage>();
     
@@ -38,6 +52,27 @@ export default class extends Sandbox {
             player.state = message.state;
             player.subState = message.subState; // Character Controller V2
         });
+
+        this.onMessage(this.MESSAGE_TYPE.OnPunchGesture, (client, message) => {
+            let gestureInfo: PlayerGestureInfo = {
+                sessionId: client.sessionId,
+                gestureIndex: message.gestureIndex
+            };
+            console.log(gestureInfo);
+            // 해당 클라이언트를 제외한 다른 플레이어들에게 제스쳐 전송
+            this.broadcast(this.MESSAGE_TYPE.OnPunchGesture, gestureInfo);
+        });
+
+        this.onMessage(this.MESSAGE_TYPE.OnHitPlayer, (client, message) => {
+            let killInfo: PlayerKillInfo = {
+                attackerSessionId: client.sessionId,
+                victimSessionId: message.victimSessionId
+            };
+            console.log(killInfo);
+            // 해당 클라이언트를 제외한 다른 플레이어들에게 제스쳐 전송
+            this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
+        });
+
     }
     
    

@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 5146650864725668648}
   - component: {fileID: 2773374327361101425}
   - component: {fileID: 1754472745424467194}
-  - component: {fileID: 3757746394921456771}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: PunchBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,32 +121,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3757746394921456771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1383986326564514663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  script:
-    keys:
-    - punch
-    - punchGesture
-    unityValues:
-    - {fileID: 5146650864725668648}
-    - {fileID: 0}
-    values:
-    - 
-    - 
-    unityArrayValues: []
-    arrayValues: []
-    script: {fileID: 4458252877524076426, guid: 196d7d2bedf4e9a49be88c20a57d8b1c, type: 3}
-    isExpaned: 0
 --- !u!1 &1707077190538823262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,7 +1000,7 @@ GameObject:
   - component: {fileID: 1163885519458363023}
   - component: {fileID: 185516716281546773}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: Punch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

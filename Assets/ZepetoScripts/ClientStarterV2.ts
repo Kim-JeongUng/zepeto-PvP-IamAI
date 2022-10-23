@@ -4,7 +4,6 @@ import {Room, RoomData} from 'ZEPETO.Multiplay'
 import {Player, State, Vector3} from 'ZEPETO.Multiplay.Schema'
 import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState, ZepetoCharacter} from 'ZEPETO.Character.Controller'
 import * as UnityEngine from "UnityEngine";
-import { GameObject } from 'UnityEngine'
 import ZepetoGameCharacter from './Game/ZepetoGameCharacter'
 import CollTest from './Game/CollTest'
 
@@ -12,17 +11,13 @@ import CollTest from './Game/CollTest'
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
     public multiplay: ZepetoWorldMultiplay;
-    public punchGesture: UnityEngine.AnimationClip;
 
     private room: Room;
     private currentPlayers: Map<string, Player> = new Map<string, Player>();
 
     private zepetoPlayer: ZepetoPlayer;
 
-    private isPlayZesture: boolean;
-
     private Start() {
-        this.isPlayZesture = false;
         this.multiplay.RoomCreated += (room: Room) => {
             this.room = room;
         };
