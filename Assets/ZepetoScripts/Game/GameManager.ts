@@ -44,9 +44,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this._myCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
             this._punchBtn = GameObject.Find("PunchBtn").GetComponent<Button>() as Button;
-            console.log(this._MESSAGE.OnPunchGesture)
             this._punchBtn.onClick.AddListener(() => {
-                console.log(this._MESSAGE.OnPunchGesture);
                 this.Punch();
             });
             //서버로부터 유저의 제스쳐 정보를 받음
@@ -86,7 +84,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
         const zepetoPlayer = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId);
         if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {
             zepetoPlayer.character.SetGesture(this._punchGesture);
-            console.log("ASDASDASDASD");
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
             zepetoPlayer.character.SetGesture(this._dieGesture);
@@ -101,11 +98,13 @@ export default class GameManager extends ZepetoScriptBehaviour {
     }
 
     KillLog(playerKillInfo: PlayerKillInfo) {
+        console.log(playerKillInfo.attackerSessionId + "Killed " + playerKillInfo.victimSessionId);
+
         let playerGestureInfo: PlayerGestureInfo;
-        playerGestureInfo.sessionId = playerKillInfo.victimSessionId;
-        playerGestureInfo.gestureIndex = MotionIndex.Die;
-        this.GestureSync(playerGestureInfo);
-        console.log(playerKillInfo.attackerSessionId + "가 " + playerKillInfo.victimSessionId + "를 처치했습니다.");
+        playerGestureInfo = { sessionId: playerKillInfo.victimSessionId, gestureIndex: MotionIndex.Die};
+
+        console.log(playerGestureInfo);
+        this.StartCoroutine(this.GestureSync(playerGestureInfo));
     }
 
     //AI
@@ -139,9 +138,11 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     /*TODO
     - transform에서 세션아이디 가져오는법
+    - ai 동기화 좌표로 ai 이동
 
     BUGS
     - 펀치 애니메이션 인보크 오류
     - AI추가될때 오류구문 해결
-*/
+    - SetGesture 오류 (모든 모션 동일)
+    */
 }
