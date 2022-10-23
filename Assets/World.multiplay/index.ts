@@ -59,17 +59,15 @@ export default class extends Sandbox {
                 gestureIndex: message.gestureIndex
             };
             console.log(gestureInfo);
-            // 해당 클라이언트를 제외한 다른 플레이어들에게 제스쳐 전송
             this.broadcast(this.MESSAGE_TYPE.OnPunchGesture, gestureInfo);
         });
 
         this.onMessage(this.MESSAGE_TYPE.OnHitPlayer, (client, message) => {
             let killInfo: PlayerKillInfo = {
-                attackerSessionId: client.sessionId,
+                attackerSessionId: message.attackerSessionId,
                 victimSessionId: message.victimSessionId
             };
             console.log(killInfo);
-            // 해당 클라이언트를 제외한 다른 플레이어들에게 제스쳐 전송
             this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
         });
 

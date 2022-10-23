@@ -1,22 +1,34 @@
-import { Animator, Collider, HumanBodyBones, SphereCollider, Transform ,Collision, ControllerColliderHit, CharacterController} from 'UnityEngine'
+import {Transform, ControllerColliderHit, GameObject} from 'UnityEngine'
 import { ZepetoCharacter } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+import GameManager from './GameManager';
+import PunchManager from './PunchManager';
+
+interface PlayerKillInfo {
+    attackerSessionId: string,
+    victimSessionId: string,
+}
 
 export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
 
-    public animator: Animator;
-    public rightHand: SphereCollider;
+    private _hitFlag: boolean = false;
+    private gameManager: GameManager;
 
-    private Awake() {
-        this.animator = this.GetComponentInChildren<Animator>();
-        this.rightHand = this.animator.GetBoneTransform(HumanBodyBones.RightHand).gameObject.AddComponent<SphereCollider>();
-        this.isPunchStop();
+    Awake() {
+        this.transform.GetChild(0).gameObject.AddComponent<PunchManager>();
+        this.gameManager = GameObject.FindObjectOfType<GameManager>();
     }
-    public isPunchStart() {
-        console.log("not use");
-        this.rightHand.enabled = true;
+
+    //피격 받았을 때
+    OnControllerColliderHit(hit: ControllerColliderHit) {
+        if (hit.transform.root == this.transform)
+            return;
+
+        else if (hit.transform.name == "hand_R" && !this._hitFlag) {
+            console.log("hand");
+            this.gameManager.Kill(hit.transform.root, this.transform.root)
+            this._hitFlag = true;
+        }
     }
-    public isPunchStop() {
-        this.rightHand.enabled = false;
-    }
+
 }

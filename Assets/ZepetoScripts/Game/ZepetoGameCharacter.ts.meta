@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9b3fde85cc0908041baaa23655236092
+guid: 17c230fc3d9e45641968333a5485bbc4
 importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
 ScriptedImporter:
   internalIDToNameTable: []
@@ -18,15 +18,19 @@ ScriptedImporter:
   wrapperTypes: []
   WrapperFilters: []
   wrapperOutputDirectory: Generated
-  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
-    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass ZepetoGameCharacter extends
-    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Awake() {\r\n        this.animator
-    = this.GetComponentInChildren($typeof(UnityEngine_1.Animator));\r\n        this.rightHand
-    = this.animator.GetBoneTransform(UnityEngine_1.HumanBodyBones.RightHand).gameObject.AddComponent($typeof(UnityEngine_1.SphereCollider));\r\n       
-    this.isPunchStop();\r\n    }\r\n    isPunchStart() {\r\n        console.log(\"not
-    use\");\r\n        this.rightHand.enabled = true;\r\n    }\r\n    isPunchStop()
-    {\r\n        this.rightHand.enabled = false;\r\n    }\r\n}\r\nexports.default
-    = ZepetoGameCharacter;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiWmVwZXRvR2FtZUNoYXJhY3Rlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlplcGV0b0dhbWVDaGFyYWN0ZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBaUo7QUFFakosaURBQXFEO0FBRXJELE1BQXFCLG1CQUFvQixTQUFRLHFDQUFxQjtJQUsxRCxLQUFLO1FBQ1QsSUFBSSxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsc0JBQVEsRUFBRyxDQUFDO1FBQ3hELElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLFFBQVEsQ0FBQyxnQkFBZ0IsQ0FBQyw0QkFBYyxDQUFDLFNBQVMsQ0FBQyxDQUFDLFVBQVUsQ0FBQyxZQUFZLFNBQUMsNEJBQWMsRUFBRyxDQUFDO1FBQ3BILElBQUksQ0FBQyxXQUFXLEVBQUUsQ0FBQztJQUN2QixDQUFDO0lBQ00sWUFBWTtRQUNmLE9BQU8sQ0FBQyxHQUFHLENBQUMsU0FBUyxDQUFDLENBQUM7UUFDdkIsSUFBSSxDQUFDLFNBQVMsQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDO0lBQ2xDLENBQUM7SUFDTSxXQUFXO1FBQ2QsSUFBSSxDQUFDLFNBQVMsQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO0lBQ25DLENBQUM7Q0FDSjtBQWpCRCxzQ0FpQkMifQ==","assetPath":"Assets/ZepetoScripts/Game/ZepetoGameCharacter.ts","manifest":{"properties":[{"assembly":"UnityEngine.AnimationModule","name":"animator","type":"UnityEngine.Animator","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.PhysicsModule","name":"rightHand","type":"UnityEngine.SphereCollider","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"ZepetoGameCharacter","description":""},"isCompiled":true}'
-  typescriptHash: 09d9686d276d1e61e06975dcb9f42133
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst GameManager_1 =
+    require(\\\"./GameManager\\\");\\r\\nconst PunchManager_1 = require(\\\"./PunchManager\\\");\\r\\nclass
+    ZepetoGameCharacter extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n   
+    constructor() {\\r\\n        super(...arguments);\\r\\n        this._hitFlag
+    = false;\\r\\n    }\\r\\n    Awake() {\\r\\n        this.transform.GetChild(0).gameObject.AddComponent($typeof(PunchManager_1.default));\\r\\n       
+    this.gameManager = UnityEngine_1.GameObject.FindObjectOfType($typeof(GameManager_1.default));\\r\\n   
+    }\\r\\n    //\uFFFD\u01F0\uFFFD \uFFFD\u07BE\uFFFD\uFFFD\uFFFD \uFFFD\uFFFD\\r\\n   
+    OnControllerColliderHit(hit) {\\r\\n        if (hit.transform.root == this.transform)\\r\\n           
+    return;\\r\\n        else if (hit.transform.name == \\\"hand_R\\\" && !this._hitFlag)
+    {\\r\\n            console.log(\\\"hand\\\");\\r\\n            this.gameManager.Kill(hit.transform.root,
+    this.transform.root);\\r\\n            this._hitFlag = true;\\r\\n        }\\r\\n   
+    }\\r\\n}\\r\\nexports.default = ZepetoGameCharacter;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiWmVwZXRvR2FtZUNoYXJhY3Rlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlplcGV0b0dhbWVDaGFyYWN0ZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBd0U7QUFFeEUsaURBQXFEO0FBQ3JELCtDQUF3QztBQUN4QyxpREFBMEM7QUFPMUMsTUFBcUIsbUJBQW9CLFNBQVEscUNBQXFCO0lBQXRFOztRQUVZLGFBQVEsR0FBWSxLQUFLLENBQUM7SUFvQnRDLENBQUM7SUFqQkcsS0FBSztRQUNELElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDLENBQUMsQ0FBQyxDQUFDLFVBQVUsQ0FBQyxZQUFZLFNBQUMsc0JBQVksR0FBSTtRQUNuRSxJQUFJLENBQUMsV0FBVyxHQUFHLHdCQUFVLENBQUMsZ0JBQWdCLFNBQUMscUJBQVcsRUFBRyxDQUFDO0lBQ2xFLENBQUM7SUFFRCxjQUFjO0lBQ2QsdUJBQXVCLENBQUMsR0FBMEI7UUFDOUMsSUFBSSxHQUFHLENBQUMsU0FBUyxDQUFDLElBQUksSUFBSSxJQUFJLENBQUMsU0FBUztZQUNwQyxPQUFPO2FBRU4sSUFBSSxHQUFHLENBQUMsU0FBUyxDQUFDLElBQUksSUFBSSxRQUFRLElBQUksQ0FBQyxJQUFJLENBQUMsUUFBUSxFQUFFO1lBQ3ZELE9BQU8sQ0FBQyxHQUFHLENBQUMsTUFBTSxDQUFDLENBQUM7WUFDcEIsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsR0FBRyxDQUFDLFNBQVMsQ0FBQyxJQUFJLEVBQUUsSUFBSSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQTtZQUM5RCxJQUFJLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztTQUN4QjtJQUNMLENBQUM7Q0FFSjtBQXRCRCxzQ0FzQkMifQ==\",\"assetPath\":\"Assets/ZepetoScripts/Game/ZepetoGameCharacter.ts\",\"manifest\":{\"properties\":[],\"name\":\"ZepetoGameCharacter\",\"description\":\"\"},\"isCompiled\":true}"
+  typescriptHash: 2d6d9c7876b5523413d73ecf14de90e6
   onlyWriteTrigger: 0

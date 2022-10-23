@@ -1,0 +1,32 @@
+fileFormatVersion: 2
+guid: 9b3fde85cc0908041baaa23655236092
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass PunchManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    Awake() {\r\n        this.animator = this.GetComponentInChildren($typeof(UnityEngine_1.Animator));\r\n       
+    this.rightHand = this.animator.GetBoneTransform(UnityEngine_1.HumanBodyBones.RightHand).gameObject.AddComponent($typeof(UnityEngine_1.SphereCollider));\r\n       
+    this.rightHand.gameObject.AddComponent($typeof(UnityEngine_1.Rigidbody));\r\n       
+    this.isPunchStop();\r\n    }\r\n    isPunchStart() {\r\n        console.log(\"not
+    use\");\r\n        this.rightHand.enabled = true;\r\n    }\r\n    isPunchStop()
+    {\r\n        this.rightHand.enabled = false;\r\n    }\r\n}\r\nexports.default
+    = PunchManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUHVuY2hNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUHVuY2hNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQTRKO0FBRTVKLGlEQUFxRDtBQUVyRCxNQUFxQixZQUFhLFNBQVEscUNBQXFCO0lBS25ELEtBQUs7UUFDVCxJQUFJLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQyxzQkFBc0IsU0FBQyxzQkFBUSxFQUFHLENBQUM7UUFDeEQsSUFBSSxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDLGdCQUFnQixDQUFDLDRCQUFjLENBQUMsU0FBUyxDQUFDLENBQUMsVUFBVSxDQUFDLFlBQVksU0FBQyw0QkFBYyxFQUFHLENBQUM7UUFDcEgsSUFBSSxDQUFDLFNBQVMsQ0FBQyxVQUFVLENBQUMsWUFBWSxTQUFDLHVCQUFTLEdBQUk7UUFFcEQsSUFBSSxDQUFDLFdBQVcsRUFBRSxDQUFDO0lBQ3ZCLENBQUM7SUFDTSxZQUFZO1FBQ2YsT0FBTyxDQUFDLEdBQUcsQ0FBQyxTQUFTLENBQUMsQ0FBQztRQUN2QixJQUFJLENBQUMsU0FBUyxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUM7SUFDbEMsQ0FBQztJQUNNLFdBQVc7UUFDZCxJQUFJLENBQUMsU0FBUyxDQUFDLE9BQU8sR0FBRyxLQUFLLENBQUM7SUFDbkMsQ0FBQztDQUNKO0FBbkJELCtCQW1CQyJ9","assetPath":"Assets/ZepetoScripts/Game/PunchManager.ts","manifest":{"properties":[{"assembly":"UnityEngine.AnimationModule","name":"animator","type":"UnityEngine.Animator","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.PhysicsModule","name":"rightHand","type":"UnityEngine.SphereCollider","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"PunchManager","description":""},"isCompiled":true}'
+  typescriptHash: 5c320cfa87187e8886b3bd8fb98b68b7
+  onlyWriteTrigger: 0

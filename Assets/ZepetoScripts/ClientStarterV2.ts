@@ -5,7 +5,6 @@ import {Player, State, Vector3} from 'ZEPETO.Multiplay.Schema'
 import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState, ZepetoCharacter} from 'ZEPETO.Character.Controller'
 import * as UnityEngine from "UnityEngine";
 import ZepetoGameCharacter from './Game/ZepetoGameCharacter'
-import CollTest from './Game/CollTest'
 
 
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
@@ -70,8 +69,8 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
                 }    
                 const nowJoinPlayer = ZepetoPlayers.instance.GetPlayer(sessionId).character;
                 nowJoinPlayer.tag = "Player";
-                nowJoinPlayer.gameObject.AddComponent<CollTest>();
-                nowJoinPlayer.transform.GetChild(0).gameObject.AddComponent<ZepetoGameCharacter>();
+                nowJoinPlayer.name = sessionId;
+                nowJoinPlayer.transform.gameObject.AddComponent<ZepetoGameCharacter>();
             });
         }
 

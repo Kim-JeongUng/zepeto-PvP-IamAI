@@ -4,6 +4,7 @@ import { LocalPlayer, SpawnInfo, ZepetoCharacter, ZepetoPlayer, ZepetoPlayers } 
 import { Room, RoomData } from 'ZEPETO.Multiplay';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { ZepetoWorldMultiplay } from 'ZEPETO.World';
+import ZepetoGameCharacter from './ZepetoGameCharacter';
 
 interface PlayerGestureInfo {
     sessionId: string,
@@ -16,7 +17,7 @@ interface PlayerKillInfo {
 
 enum MotionIndex {
     "Punch" = 0,
-    "Shield",
+    "Defense",
     "Die"
 }
 
@@ -24,14 +25,17 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     @SerializeField() private _multiplay: ZepetoWorldMultiplay;
     @SerializeField() private _punchGesture: AnimationClip;
+    @SerializeField() private _defenseGesture: AnimationClip;
+    @SerializeField() private _dieGesture: AnimationClip;
     @SerializeField() private _punchBtn: Button;
 
     private _myCharacter: ZepetoCharacter;
-    private _punchCoolTime: number = 5;
+    private _punchCool: number = 5;
+    private _AICount: number = 10;
     private _punchFlag: boolean;
     private room: Room;
 
-    MESSAGE = {
+    private _MESSAGE = {
         OnPunchGesture: "OnPunchGesture",
         OnHitPlayer: "OnHitPlayer"
     };
@@ -40,23 +44,24 @@ export default class GameManager extends ZepetoScriptBehaviour {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this._myCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
             this._punchBtn = GameObject.Find("PunchBtn").GetComponent<Button>() as Button;
+            console.log(this._MESSAGE.OnPunchGesture)
             this._punchBtn.onClick.AddListener(() => {
-                console.log(this.MESSAGE.OnPunchGesture);
+                console.log(this._MESSAGE.OnPunchGesture);
                 this.Punch();
             });
             //서버로부터 유저의 제스쳐 정보를 받음
-            this.room.AddMessageHandler(this.MESSAGE.OnPunchGesture, (message: PlayerGestureInfo) => {
+            this.room.AddMessageHandler(this._MESSAGE.OnPunchGesture, (message: PlayerGestureInfo) => {
                 this.StartCoroutine(this.GestureSync(message));
             });
-            this.room.AddMessageHandler(this.MESSAGE.OnHitPlayer, (message: PlayerKillInfo) => {
+            this.room.AddMessageHandler(this._MESSAGE.OnHitPlayer, (message: PlayerKillInfo) => {
                 this.KillLog(message);
             });
+            this.InitAI(this._AICount);
         });
 
         this._multiplay.RoomCreated += (room: Room) => {
-            this.SpawnAI(10);
+            this.SpawnAI(this._AICount);
             this.room = room;
-
         };
     }
 
@@ -65,20 +70,29 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this._punchFlag = true;
             const data = new RoomData();
             data.Add("gestureIndex", MotionIndex.Punch);
-            this.room.Send(this.MESSAGE.OnPunchGesture, data.GetObject());
-            this.StartCoroutine(this.punchCoolTime(this._punchCoolTime));
+            this.room.Send(this._MESSAGE.OnPunchGesture, data.GetObject());
+            this.StartCoroutine(this.punchCoolTime(this._punchCool));
         }
+    }
+
+    Kill(attacker: Transform, victim: Transform) {
+        const data = new RoomData();
+        data.Add("attackerSessionId", attacker.name);
+        data.Add("victimSessionId", victim.name);
+        this.room.Send(this._MESSAGE.OnHitPlayer, data.GetObject());
     }
 
     * GestureSync(playerGestureInfo: PlayerGestureInfo) {
         const zepetoPlayer = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId);
         if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {
             zepetoPlayer.character.SetGesture(this._punchGesture);
+            console.log("ASDASDASDASD");
+        }
+        else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
+            zepetoPlayer.character.SetGesture(this._dieGesture);
         }
         yield new WaitForSeconds(2);
         zepetoPlayer.character.CancelGesture();
-        if (this.room.SessionId == playerGestureInfo.sessionId)
-            this._punchFlag;
     }
 
     * punchCoolTime(waitPunchCool : number) {
@@ -91,9 +105,10 @@ export default class GameManager extends ZepetoScriptBehaviour {
         playerGestureInfo.sessionId = playerKillInfo.victimSessionId;
         playerGestureInfo.gestureIndex = MotionIndex.Die;
         this.GestureSync(playerGestureInfo);
+        console.log(playerKillInfo.attackerSessionId + "가 " + playerKillInfo.victimSessionId + "를 처치했습니다.");
     }
 
-    //AI Spawn
+    //AI
     SpawnAI(required: number) {
         for (let i = 0; i < required; i++) {
             const spawnInfo = new SpawnInfo();
@@ -101,9 +116,18 @@ export default class GameManager extends ZepetoScriptBehaviour {
             const rotation = this.ParseVector3(new Vector3(0, Random.Range(-180, 180), 0));
             spawnInfo.position = position;
             spawnInfo.rotation = Quaternion.Euler(rotation);
-            ZepetoPlayers.instance.CreatePlayerWithUserId("ai" + i.toString(), "", spawnInfo, false);
+            ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
         }
     }
+    InitAI(required: number) {
+        for (let i = 0; i < required; i++) {
+            const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
+            aiPlayer.character.tag = "AI";
+            aiPlayer.character.name = "AI_" + i.toString();
+            aiPlayer.character.transform.gameObject.AddComponent<ZepetoGameCharacter>();
+        }
+    }
+    
     ParseVector3(vector3: Vector3): Vector3 {
         return new Vector3
             (
@@ -113,4 +137,11 @@ export default class GameManager extends ZepetoScriptBehaviour {
             );
     }
 
+    /*TODO
+    - transform에서 세션아이디 가져오는법
+
+    BUGS
+    - 펀치 애니메이션 인보크 오류
+    - AI추가될때 오류구문 해결
+*/
 }

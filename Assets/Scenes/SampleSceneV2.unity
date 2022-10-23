@@ -253,13 +253,19 @@ MonoBehaviour:
     - _multiplay
     - _punchGesture
     - _punchBtn
-    - MESSAGE_TYPE
+    - _dieGesture
+    - _defenseGesture
+    - MESSAGET
     unityValues:
     - {fileID: 1418382869}
     - {fileID: 7400000, guid: fe6f78d565595ea49890cfa0a0ff5098, type: 2}
     - {fileID: 0}
+    - {fileID: 7400000, guid: fe6f78d565595ea49890cfa0a0ff5098, type: 2}
+    - {fileID: 0}
     - {fileID: 0}
     values:
+    - 
+    - 
     - 
     - 
     - 
