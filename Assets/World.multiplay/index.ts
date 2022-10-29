@@ -12,17 +12,11 @@ interface PlayerKillInfo {
     victimSessionId: string,
 }
 
-interface tf {
-    Id: string,
-    position: Vector3,
-    rotation: Vector3,
-    scale: Vector3
-}
 
-interface inforTween {
-    Id: string,
-    position: Vector3,
-    nextIndex: number
+interface AIdestination {
+    AInumber: number,
+    nowPos: Vector3,
+    nexPos: Vector3
 }
 export default class extends Sandbox {
     private sessionIdQueue: string[] = [];
@@ -85,13 +79,13 @@ export default class extends Sandbox {
             this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
         });
 
-        this.onMessage("SyncTween", (client, message: inforTween) => {
-            let syncTween: inforTween = {
-                Id: message.Id,
-                position: message.position,
-                nextIndex: message.nextIndex,
+        this.onMessage("AIdestination", (client, message: AIdestination) => {
+            let syncTween: AIdestination = {
+                AInumber: message.AInumber,
+                nowPos: message.nowPos,
+                nexPos: message.nexPos,
             };
-            this.broadcast("SyncTween" + message.Id, syncTween);
+            this.broadcast("AIdestination", syncTween);
         });
 
         this.onMessage("CheckMaster", (client, message) => {
