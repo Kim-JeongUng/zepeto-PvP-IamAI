@@ -31,7 +31,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     private _myCharacter: ZepetoCharacter;
     private _punchCool: number = 5;
-    private _AICount: number = 10;
     private _punchFlag: boolean;
     private room: Room;
 
@@ -54,11 +53,9 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this.room.AddMessageHandler(this._MESSAGE.OnHitPlayer, (message: PlayerKillInfo) => {
                 this.KillLog(message);
             });
-            this.InitAI(this._AICount);
         });
 
         this._multiplay.RoomCreated += (room: Room) => {
-            this.SpawnAI(this._AICount);
             this.room = room;
         };
     }
@@ -107,25 +104,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
         this.StartCoroutine(this.GestureSync(playerGestureInfo));
     }
 
-    //AI
-    SpawnAI(required: number) {
-        for (let i = 0; i < required; i++) {
-            const spawnInfo = new SpawnInfo();
-            const position = this.ParseVector3(new Vector3(Random.Range(-25, 25), 0, Random.Range(-25, 25)));
-            const rotation = this.ParseVector3(new Vector3(0, Random.Range(-180, 180), 0));
-            spawnInfo.position = position;
-            spawnInfo.rotation = Quaternion.Euler(rotation);
-            ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
-        }
-    }
-    InitAI(required: number) {
-        for (let i = 0; i < required; i++) {
-            const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
-            aiPlayer.character.tag = "AI";
-            aiPlayer.character.name = "AI_" + i.toString();
-            aiPlayer.character.transform.gameObject.AddComponent<ZepetoGameCharacter>();
-        }
-    }
     
     ParseVector3(vector3: Vector3): Vector3 {
         return new Vector3

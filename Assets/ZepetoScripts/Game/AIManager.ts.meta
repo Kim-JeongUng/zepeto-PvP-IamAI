@@ -1,0 +1,69 @@
+fileFormatVersion: 2
+guid: 3fd7ba2eb1daa45488f05670ff91c22c
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    ZEPETO_Character_Controller_1 = require(\\\"ZEPETO.Character.Controller\\\");\\r\\nconst
+    ZEPETO_Multiplay_1 = require(\\\"ZEPETO.Multiplay\\\");\\r\\nconst ZEPETO_Script_1
+    = require(\\\"ZEPETO.Script\\\");\\r\\nconst ZepetoGameCharacter_1 = require(\\\"./ZepetoGameCharacter\\\");\\r\\nclass
+    AIManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor()
+    {\\r\\n        super(...arguments);\\r\\n        this._AICount = 10;\\r\\n       
+    this.isMasterClient = false;\\r\\n    }\\r\\n    Start() {\\r\\n        this._multiplay.add_RoomCreated((room)
+    => {\\r\\n            this.SpawnAI(this._AICount);\\r\\n            this.room
+    = room;\\r\\n            this.room.Send(\\\"CheckMaster\\\");\\r\\n           
+    this.room.AddMessageHandler(\\\"CheckMaster\\\", (MasterClientSessionId) => {\\r\\n               
+    if (this.room.SessionId == MasterClientSessionId) {\\r\\n                   
+    //\xF3\uFFFD\uFFFD \uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\u0370\uFFFD \uFFFD\u01F8\uFFFD\\r\\n                   
+    if (!this.isMasterClient) {\\r\\n                        this.isMasterClient
+    = true;\\r\\n                        this.StartCoroutine(this.SyncAIPosition(0.04));\\r\\n                   
+    }\\r\\n                    //\uFFFD\uFFFD\xFC AI\uFFFD\uFFFD\uFFFD\uFFFD\u022D\\r\\n                   
+    //this.SendAIDestination();\\r\\n                    console.log(\\\"ImMasterClient\\\");\\r\\n               
+    }\\r\\n            });\\r\\n        });\\r\\n    }\\r\\n    //AI\\r\\n    SpawnAI(required)
+    {\\r\\n        for (let i = 0; i < required; i++) {\\r\\n            const spawnInfo
+    = new ZEPETO_Character_Controller_1.SpawnInfo();\\r\\n            const position
+    = new UnityEngine_1.Vector3(UnityEngine_1.Random.Range(-25, 25), 0, UnityEngine_1.Random.Range(-25,
+    25));\\r\\n            const rotation = new UnityEngine_1.Vector3(0, UnityEngine_1.Random.Range(-180,
+    180), 0);\\r\\n            spawnInfo.position = position;\\r\\n            spawnInfo.rotation
+    = UnityEngine_1.Quaternion.Euler(rotation);\\r\\n            $extension(\\\"ZEPETO.Character.Controller.ZepetoPlayersExtension\\\").CreatePlayerWithUserId(ZEPETO_Character_Controller_1.ZepetoPlayers.instance,
+    \\\"AI_\\\" + i.toString(), \\\"\\\", spawnInfo, false);\\r\\n        }\\r\\n   
+    }\\r\\n    InitAI(required) {\\r\\n        for (let i = 0; i < required; i++)
+    {\\r\\n            const aiPlayer = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(\\\"AI_\\\"
+    + i.toString());\\r\\n            this.AIGameObject[i] = aiPlayer.character.gameObject;\\r\\n           
+    aiPlayer.character.tag = \\\"AI\\\";\\r\\n            aiPlayer.character.name
+    = \\\"AI_\\\" + i.toString();\\r\\n            aiPlayer.character.transform.gameObject.AddComponent($typeof(ZepetoGameCharacter_1.default));\\r\\n       
+    }\\r\\n    }\\r\\n    *SyncAIPosition(tick) {\\r\\n        for (let i = 0; i
+    < this._AICount; i++) {\\r\\n            this.SendAIDestination(i);\\r\\n       
+    }\\r\\n        yield new UnityEngine_1.WaitForSeconds(tick);\\r\\n    }\\r\\n   
+    SendAIDestination(AInumber) {\\r\\n        const nowX = this.AIGameObject[AInumber].transform.localPosition.x;\\r\\n       
+    const nowY = this.AIGameObject[AInumber].transform.localPosition.x;\\r\\n       
+    const nowZ = this.AIGameObject[AInumber].transform.localPosition.x;\\r\\n       
+    const nextX = nowX + UnityEngine_1.Random.Range(-25, 25);\\r\\n        const
+    nextY = nowY + UnityEngine_1.Random.Range(-25, 25);\\r\\n        const data =
+    new ZEPETO_Multiplay_1.RoomData();\\r\\n        data.Add(\\\"AInumber\\\", AInumber);\\r\\n       
+    const pos = new ZEPETO_Multiplay_1.RoomData();\\r\\n        pos.Add(\\\"x\\\",
+    nowX);\\r\\n        pos.Add(\\\"y\\\", nowY);\\r\\n        pos.Add(\\\"z\\\",
+    nowZ);\\r\\n        data.Add(\\\"position\\\", pos.GetObject());\\r\\n       
+    const destination = new ZEPETO_Multiplay_1.RoomData();\\r\\n        destination.Add(\\\"x\\\",
+    nextX);\\r\\n        destination.Add(\\\"y\\\", nextY);\\r\\n        destination.Add(\\\"z\\\",
+    0);\\r\\n        data.Add(\\\"destination\\\", destination.GetObject());\\r\\n       
+    this.room.Send(\\\"AIdestination\\\", data.GetObject());\\r\\n    }\\r\\n}\\r\\nexports.default
+    = AIManager;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUlNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQUlNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQXNGO0FBQ3RGLDZFQUF1RTtBQUN2RSx1REFBa0Q7QUFDbEQsaURBQXFEO0FBRXJELCtEQUF3RDtBQUV4RCxNQUFxQixTQUFVLFNBQVEscUNBQXFCO0lBQTVEOztRQUNXLGFBQVEsR0FBVyxFQUFFLENBQUM7UUFJckIsbUJBQWMsR0FBWSxLQUFLLENBQUM7SUE2RTVDLENBQUM7SUExRUcsS0FBSztRQUNELElBQUksQ0FBQyxVQUFVLGlCQUFnQixDQUFDLElBQVUsRUFBRSxFQUFFO1lBQzFDLElBQUksQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDO1lBQzVCLElBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDO1lBRWpCLElBQUksQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLGFBQWEsQ0FBQyxDQUFBO1lBRTdCLElBQUksQ0FBQyxJQUFJLENBQUMsaUJBQWlCLENBQUMsYUFBYSxFQUFFLENBQUMscUJBQXFCLEVBQUUsRUFBRTtnQkFDakUsSUFBSSxJQUFJLENBQUMsSUFBSSxDQUFDLFNBQVMsSUFBSSxxQkFBcUIsRUFBRTtvQkFDOUMsaUJBQWlCO29CQUNqQixJQUFJLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRTt3QkFDdEIsSUFBSSxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUM7d0JBQzNCLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMsQ0FBQyxDQUFDO3FCQUNsRDtvQkFDRCxhQUFhO29CQUNiLDJCQUEyQjtvQkFDM0IsT0FBTyxDQUFDLEdBQUcsQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDO2lCQUNqQztZQUNMLENBQUMsQ0FBQyxDQUFDO1FBRVAsQ0FBQyxFQUFBO0lBQ0wsQ0FBQztJQUNELElBQUk7SUFDSixPQUFPLENBQUMsUUFBZ0I7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\",\"assetPath\":\"Assets/ZepetoScripts/Game/AIManager.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"mscorlib\",\"name\":\"_AICount\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"10\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"ZEPETO.World\",\"name\":\"_multiplay\",\"type\":\"ZEPETO.World.ZepetoWorldMultiplay\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"SerializeField\",\"args\":[]}]}],\"name\":\"AIManager\",\"description\":\"\"},\"isCompiled\":true}"
+  typescriptHash: c74ed0fb447894cb943ef4a3e6bd52ac
+  onlyWriteTrigger: 0

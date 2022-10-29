@@ -12,7 +12,21 @@ interface PlayerKillInfo {
     victimSessionId: string,
 }
 
+interface tf {
+    Id: string,
+    position: Vector3,
+    rotation: Vector3,
+    scale: Vector3
+}
+
+interface inforTween {
+    Id: string,
+    position: Vector3,
+    nextIndex: number
+}
 export default class extends Sandbox {
+    private sessionIdQueue: string[] = [];
+    private masterClientSessionId: string;
 
     MESSAGE_TYPE = {
         OnPunchGesture: "OnPunchGesture",
@@ -71,6 +85,22 @@ export default class extends Sandbox {
             this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
         });
 
+        this.onMessage("SyncTween", (client, message: inforTween) => {
+            let syncTween: inforTween = {
+                Id: message.Id,
+                position: message.position,
+                nextIndex: message.nextIndex,
+            };
+            this.broadcast("SyncTween" + message.Id, syncTween);
+        });
+
+        this.onMessage("CheckMaster", (client, message) => {
+            if (this.masterClientSessionId != this.sessionIdQueue[0]) {
+                this.masterClientSessionId = this.sessionIdQueue[0];
+                console.log("master->", this.masterClientSessionId)
+            }
+            this.broadcast("CheckMaster", this.masterClientSessionId);
+        });
     }
     
    
@@ -79,6 +109,12 @@ export default class extends Sandbox {
 
         // schemas.json 에서 정의한 player 객체를 생성 후 초기값 설정.
         console.log(`[OnJoin] sessionId : ${client.sessionId}, HashCode : ${client.hashCode}, userId : ${client.userId}`)
+        
+        this.sessionIdQueue.push(client.sessionId.toString());
+        if (this.masterClientSessionId != this.sessionIdQueue[0]) {
+            this.masterClientSessionId = this.sessionIdQueue[0];
+            console.log("master->", this.masterClientSessionId)
+        }
 
         const player = new Player();
         player.sessionId = client.sessionId;
@@ -114,6 +150,12 @@ export default class extends Sandbox {
 
     async onLeave(client: SandboxPlayer, consented?: boolean) {
 
+        this.sessionIdQueue.splice((this.sessionIdQueue.indexOf(client.sessionId)), 1)
+        if (this.masterClientSessionId != this.sessionIdQueue[0]) {
+            this.masterClientSessionId = this.sessionIdQueue[0];
+            this.broadcast("CheckMaster", this.masterClientSessionId);
+            console.log("master->", this.masterClientSessionId)
+        }
         // allowReconnection 설정을 통해 순단에 대한 connection 유지 처리등을 할 수 있으나 기본 가이드에서는 즉시 정리.
         // delete 된 player 객체에 대한 정보를 클라이언트에서는 players 객체에 add_OnRemove 이벤트를 추가하여 확인 할 수 있음.
         this.state.players.delete(client.sessionId);
