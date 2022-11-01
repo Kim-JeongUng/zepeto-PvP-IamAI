@@ -17,7 +17,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
     @SerializeField() private _multiplay: ZepetoWorldMultiplay;
     private room: Room;
     private isMasterClient: boolean = false;
-    private AIGameObject: GameObject[];
+    private AIGameObject: GameObject[] = Array.from({length:this._AICount},obj=>null);
 
 
     Start() {
@@ -29,15 +29,15 @@ export default class AIManager extends ZepetoScriptBehaviour {
 
             this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
                 if (this.room.SessionId == MasterClientSessionId) {
-                    //Ã³À½ ¸¶½ºÅÍ°¡ µÇ¸é
+                    this.InitAI(this._AICount);
                     if (!this.isMasterClient) {
                         this.isMasterClient = true;
                         //this.StartCoroutine(this.SyncAIPosition(0.04));
                     }
-                    //ÀüÃ¼ AIµ¿±âÈ­(´Ù¸¥ ÇÃ·¹ÀÌ¾î ÀÔÀå)
+                    //ï¿½ï¿½Ã¼ AIï¿½ï¿½ï¿½ï¿½È­(ï¿½Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½)
                     //this.SendAIDestination();
                     for (let i = 0; i < this._AICount; i++) {
-                        this.SendAIDestination(i);
+                        //this.SendAIDestination(i);
                     }
                     console.log("ImMasterClient");
                 }
@@ -51,7 +51,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
         }
     }
     //AI
-    SpawnAI(required: number) {
+    SpawnAI(required: number) {        
         for (let i = 0; i < required; i++) {
             const spawnInfo = new SpawnInfo();
             const position = new Vector3(Random.Range(-25, 25), 0, Random.Range(-25, 25));
@@ -60,6 +60,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
             spawnInfo.rotation = Quaternion.Euler(rotation);
             ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
         }
+
     }
     InitAI(required: number) {
         for (let i = 0; i < required; i++) {
@@ -75,7 +76,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
         while (true) {
             for (let i = 0; i < this._AICount; i++) {
 
-                this.SendAIDestination(i);
+                //this.SendAIDestination(i);
             }
 
             yield new WaitForSeconds(tick);

@@ -95,6 +95,12 @@ export default class extends Sandbox {
             }
             this.broadcast("CheckMaster", this.masterClientSessionId);
         });
+        this.onMessage("ReceiveAllPlayer", (client, message) => {
+            this.broadcast("ReceiveAllPlayer", this.sessionIdQueue);
+        });
+        this.onMessage("GameStart", (client, message) => {
+            this.broadcast("GameStart", "");
+        });
     }
     
    
