@@ -82,6 +82,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
             yield new WaitForSeconds(tick);
         }
     }
+    
     SendAIDestination(AInumber: number) {
         const nowX = this.AIGameObject[AInumber].transform.localPosition.x;
         const nowY = this.AIGameObject[AInumber].transform.localPosition.x;

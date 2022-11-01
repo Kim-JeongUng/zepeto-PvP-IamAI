@@ -101,6 +101,10 @@ export default class extends Sandbox {
         this.onMessage("GameStart", (client, message) => {
             this.broadcast("GameStart", "");
         });
+        
+        this.onMessage("ChangeNumberOfAI", (client, message:number) => {
+            this.broadcast("ChangeNumberOfAI", message);
+        });
     }
     
    
