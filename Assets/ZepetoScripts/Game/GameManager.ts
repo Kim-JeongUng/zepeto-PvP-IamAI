@@ -8,7 +8,7 @@ import ZepetoGameCharacter from './ZepetoGameCharacter';
 
 interface PlayerGestureInfo {
     sessionId: string,
-    gestureIndex: number,
+    gestureIndex: MotionIndex,
 }
 interface PlayerKillInfo {
     attackerSessionId: string,
@@ -27,11 +27,11 @@ export default class GameManager extends ZepetoScriptBehaviour {
     @SerializeField() private _punchGesture: AnimationClip;
     @SerializeField() private _defenseGesture: AnimationClip;
     @SerializeField() private _dieGesture: AnimationClip;
-    @SerializeField() private _punchBtn: Button;
 
     private _myCharacter: ZepetoCharacter;
     private _punchCool: number = 5;
     private _punchFlag: boolean;
+    private _punchBtn: Button;
     private room: Room;
 
     private _MESSAGE = {
@@ -40,13 +40,16 @@ export default class GameManager extends ZepetoScriptBehaviour {
     };
 
     Start() {
+        this._multiplay.RoomCreated += (room: Room) => {
+            this.room = room;
+        };
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this._myCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
             this._punchBtn = GameObject.Find("PunchBtn").GetComponent<Button>() as Button;
             this._punchBtn.onClick.AddListener(() => {
                 this.Punch();
             });
-            //¼­¹ö·ÎºÎÅÍ À¯ÀúÀÇ Á¦½ºÃÄ Á¤º¸¸¦ ¹ÞÀ½
+            //ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             this.room.AddMessageHandler(this._MESSAGE.OnPunchGesture, (message: PlayerGestureInfo) => {
                 this.StartCoroutine(this.GestureSync(message));
             });
@@ -55,17 +58,12 @@ export default class GameManager extends ZepetoScriptBehaviour {
             });
         });
 
-        this._multiplay.RoomCreated += (room: Room) => {
-            this.room = room;
-        };
     }
 
     Punch() {
         if (!this._punchFlag) {
             this._punchFlag = true;
-            const data = new RoomData();
-            data.Add("gestureIndex", MotionIndex.Punch);
-            this.room.Send(this._MESSAGE.OnPunchGesture, data.GetObject());
+            this.room.Send(this._MESSAGE.OnPunchGesture, MotionIndex.Punch);
             this.StartCoroutine(this.punchCoolTime(this._punchCool));
         }
     }
@@ -80,6 +78,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
     * GestureSync(playerGestureInfo: PlayerGestureInfo) {
         const zepetoPlayer = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId);
         if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {
+            console.log(playerGestureInfo.gestureIndex );
             zepetoPlayer.character.SetGesture(this._punchGesture);
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
@@ -115,12 +114,12 @@ export default class GameManager extends ZepetoScriptBehaviour {
     }
 
     /*TODO
-    - transform¿¡¼­ ¼¼¼Ç¾ÆÀÌµð °¡Á®¿À´Â¹ý
-    - ai µ¿±âÈ­ ÁÂÇ¥·Î ai ÀÌµ¿
+    - transformï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¹ï¿½
+    - ai ï¿½ï¿½ï¿½ï¿½È­ ï¿½ï¿½Ç¥ï¿½ï¿½ ai ï¿½Ìµï¿½
 
     BUGS
-    - ÆÝÄ¡ ¾Ö´Ï¸ÞÀÌ¼Ç ÀÎº¸Å© ¿À·ù
-    - AIÃß°¡µÉ¶§ ¿À·ù±¸¹® ÇØ°á
-    - SetGesture ¿À·ù (¸ðµç ¸ð¼Ç µ¿ÀÏ)
+    - ï¿½ï¿½Ä¡ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Îºï¿½Å© ï¿½ï¿½ï¿½ï¿½
+    - AIï¿½ß°ï¿½ï¿½É¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø°ï¿½
+    - SetGesture ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     */
 }

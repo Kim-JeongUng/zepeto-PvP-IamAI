@@ -18,8 +18,11 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
         this.transform.GetChild(0).gameObject.AddComponent<PunchManager>();
         this.gameManager = GameObject.FindObjectOfType<GameManager>();
     }
+    Start(){
+        
+    }
 
-    //ÇÇ°Ý ¹Þ¾ÒÀ» ¶§
+    //ï¿½Ç°ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ ï¿½ï¿½
     OnControllerColliderHit(hit: ControllerColliderHit) {
         if (hit.transform.root == this.transform)
             return;

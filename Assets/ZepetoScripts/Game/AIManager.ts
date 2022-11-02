@@ -1,35 +1,34 @@
-import { GameObject, Quaternion, Random, Vector3, WaitForSeconds } from 'UnityEngine';
-import { SpawnInfo, ZepetoPlayers } from 'ZEPETO.Character.Controller';
-import { Room, RoomData } from 'ZEPETO.Multiplay';
-import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import { ZepetoWorldMultiplay } from 'ZEPETO.World';
+import {GameObject, Quaternion, Random, Vector3, WaitForSeconds} from 'UnityEngine';
+import {SpawnInfo, ZepetoPlayers} from 'ZEPETO.Character.Controller';
+import {Room, RoomData} from 'ZEPETO.Multiplay';
+import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
+import {ZepetoWorldMultiplay} from 'ZEPETO.World';
 import ZepetoGameCharacter from './ZepetoGameCharacter';
 
 
 interface AIdestination {
     AInumber: number,
     nowPos: Vector3,
-    nexPos:Vector3
+    nexPos: Vector3
 }
+
 export default class AIManager extends ZepetoScriptBehaviour {
     public _AICount: number = 10;
 
     @SerializeField() private _multiplay: ZepetoWorldMultiplay;
     private room: Room;
     private isMasterClient: boolean = false;
-    private AIGameObject: GameObject[] = Array.from({length:this._AICount},obj=>null);
+    private AIGameObject: GameObject[] = Array.from({length: this._AICount}, obj => null);
 
 
     Start() {
         this._multiplay.RoomCreated += (room: Room) => {
-            this.SpawnAI(this._AICount);
             this.room = room;
+        }
 
-            this.room.Send("CheckMaster")
-
+        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
                 if (this.room.SessionId == MasterClientSessionId) {
-                    this.InitAI(this._AICount);
                     if (!this.isMasterClient) {
                         this.isMasterClient = true;
                         //this.StartCoroutine(this.SyncAIPosition(0.04));
@@ -40,18 +39,23 @@ export default class AIManager extends ZepetoScriptBehaviour {
                         //this.SendAIDestination(i);
                     }
                     console.log("ImMasterClient");
-                }
-                else {
-                    this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
-                        this.AIGameObject[message.AInumber].transform.position = this.ParseVector3(message.nowPos);
-                    });
+                } else {
+                    
                 }
             });
+            this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
+                this.AIGameObject[message.AInumber].transform.position = this.ParseVector3(message.nowPos);
+            });
+            this.room.AddMessageHandler("GameStart", (message:number) => {
+                this._AICount = message;
+                this.StartCoroutine(this.SpawnAI(this._AICount));
+            });
+        });
 
-        }
     }
+
     //AI
-    SpawnAI(required: number) {        
+    * SpawnAI(required: number) {
         for (let i = 0; i < required; i++) {
             const spawnInfo = new SpawnInfo();
             const position = new Vector3(Random.Range(-25, 25), 0, Random.Range(-25, 25));
@@ -60,9 +64,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
             spawnInfo.rotation = Quaternion.Euler(rotation);
             ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
         }
-
-    }
-    InitAI(required: number) {
+        yield new WaitForSeconds(0.5);
         for (let i = 0; i < required; i++) {
             const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
             this.AIGameObject[i] = aiPlayer.character.gameObject;
@@ -72,7 +74,8 @@ export default class AIManager extends ZepetoScriptBehaviour {
         }
     }
 
-    *SyncAIPosition(tick: number) {
+
+    * SyncAIPosition(tick: number) {
         while (true) {
             for (let i = 0; i < this._AICount; i++) {
 
@@ -82,7 +85,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
             yield new WaitForSeconds(tick);
         }
     }
-    
+
     SendAIDestination(AInumber: number) {
         const nowX = this.AIGameObject[AInumber].transform.localPosition.x;
         const nowY = this.AIGameObject[AInumber].transform.localPosition.x;
@@ -94,7 +97,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
         data.Add("AInumber", AInumber);
 
         const nowPos = new RoomData();
-        nowPos.Add("x", nowX );
+        nowPos.Add("x", nowX);
         nowPos.Add("y", nowY);
         nowPos.Add("z", nowZ);
         data.Add("nowPos", nowPos.GetObject());

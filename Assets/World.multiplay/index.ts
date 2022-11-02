@@ -61,12 +61,11 @@ export default class extends Sandbox {
             player.subState = message.subState; // Character Controller V2
         });
 
-        this.onMessage(this.MESSAGE_TYPE.OnPunchGesture, (client, message) => {
+        this.onMessage(this.MESSAGE_TYPE.OnPunchGesture, (client, message:number) => {
             let gestureInfo: PlayerGestureInfo = {
                 sessionId: client.sessionId,
-                gestureIndex: message.gestureIndex
+                gestureIndex: message
             };
-            console.log(gestureInfo);
             this.broadcast(this.MESSAGE_TYPE.OnPunchGesture, gestureInfo);
         });
 
@@ -98,12 +97,16 @@ export default class extends Sandbox {
         this.onMessage("ReceiveAllPlayer", (client, message) => {
             this.broadcast("ReceiveAllPlayer", this.sessionIdQueue);
         });
-        this.onMessage("GameStart", (client, message) => {
-            this.broadcast("GameStart", "");
+        this.onMessage("GameStart", (client, message:number) => {
+            this.broadcast("GameStart", message);
         });
         
         this.onMessage("ChangeNumberOfAI", (client, message:number) => {
             this.broadcast("ChangeNumberOfAI", message);
+        });
+        this.onMessage("Debug", (client, message) => {
+            console.log("debug by "+client.sessionId);
+            this.broadcast("Debug", message);
         });
     }
     

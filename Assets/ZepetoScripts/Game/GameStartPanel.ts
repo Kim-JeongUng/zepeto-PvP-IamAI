@@ -25,7 +25,6 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
     Start() {
         this._multiplay.RoomCreated += (room: Room) => {
             this.room = room;
-
         };
 
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
@@ -38,7 +37,7 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
                         console.log("Master");
                         
                         this._StartBtn.onClick.AddListener(() => {
-                            this.room.Send("GameStart");
+                            this.room.Send("GameStart",this.NumberOfAI);
                             console.log("GameStart");
                         });
                         this._AICountUpBtn.onClick.AddListener(() => {
@@ -68,6 +67,7 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
             
             this.room.AddMessageHandler("GameStart", (message) => {
                 this.gameObject.SetActive(false);
+                // 게임 상태 입장 불가로 변경 
             });
             this.room.AddMessageHandler("ChangeNumberOfAI", (message:number) => {
                 this.NumberOfAIText.text = message.toString();
