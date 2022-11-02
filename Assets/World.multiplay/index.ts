@@ -23,7 +23,7 @@ export default class extends Sandbox {
     private masterClientSessionId: string;
 
     MESSAGE_TYPE = {
-        OnPunchGesture: "OnPunchGesture",
+        OnPlayGesture: "OnPlayGesture",
         OnHitPlayer: "OnHitPlayer"
     };
 
@@ -61,12 +61,12 @@ export default class extends Sandbox {
             player.subState = message.subState; // Character Controller V2
         });
 
-        this.onMessage(this.MESSAGE_TYPE.OnPunchGesture, (client, message:number) => {
+        this.onMessage(this.MESSAGE_TYPE.OnPlayGesture, (client, message:number) => {
             let gestureInfo: PlayerGestureInfo = {
                 sessionId: client.sessionId,
                 gestureIndex: message
             };
-            this.broadcast(this.MESSAGE_TYPE.OnPunchGesture, gestureInfo);
+            this.broadcast(this.MESSAGE_TYPE.OnPlayGesture, gestureInfo);
         });
 
         this.onMessage(this.MESSAGE_TYPE.OnHitPlayer, (client, message) => {
