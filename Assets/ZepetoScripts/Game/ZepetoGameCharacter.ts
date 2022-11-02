@@ -10,7 +10,9 @@ interface PlayerKillInfo {
 }
 
 export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
-
+    public sessionID:string;
+    public userID:string;
+    
     private _hitFlag: boolean = false;
     private gameManager: GameManager;
 

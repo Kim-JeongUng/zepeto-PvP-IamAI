@@ -118,9 +118,9 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     KillLog(playerKillInfo: PlayerKillInfo) {
         console.log(playerKillInfo.attackerSessionId + "Killed " + playerKillInfo.victimSessionId);
+        
         let playerGestureInfo: PlayerGestureInfo;
         playerGestureInfo = { sessionId: playerKillInfo.victimSessionId, gestureIndex: MotionIndex.Die};
-        console.log("ASDA@@@");
         this.StartCoroutine(this.GestureSync(playerGestureInfo));
     }
 

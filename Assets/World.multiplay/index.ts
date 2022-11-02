@@ -95,7 +95,12 @@ export default class extends Sandbox {
             this.broadcast("CheckMaster", this.masterClientSessionId);
         });
         this.onMessage("ReceiveAllPlayer", (client, message) => {
-            this.broadcast("ReceiveAllPlayer", this.sessionIdQueue);
+            let usersID:string[]=[];
+            for(let i=0; i< this.sessionIdQueue.length; i++) {
+                usersID.push(this.state.players.get(this.sessionIdQueue[i]).zepetoUserId);
+            }
+            this.broadcast("ReceiveAllPlayer", usersID);
+            //this.broadcast("ReceiveAllPlayer", this.state.players.get(this.sessionIdQueue[0]).zepetoUserId);
         });
         this.onMessage("GameStart", (client, message:number) => {
             this.broadcast("GameStart", message);
