@@ -22,14 +22,14 @@ MonoBehaviour:
   characterJumpPower: 5
   MaxSlopeAngle: 50
   WalkSpeed: 2
-  RunSpeed: 5
+  RunSpeed: 2
   layer:
     serializedVersion: 2
     m_Bits: 0
+  shadow: {fileID: 1025544020809228, guid: 4512418b2a1844f42961867ad8421ab8, type: 3}
   animatorController: {fileID: 9100000, guid: 019901d3486cc411abc6c84594c03743, type: 2}
-  inputAsset: {fileID: -944628639613478452, guid: 090135bc9e5ee4c89b1642240eb723fe, type: 3}
-  useDefaultVirtualController: 1
   verticalController: {fileID: 2919188649297340810, guid: c93455f4813024972abd7e02718b345a, type: 3}
   horizontalController: {fileID: 2787167779785370926, guid: 6f2611065df244d8c99ceed0336f3aab, type: 3}
-  shadow: {fileID: 1025544020809228, guid: 4512418b2a1844f42961867ad8421ab8, type: 3}
+  inputAsset: {fileID: -944628639613478452, guid: 090135bc9e5ee4c89b1642240eb723fe, type: 3}
+  useDefaultVirtualController: 1
   eventSystem: {fileID: 7328100774219155841, guid: 67971ba158b48401988f9aad07940d6f, type: 3}

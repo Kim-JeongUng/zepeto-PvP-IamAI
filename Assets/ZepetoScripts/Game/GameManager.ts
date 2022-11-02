@@ -78,7 +78,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
     * GestureSync(playerGestureInfo: PlayerGestureInfo) {
         const zepetoPlayer = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId);
         if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {
-            console.log(playerGestureInfo.gestureIndex );
             zepetoPlayer.character.SetGesture(this._punchGesture);
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
