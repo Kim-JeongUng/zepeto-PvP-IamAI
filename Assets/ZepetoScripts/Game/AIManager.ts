@@ -6,6 +6,12 @@ import {ZepetoWorldMultiplay} from 'ZEPETO.World';
 import ZepetoGameCharacter from './ZepetoGameCharacter';
 
 
+interface AItransform {
+    AInumber: number,
+    PosX: number,
+    PosZ: number,
+    RotY: number,
+}
 interface AIdestination {
     AInumber: number,
     nowPos: Vector3,
@@ -40,40 +46,43 @@ export default class AIManager extends ZepetoScriptBehaviour {
                     }
                     console.log("ImMasterClient");
                 } else {
-                    
+
                 }
             });
             this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
                 this.AIGameObject[message.AInumber].transform.position = this.ParseVector3(message.nowPos);
             });
-            this.room.AddMessageHandler("GameStart", (message:number) => {
+            this.room.AddMessageHandler("GameStart", (message: number) => {
                 this._AICount = message;
-                this.StartCoroutine(this.SpawnAI(this._AICount));
+                if (this.isMasterClient)
+                    this.room.Send("FirstSyncAI", this._AICount);
+                this.room.AddMessageHandler("FirstSyncAI", (message: AItransform[]) => {
+                    this.StartCoroutine(this.SpawnAI(message));
+                });
             });
         });
-
     }
+    
 
-    //AI
-    * SpawnAI(required: number) {
-        for (let i = 0; i < required; i++) {
+    * SpawnAI(receiveAI: AItransform[]) {
+        for (let i = 0; i < receiveAI.length; i++) {
             const spawnInfo = new SpawnInfo();
-            const position = new Vector3(Random.Range(-25, 25), 0, Random.Range(-25, 25));
-            const rotation = new Vector3(0, Random.Range(-180, 180), 0);
+            const position = new Vector3(receiveAI[i].PosX, 0, receiveAI[i].PosZ);
+            const rotation = new Vector3(0, receiveAI[i].RotY, 0);
             spawnInfo.position = position;
             spawnInfo.rotation = Quaternion.Euler(rotation);
             ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
         }
         yield new WaitForSeconds(1);
-        for (let i = 0; i < required; i++) {
+        for (let i = 0; i < receiveAI.length; i++) {
             const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
             this.AIGameObject[i] = aiPlayer.character.gameObject;
             aiPlayer.character.tag = "AI";
             aiPlayer.character.name = "AI_" + i.toString();
-            aiPlayer.character.transform.gameObject.AddComponent<ZepetoGameCharacter>();
+            let zepetoGameCharacter = aiPlayer.character.transform.gameObject.AddComponent<ZepetoGameCharacter>();               
+            zepetoGameCharacter.sessionID = "AI_" + i.toString();
         }
     }
-
 
     * SyncAIPosition(tick: number) {
         while (true) {

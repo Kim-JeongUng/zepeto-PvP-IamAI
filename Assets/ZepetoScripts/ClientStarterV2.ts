@@ -5,6 +5,7 @@ import {Player, State, Vector3} from 'ZEPETO.Multiplay.Schema'
 import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState, ZepetoCharacter} from 'ZEPETO.Character.Controller'
 import * as UnityEngine from "UnityEngine";
 import ZepetoGameCharacter from './Game/ZepetoGameCharacter'
+import { Random } from 'UnityEngine'
 
 
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
@@ -70,7 +71,9 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
                 const nowJoinPlayer = ZepetoPlayers.instance.GetPlayer(sessionId).character;
                 nowJoinPlayer.tag = "Player";
                 nowJoinPlayer.name = sessionId;
-                nowJoinPlayer.transform.gameObject.AddComponent<ZepetoGameCharacter>();
+                let zepetoGameCharacter = nowJoinPlayer.transform.gameObject.AddComponent<ZepetoGameCharacter>();
+                zepetoGameCharacter.userID = this.currentPlayers.get(sessionId).zepetoUserId;
+                zepetoGameCharacter.sessionID = sessionId;
             });
         }
 
@@ -96,8 +99,10 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         this.currentPlayers.set(sessionId, player);
 
         const spawnInfo = new SpawnInfo();
-        const position = this.ParseVector3(player.transform.position);
-        const rotation = this.ParseVector3(player.transform.rotation);
+        /*const position = this.ParseVector3(player.transform.position);
+        const rotation = this.ParseVector3(player.transform.rotation);*/
+        const position = new UnityEngine.Vector3(Random.Range(-25, 25), 0, Random.Range(-25, 25));
+        const rotation = new UnityEngine.Vector3(0, Random.Range(-180, 180), 0);
         spawnInfo.position = position;
         spawnInfo.rotation = UnityEngine.Quaternion.Euler(rotation);
         const isLocal = this.room.SessionId === player.sessionId;

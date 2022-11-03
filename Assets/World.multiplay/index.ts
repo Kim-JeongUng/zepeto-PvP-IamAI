@@ -9,9 +9,17 @@ interface PlayerGestureInfo {
 
 interface PlayerKillInfo {
     attackerSessionId: string,
+    attackerNickname: string,
     victimSessionId: string,
+    victimNickname: string,
 }
 
+interface AItransform {
+    AInumber: number,
+    PosX: number,
+    PosZ: number,
+    RotY: number,
+}
 
 interface AIdestination {
     AInumber: number,
@@ -21,6 +29,7 @@ interface AIdestination {
 export default class extends Sandbox {
     private sessionIdQueue: string[] = [];
     private masterClientSessionId: string;
+    private NumberOfAI:number=10;
 
     MESSAGE_TYPE = {
         OnPlayGesture: "OnPlayGesture",
@@ -38,6 +47,7 @@ export default class extends Sandbox {
         // Room 객체가 생성될 때 호출됩니다.
         // Room 객체의 상태나 데이터 초기화를 처리 한다.
 
+        /** GameManager **/
         this.onMessage("onChangedTransform", (client, message) => {
             const player = this.state.players.get(client.sessionId);
 
@@ -72,12 +82,31 @@ export default class extends Sandbox {
         this.onMessage(this.MESSAGE_TYPE.OnHitPlayer, (client, message) => {
             let killInfo: PlayerKillInfo = {
                 attackerSessionId: message.attackerSessionId,
-                victimSessionId: message.victimSessionId
+                attackerNickname: message.attackerNickname,
+                victimSessionId: message.victimSessionId,
+                victimNickname: message.victimNickname
+
             };
             console.log(killInfo);
             this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
         });
-
+        
+        /** AIManager **/
+        this.onMessage("FirstSyncAI", (client, message: number) => {
+            this.NumberOfAI = message;
+            let AItransforms:AItransform[] = [];
+            for(let i=0; i<this.NumberOfAI; i++) {
+                let AItransform: AItransform = {
+                    AInumber: i,
+                    PosX:this.Rand(-25,25),
+                    PosZ:this.Rand(-25,25),
+                    RotY:Math.random() * 360 -180,
+                };
+                AItransforms.push(AItransform);
+            }
+            this.broadcast("FirstSyncAI", AItransforms);
+        });
+        
         this.onMessage("AIdestination", (client, message: AIdestination) => {
             let syncTween: AIdestination = {
                 AInumber: message.AInumber,
@@ -87,6 +116,7 @@ export default class extends Sandbox {
             this.broadcast("AIdestination", syncTween);
         });
 
+        /** Common **/
         this.onMessage("CheckMaster", (client, message) => {
             if (this.masterClientSessionId != this.sessionIdQueue[0]) {
                 this.masterClientSessionId = this.sessionIdQueue[0];
@@ -94,6 +124,8 @@ export default class extends Sandbox {
             }
             this.broadcast("CheckMaster", this.masterClientSessionId);
         });
+
+        /** GameStartPanel **/
         this.onMessage("ReceiveAllPlayer", (client, message) => {
             let usersID:string[]=[];
             for(let i=0; i< this.sessionIdQueue.length; i++) {
@@ -105,10 +137,11 @@ export default class extends Sandbox {
         this.onMessage("GameStart", (client, message:number) => {
             this.broadcast("GameStart", message);
         });
-        
         this.onMessage("ChangeNumberOfAI", (client, message:number) => {
             this.broadcast("ChangeNumberOfAI", message);
         });
+
+        /** TEST **/
         this.onMessage("Debug", (client, message) => {
             console.log("debug by "+client.sessionId);
             this.broadcast("Debug", message);
@@ -171,5 +204,8 @@ export default class extends Sandbox {
         // allowReconnection 설정을 통해 순단에 대한 connection 유지 처리등을 할 수 있으나 기본 가이드에서는 즉시 정리.
         // delete 된 player 객체에 대한 정보를 클라이언트에서는 players 객체에 add_OnRemove 이벤트를 추가하여 확인 할 수 있음.
         this.state.players.delete(client.sessionId);
+    }
+    Rand(min:number, max:number){
+        return Math.random() * (max-min) +min;
     }
 }

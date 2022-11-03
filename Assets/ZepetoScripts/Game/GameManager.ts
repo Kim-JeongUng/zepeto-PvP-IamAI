@@ -12,7 +12,9 @@ interface PlayerGestureInfo {
 }
 interface PlayerKillInfo {
     attackerSessionId: string,
+    attackerNickname: string,
     victimSessionId: string,
+    victimNickname: string,
 }
 
 enum MotionIndex {
@@ -90,8 +92,10 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     Kill(attacker: Transform, victim: Transform) {
         const data = new RoomData();
-        data.Add("attackerSessionId", attacker.name);
-        data.Add("victimSessionId", victim.name);
+        data.Add("attackerSessionId", attacker.GetComponent<ZepetoGameCharacter>().sessionID);
+        data.Add("attackerNickname", attacker.GetComponent<ZepetoGameCharacter>().nickname);
+        data.Add("victimSessionId", victim.GetComponent<ZepetoGameCharacter>().sessionID);
+        data.Add("victimNickname", victim.GetComponent<ZepetoGameCharacter>().nickname);
         this.room.Send(this._MESSAGE.OnHitPlayer, data.GetObject());
     }
 
@@ -107,7 +111,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
             zepetoPlayer.character.SetGesture(this._dieGesture);
-            console.log("ASDASD");
             yield new WaitForSeconds(10);
         }
         else
@@ -117,7 +120,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
 
     KillLog(playerKillInfo: PlayerKillInfo) {
-        console.log(playerKillInfo.attackerSessionId + "Killed " + playerKillInfo.victimSessionId);
+        console.log(playerKillInfo.attackerNickname + "Killed " + playerKillInfo.victimNickname);
         
         let playerGestureInfo: PlayerGestureInfo;
         playerGestureInfo = { sessionId: playerKillInfo.victimSessionId, gestureIndex: MotionIndex.Die};
