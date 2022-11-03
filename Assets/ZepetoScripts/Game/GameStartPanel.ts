@@ -1,6 +1,6 @@
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay, ZepetoWorldHelper, Users} from "ZEPETO.World";
-import {AnimationClip, RectTransform, Transform, Mathf, Texture} from "UnityEngine";
+import {AnimationClip, RectTransform, Transform, Mathf, Texture, WaitForSeconds} from "UnityEngine";
 import {Button, Image, Text,RawImage} from "UnityEngine.UI";
 import {Room} from "ZEPETO.Multiplay";
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
@@ -33,9 +33,9 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
                 if (this.room.SessionId == MasterClientSessionId) {
                     if (!this.isMasterClient) {
                         this.isMasterClient = true;
-                        //방장만 게임시작 버튼 활성화                            
                         console.log("Master");
-
+                        
+                        //방장만 게임시작 버튼 활성화                            
                         this._StartBtn.onClick.AddListener(() => {
                             this.room.Send("GameStart", this.NumberOfAI);
                             console.log("GameStart");
@@ -49,10 +49,12 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
                             this.room.Send("ChangeNumberOfAI", this.NumberOfAI);
                         });
                     }
+                    //새로운 유저가 들어오면
+                    this.room.Send("ChangeNumberOfAI", this.NumberOfAI);
+                    this.room.Send("ReceiveAllPlayer");
                 }
             });
 
-            this.room.Send("ReceiveAllPlayer");
             this.room.AddMessageHandler("ReceiveAllPlayer", (usersID: string[]) => {
                 ZepetoWorldHelper.GetUserInfo(usersID, (info: Users[]) => {
                     for (let i = 0; i < info.length; i++) {
@@ -62,7 +64,6 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
                             this._PlayerPanel[i].GetComponent<RawImage>().texture = thumb;
                         },(error) => {
                             console.log(error);                        
-                            
                         });
                         console.log(`userId : ${info[i].userOid}, name : ${info[i].name}, zepetoId : ${info[i].zepetoId}`);
                     }
@@ -74,15 +75,25 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
                     this._PlayerPanel[i].GetComponent<RawImage>().texture = this._PlayerPanelOffImage;
                 }
             });
-
-
+            this.room.AddMessageHandler("NewGame", (message) => {
+                this.StartCoroutine(this.NewGame());
+            });
             this.room.AddMessageHandler("GameStart", (message) => {
-                this.gameObject.SetActive(false);
-                // 게임 상태 입장 불가로 변경 
+                this.StartCoroutine(this.GameStart());
             });
             this.room.AddMessageHandler("ChangeNumberOfAI", (message: number) => {
                 this.NumberOfAIText.text = message.toString();
             });
         });
+    }
+    * GameStart(){
+        yield new WaitForSeconds(1);
+        this.gameObject.SetActive(false);
+    }
+    * NewGame(){
+        //winner : ~~~
+        yield new WaitForSeconds(1);
+        //reGame
+        this.gameObject.SetActive(true);
     }
 }

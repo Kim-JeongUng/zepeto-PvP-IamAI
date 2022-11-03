@@ -85,7 +85,6 @@ export default class extends Sandbox {
                 attackerNickname: message.attackerNickname,
                 victimSessionId: message.victimSessionId,
                 victimNickname: message.victimNickname
-
             };
             console.log(killInfo);
             this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
@@ -134,11 +133,16 @@ export default class extends Sandbox {
             this.broadcast("ReceiveAllPlayer", usersID);
             //this.broadcast("ReceiveAllPlayer", this.state.players.get(this.sessionIdQueue[0]).zepetoUserId);
         });
-        this.onMessage("GameStart", (client, message:number) => {
+        this.onMessage("GameStart", async (client, message: number) => {
             this.broadcast("GameStart", message);
+            await this.lock();
         });
         this.onMessage("ChangeNumberOfAI", (client, message:number) => {
             this.broadcast("ChangeNumberOfAI", message);
+        });
+        this.onMessage("NewGame", async (client, message: number) => {
+            this.broadcast("NewGame", message);
+            await this.unlock();
         });
 
         /** TEST **/

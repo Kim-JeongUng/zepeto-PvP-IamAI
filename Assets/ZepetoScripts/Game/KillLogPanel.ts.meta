@@ -19,9 +19,19 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
-    KillLogPanel extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start() {\r\n   
-    }\r\n    AddKillLog(killInfo) {\r\n        console.log(\"ASD\");\r\n    }\r\n}\r\nexports.default
-    = KillLogPanel;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiS2lsbExvZ1BhbmVsLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiS2lsbExvZ1BhbmVsLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBTXJELE1BQXFCLFlBQWEsU0FBUSxxQ0FBcUI7SUFFM0QsS0FBSztJQUVMLENBQUM7SUFDTSxVQUFVLENBQUMsUUFBdUI7UUFDckMsT0FBTyxDQUFDLEdBQUcsQ0FBQyxLQUFLLENBQUMsQ0FBQztJQUN2QixDQUFDO0NBQ0o7QUFSRCwrQkFRQyJ9","assetPath":"Assets/ZepetoScripts/Game/KillLogPanel.ts","manifest":{"properties":[],"name":"KillLogPanel","description":""},"isCompiled":true}'
-  typescriptHash: 2846c9f2114942aa06b9c3e2f7b536ce
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nclass
+    KillLogPanel extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this._destroyDelay = 10;\r\n       
+    this.nowKillLogCount = 0;\r\n    }\r\n    GetKillLog(killInfo) {\r\n        if
+    (this.nowKillLogCount == 0)\r\n            this._LogObjectPool.gameObject.SetActive(true);\r\n       
+    this.StartCoroutine(this.SetKillLog(killInfo));\r\n        this.nowKillLogCount++;\r\n   
+    }\r\n    *SetKillLog(killInfo) {\r\n        let log = this._LogObjectPool.GetChild(0);\r\n       
+    log.SetAsLastSibling();\r\n        log.gameObject.SetActive(true);\r\n       
+    log.GetComponentInChildren($typeof(UnityEngine_UI_1.Text)).text = killInfo.attackerNickname
+    + \" Killed \" + killInfo.victimNickname;\r\n        yield new UnityEngine_1.WaitForSeconds(this._destroyDelay);\r\n       
+    log.gameObject.SetActive(false);\r\n        this.nowKillLogCount--;\r\n       
+    if (this.nowKillLogCount == 0)\r\n            this._LogObjectPool.gameObject.SetActive(false);\r\n   
+    }\r\n}\r\nexports.default = KillLogPanel;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiS2lsbExvZ1BhbmVsLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiS2lsbExvZ1BhbmVsLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELDZDQUFpRTtBQUNqRSxtREFBc0M7QUFXdEMsTUFBcUIsWUFBYSxTQUFRLHFDQUFxQjtJQUEvRDs7UUFFOEIsa0JBQWEsR0FBVyxFQUFFLENBQUM7UUFDN0Msb0JBQWUsR0FBVSxDQUFDLENBQUM7SUF1QnZDLENBQUM7SUFyQlUsVUFBVSxDQUFDLFFBQXVCO1FBRXJDLElBQUcsSUFBSSxDQUFDLGVBQWUsSUFBSSxDQUFDO1lBQ3hCLElBQUksQ0FBQyxjQUFjLENBQUMsVUFBVSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQztRQUVuRCxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsUUFBUSxDQUFDLENBQUMsQ0FBQztRQUMvQyxJQUFJLENBQUMsZUFBZSxFQUFFLENBQUM7SUFDM0IsQ0FBQztJQUVELENBQUMsVUFBVSxDQUFDLFFBQXVCO1FBQy9CLElBQUksR0FBRyxHQUFHLElBQUksQ0FBQyxjQUFjLENBQUMsUUFBUSxDQUFDLENBQUMsQ0FBQyxDQUFDO1FBQzFDLEdBQUcsQ0FBQyxnQkFBZ0IsRUFBRSxDQUFDO1FBQ3ZCLEdBQUcsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO1FBQy9CLEdBQUcsQ0FBQyxzQkFBc0IsU0FBQyxxQkFBSSxHQUFJLElBQUksR0FBRyxRQUFRLENBQUMsZ0JBQWdCLEdBQUMsVUFBVSxHQUFDLFFBQVEsQ0FBQyxjQUFjLENBQUM7UUFFdkcsTUFBTSxJQUFJLDRCQUFjLENBQUMsSUFBSSxDQUFDLGFBQWEsQ0FBQyxDQUFDO1FBQzdDLEdBQUcsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO1FBQ2hDLElBQUksQ0FBQyxlQUFlLEVBQUUsQ0FBQztRQUN2QixJQUFHLElBQUksQ0FBQyxlQUFlLElBQUksQ0FBQztZQUN4QixJQUFJLENBQUMsY0FBYyxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7SUFDeEQsQ0FBQztDQUNKO0FBMUJELCtCQTBCQyJ9","assetPath":"Assets/ZepetoScripts/Game/KillLogPanel.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"_LogObjectPool","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_destroyDelay","type":"System.Single","isArray":false,"initValue":["10"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"KillLogPanel","description":""},"isCompiled":true}'
+  typescriptHash: 6205a259a0e3b8144fa5a579456a9ee1
   onlyWriteTrigger: 0

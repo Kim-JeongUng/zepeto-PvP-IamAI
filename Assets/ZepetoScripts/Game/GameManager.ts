@@ -5,6 +5,7 @@ import { Room, RoomData } from 'ZEPETO.Multiplay';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { ZepetoWorldMultiplay } from 'ZEPETO.World';
 import ZepetoGameCharacter from './ZepetoGameCharacter';
+import KillLogPanel from './KillLogPanel';
 
 interface PlayerGestureInfo {
     sessionId: string,
@@ -30,9 +31,11 @@ export default class GameManager extends ZepetoScriptBehaviour {
     @SerializeField() private _defenseGesture: AnimationClip;
     @SerializeField() private _dieGesture: AnimationClip;
 
-    private room: Room;
-    private _myCharacter: ZepetoCharacter;
-    
+    public room: Room;
+    private _myCharacter: ZepetoCharacter;   
+    private _killLogPanel: KillLogPanel;
+
+
     private _punchCool: number = 5;
     private _punchFlag: boolean;
     private _punchBtn: Button;
@@ -68,6 +71,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
                 this.KillLog(message);
             });
         });
+        this._killLogPanel = GameObject.Find("KillLogPanel").GetComponent<KillLogPanel>();
 
     }
 
@@ -91,12 +95,14 @@ export default class GameManager extends ZepetoScriptBehaviour {
     
 
     Kill(attacker: Transform, victim: Transform) {
-        const data = new RoomData();
-        data.Add("attackerSessionId", attacker.GetComponent<ZepetoGameCharacter>().sessionID);
-        data.Add("attackerNickname", attacker.GetComponent<ZepetoGameCharacter>().nickname);
-        data.Add("victimSessionId", victim.GetComponent<ZepetoGameCharacter>().sessionID);
-        data.Add("victimNickname", victim.GetComponent<ZepetoGameCharacter>().nickname);
-        this.room.Send(this._MESSAGE.OnHitPlayer, data.GetObject());
+        if(this.room.SessionId == attacker.GetComponent<ZepetoGameCharacter>().sessionID) {
+            const data = new RoomData();
+            data.Add("attackerSessionId", attacker.GetComponent<ZepetoGameCharacter>().sessionID);
+            data.Add("attackerNickname", attacker.GetComponent<ZepetoGameCharacter>().nickname);
+            data.Add("victimSessionId", victim.GetComponent<ZepetoGameCharacter>().sessionID);
+            data.Add("victimNickname", victim.GetComponent<ZepetoGameCharacter>().nickname);
+            this.room.Send(this._MESSAGE.OnHitPlayer, data.GetObject());
+        }
     }
 
     * GestureSync(playerGestureInfo: PlayerGestureInfo) {
@@ -112,6 +118,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
         else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
             zepetoPlayer.character.SetGesture(this._dieGesture);
             yield new WaitForSeconds(10);
+            zepetoPlayer.character.transform.GetChild(0).gameObject.SetActive(false);
         }
         else
             yield  new WaitForSeconds(2);
@@ -125,6 +132,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
         let playerGestureInfo: PlayerGestureInfo;
         playerGestureInfo = { sessionId: playerKillInfo.victimSessionId, gestureIndex: MotionIndex.Die};
         this.StartCoroutine(this.GestureSync(playerGestureInfo));
+        this._killLogPanel.GetKillLog(playerKillInfo);
     }
 
     
