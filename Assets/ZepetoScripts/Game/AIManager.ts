@@ -1,5 +1,5 @@
-import {GameObject, Quaternion, Random, Vector3, WaitForSeconds} from 'UnityEngine';
-import {SpawnInfo, ZepetoPlayers} from 'ZEPETO.Character.Controller';
+import {GameObject, Transform, Quaternion, Random, Vector3, WaitForSeconds} from 'UnityEngine';
+import {CharacterState, SpawnInfo, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {Room, RoomData} from 'ZEPETO.Multiplay';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay} from 'ZEPETO.World';
@@ -15,7 +15,8 @@ interface AItransform {
 interface AIdestination {
     AInumber: number,
     nowPos: Vector3,
-    nexPos: Vector3
+    nexPosX:number,
+    nexPosZ:number
 }
 
 export default class AIManager extends ZepetoScriptBehaviour {
@@ -24,7 +25,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
     @SerializeField() private _multiplay: ZepetoWorldMultiplay;
     private room: Room;
     private isMasterClient: boolean = false;
-    private AIGameObject: GameObject[] = Array.from({length: this._AICount}, obj => null);
+    private AICharacters: ZepetoCharacter[] = [];
 
 
     Start() {
@@ -49,15 +50,16 @@ export default class AIManager extends ZepetoScriptBehaviour {
 
                 }
             });
-            this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
-                this.AIGameObject[message.AInumber].transform.position = this.ParseVector3(message.nowPos);
-            });
             this.room.AddMessageHandler("GameStart", (message: number) => {
                 this._AICount = message;
                 if (this.isMasterClient)
                     this.room.Send("FirstSyncAI", this._AICount);
                 this.room.AddMessageHandler("FirstSyncAI", (message: AItransform[]) => {
                     this.StartCoroutine(this.SpawnAI(message));
+                });
+                this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
+                    console.log("ASDASDADASD");
+                    this.MoveAI(message.AInumber, message);
                 });
             });
         });
@@ -76,14 +78,29 @@ export default class AIManager extends ZepetoScriptBehaviour {
         yield new WaitForSeconds(1);
         for (let i = 0; i < receiveAI.length; i++) {
             const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
-            this.AIGameObject[i] = aiPlayer.character.gameObject;
-            aiPlayer.character.tag = "AI";
-            aiPlayer.character.name = "AI_" + i.toString();
-            let zepetoGameCharacter = aiPlayer.character.transform.gameObject.AddComponent<ZepetoGameCharacter>();               
+            this.AICharacters.push(aiPlayer.character);
+            this.AICharacters[i].tag = "AI";
+            this.AICharacters[i].name = "AI_" + i.toString();
+            let zepetoGameCharacter = this.AICharacters[i].transform.gameObject.AddComponent<ZepetoGameCharacter>();               
             zepetoGameCharacter.sessionID = "AI_" + i.toString();
         }
     }
+    MoveAI(i:number,AIdestination:AIdestination){
+        //const newposition = this.ParseVector3(this.AICharacters[i].transform.position);
+        //var moveDir = Vector3.op_Subtraction(newposition, this.AICharacters[i].gameObject.transform.position);
 
+        const newposition = new Vector3(AIdestination.nexPosX, 0, AIdestination.nexPosZ);
+        console.log(this.AICharacters[i].transform.position);
+        var moveDir = Vector3.op_Subtraction(newposition, this.AICharacters[i].transform.position);
+        moveDir = new Vector3(moveDir.x, 0, moveDir.z);
+
+        if (moveDir.magnitude < 0.05) {
+            this.AICharacters[i].StopMoving();
+        } else {
+            this.AICharacters[i].MoveContinuously(moveDir);
+        }
+    }
+    
     * SyncAIPosition(tick: number) {
         while (true) {
             for (let i = 0; i < this._AICount; i++) {
@@ -96,9 +113,9 @@ export default class AIManager extends ZepetoScriptBehaviour {
     }
 
     SendAIDestination(AInumber: number) {
-        const nowX = this.AIGameObject[AInumber].transform.localPosition.x;
-        const nowY = this.AIGameObject[AInumber].transform.localPosition.x;
-        const nowZ = this.AIGameObject[AInumber].transform.localPosition.x;
+        const nowX = this.AICharacters[AInumber].transform.localPosition.x;
+        const nowY = this.AICharacters[AInumber].transform.localPosition.x;
+        const nowZ = this.AICharacters[AInumber].transform.localPosition.x;
         const nextX = nowX + Random.Range(-25, 25);
         const nextY = nowY + Random.Range(-25, 25);
 

@@ -23,8 +23,8 @@ interface AItransform {
 
 interface AIdestination {
     AInumber: number,
-    nowPos: Vector3,
-    nexPos: Vector3
+    PosX: number,
+    PosZ: number,
 }
 export default class extends Sandbox {
     private sessionIdQueue: string[] = [];
@@ -104,15 +104,7 @@ export default class extends Sandbox {
                 AItransforms.push(AItransform);
             }
             this.broadcast("FirstSyncAI", AItransforms);
-        });
-        
-        this.onMessage("AIdestination", (client, message: AIdestination) => {
-            let syncTween: AIdestination = {
-                AInumber: message.AInumber,
-                nowPos: message.nowPos,
-                nexPos: message.nexPos,
-            };
-            this.broadcast("AIdestination", syncTween);
+            this.CoroutinAIdestination();
         });
 
         /** Common **/
@@ -195,6 +187,7 @@ export default class extends Sandbox {
 
     onTick(deltaTime: number): void {
         //  서버에서 설정된 타임마다 반복적으로 호출되며 deltaTime 을 이용하여 일정한 interval 이벤트를 관리할 수 있음.
+        console.log(deltaTime);
     }
 
     async onLeave(client: SandboxPlayer, consented?: boolean) {
@@ -208,6 +201,19 @@ export default class extends Sandbox {
         // allowReconnection 설정을 통해 순단에 대한 connection 유지 처리등을 할 수 있으나 기본 가이드에서는 즉시 정리.
         // delete 된 player 객체에 대한 정보를 클라이언트에서는 players 객체에 add_OnRemove 이벤트를 추가하여 확인 할 수 있음.
         this.state.players.delete(client.sessionId);
+    }
+    CoroutinAIdestination(){
+        setTimeout(()=>{
+            for(let i=0; i<this.NumberOfAI; i++) {
+                let AIdestination: AIdestination = {
+                    AInumber: i,
+                    PosX:this.Rand(-25,25),
+                    PosZ:this.Rand(-25,25),
+                };
+                this.broadcast("AIdestination", AIdestination);
+            }
+        },2000);
+
     }
     Rand(min:number, max:number){
         return Math.random() * (max-min) +min;
