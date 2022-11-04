@@ -15,14 +15,14 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
     public sessionID: string;
     public nickname: string;
     public userID: string;
+    public isAI:boolean = false;
 
     private punchManager: PunchManager;
     private _hitFlag: boolean = false;
-    private gameManager: GameManager;
 
     Awake() {
         this.punchManager = this.transform.GetChild(0).gameObject.AddComponent<PunchManager>();
-        this.gameManager = GameObject.FindObjectOfType<GameManager>();
+        
     }
 
     Start() {
@@ -40,25 +40,25 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
         }
         else{
             this.nickname = this.sessionID;
+            this.isAI = true;
         }
     }
 
     //�ǰ� �޾��� ��
-    OnControllerColliderHit(hit: ControllerColliderHit) {
+   /* OnControllerColliderHit(hit: ControllerColliderHit) {
         if (hit.transform.root == this.transform)
             return;
-
+        
         else if (hit.transform.name == "hand_R" && !this._hitFlag) {
 
             const zepetoPlayer = ZepetoPlayers.instance.GetPlayer(this.sessionID).character;
-            /*const position = new Vector3(zepetoPlayer.transform.position.x,0,zepetoPlayer.transform.position.z);
+            /!*const position = new Vector3(zepetoPlayer.transform.position.x,0,zepetoPlayer.transform.position.z);
             const rotation = zepetoPlayer.transform.rotation;
-            zepetoPlayer.Teleport(position,rotation);*/
+            zepetoPlayer.Teleport(position,rotation);*!/
             zepetoPlayer.StopMoving()
                 
             this.gameManager.Kill(hit.transform.root, this.transform.root)
             this._hitFlag = true;
         }
-    }
-
+    }*/
 }

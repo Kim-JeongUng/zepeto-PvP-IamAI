@@ -51,9 +51,6 @@ export default class AIManager extends ZepetoScriptBehaviour {
                 this.room.AddMessageHandler("FirstSyncAI", (message: AItransform[]) => {
                     this.StartCoroutine(this.SpawnAI(message));
                 });
-                this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
-                    this.StartCoroutine(this.MoveAI(message.AInumber, message));
-                });
             });
         });
     }
@@ -85,32 +82,31 @@ export default class AIManager extends ZepetoScriptBehaviour {
         if (this.isMasterClient) {
             this.room.Send("ReadyAI");
         }
+        this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
+            if (this.AICharacters[message.AInumber].CurrentState == CharacterState.Idle)
+                this.StartCoroutine(this.MoveAI(message.AInumber, message));
+        });
     }
 
     * MoveAI(i: number, AIdestination: AIdestination) {
-        console.log(i,this.AICharacters[i].CurrentState);
-        if (this.AICharacters[i].CurrentState == CharacterState.Idle) {
-            if (AIdestination.Stop) {
-                this.AICharacters[i].StopMoving();
-            }
-            else {
-                let StopSign = false;
-                while (!StopSign) {
-                    const newposition = new Vector3(AIdestination.nexPosX, 0, AIdestination.nexPosZ);
-                    var moveDir = Vector3.op_Subtraction(newposition, this.AICharacters[i].transform.position);
-                    moveDir = new Vector3(moveDir.x, 0, moveDir.z);
-                    if (moveDir.magnitude < 0.05) {
-                        this.AICharacters[i].StopMoving();
-                        StopSign = true;
-                    } else {
-                        this.AICharacters[i].MoveContinuously(moveDir);
-                    }
-                    yield new WaitForSeconds(0.1);
+        if (AIdestination.Stop) {
+            this.AICharacters[i].StopMoving();
+        } else {
+            let StopSign = false;
+            while (!StopSign) {
+                const newposition = new Vector3(AIdestination.nexPosX, 0, AIdestination.nexPosZ);
+                var moveDir = Vector3.op_Subtraction(newposition, this.AICharacters[i].transform.position);
+                moveDir = new Vector3(moveDir.x, 0, moveDir.z);
+                if (moveDir.magnitude < 0.05) {
+                    this.AICharacters[i].StopMoving();
+                    StopSign = true;
+                } else {
+                    this.AICharacters[i].MoveContinuously(moveDir);
                 }
+                yield new WaitForSeconds(0.1);
             }
         }
-        else
-            yield null;
+        yield null;
     }
 
     SendAIDestination(AInumber: number) {
@@ -137,7 +133,13 @@ export default class AIManager extends ZepetoScriptBehaviour {
         this.room.Send("AIdestination", data.GetObject());
     }
 
-    private ParseVector3(vector3: Vector3): Vector3 {
+    private
+
+    ParseVector3(vector3
+                     :
+                     Vector3
+    ):
+        Vector3 {
         return new Vector3(vector3.x, vector3.y, vector3.z);
     }
 

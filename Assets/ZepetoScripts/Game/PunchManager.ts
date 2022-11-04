@@ -1,6 +1,7 @@
 import { Animator, Collider, HumanBodyBones, SphereCollider, Transform ,Collision, ControllerColliderHit, CharacterController, Rigidbody} from 'UnityEngine'
 import { ZepetoCharacter } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+import RightHand from './RightHand';
 
 export default class PunchManager extends ZepetoScriptBehaviour {
 
@@ -10,12 +11,11 @@ export default class PunchManager extends ZepetoScriptBehaviour {
     private Awake() {
         this.animator = this.GetComponentInChildren<Animator>();
         this.rightHand = this.animator.GetBoneTransform(HumanBodyBones.RightHand).gameObject.AddComponent<SphereCollider>();
-        this.rightHand.gameObject.AddComponent<Rigidbody>();
-
+        this.rightHand.gameObject.AddComponent<RightHand>();
+        this.rightHand.isTrigger = true;
         this.isPunchStop();
     }
     public isPunchStart() {
-        console.log("not use");
         this.rightHand.enabled = true;
     }
     public isPunchStop() {

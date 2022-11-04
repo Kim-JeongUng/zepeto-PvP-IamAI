@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: b3c02a4b6e090412d9df9a746fdd8e16
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst
+    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst GameManager_1 = require(\\\"./GameManager\\\");\\r\\nclass
+    RightHand extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    Start() {\\r\\n       
+    this.gameManager = UnityEngine_1.GameObject.FindObjectOfType($typeof(GameManager_1.default));\\r\\n       
+    this.rightHand = this.GetComponent($typeof(UnityEngine_1.SphereCollider));\\r\\n   
+    }\\r\\n    //\uB204\uAD74 \uB54C\uB9AC\uBA74\\r\\n    OnTriggerEnter(coll) {\\r\\n       
+    if (coll.transform.root == this.transform.root)\\r\\n            return;\\r\\n       
+    this.gameManager.Kill(this.transform.root, coll.transform.root);\\r\\n       
+    this.rightHand.enabled = false;\\r\\n    }\\r\\n}\\r\\nexports.default = RightHand;\\r\\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUmlnaHRIYW5kLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUmlnaHRIYW5kLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELDZDQUFpRTtBQUNqRSwrQ0FBd0M7QUFFeEMsTUFBcUIsU0FBVSxTQUFRLHFDQUFxQjtJQUt4RCxLQUFLO1FBQ0QsSUFBSSxDQUFDLFdBQVcsR0FBRyx3QkFBVSxDQUFDLGdCQUFnQixTQUFDLHFCQUFXLEVBQUcsQ0FBQztRQUM5RCxJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsNEJBQWMsRUFBRyxDQUFDO0lBQ3pELENBQUM7SUFFRCxRQUFRO0lBQ1IsY0FBYyxDQUFDLElBQWM7UUFDekIsSUFBSSxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksSUFBSSxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUk7WUFDMUMsT0FBTztRQUNYLElBQUksQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUE7UUFDL0QsSUFBSSxDQUFDLFNBQVMsQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO0lBQ25DLENBQUM7Q0FDSjtBQWpCRCw0QkFpQkMifQ==\",\"assetPath\":\"Assets/ZepetoScripts/Game/RightHand.ts\",\"manifest\":{\"properties\":[],\"name\":\"RightHand\",\"description\":\"\"},\"isCompiled\":true}"
+  typescriptHash: 99ebfcd4751c92c788d202319ffcbf60
+  onlyWriteTrigger: 0
