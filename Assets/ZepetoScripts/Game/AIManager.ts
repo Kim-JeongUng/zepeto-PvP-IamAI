@@ -73,8 +73,8 @@ export default class AIManager extends ZepetoScriptBehaviour {
             spawnInfo.rotation = Quaternion.Euler(rotation);
             ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
         }
-        yield new WaitUntil(()=> ZepetoPlayers.instance.HasPlayer("AI_" + (receiveAI.length-1).toString()));
         for (let i = 0; i < receiveAI.length; i++) {
+            yield new WaitUntil(()=> ZepetoPlayers.instance.HasPlayer("AI_" + i.toString()));
             const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
             this.AICharacters.push(aiPlayer.character);
             this.AICharacters[i].tag = "AI";
