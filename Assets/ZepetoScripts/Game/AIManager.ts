@@ -1,4 +1,4 @@
-import {GameObject, Transform, Quaternion, Random, Vector3, WaitForSeconds} from 'UnityEngine';
+import {GameObject, Transform, Quaternion, Random, Vector3, WaitForSeconds, WaitUntil} from 'UnityEngine';
 import {CharacterState, SpawnInfo, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {Room, RoomData} from 'ZEPETO.Multiplay';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
@@ -52,6 +52,10 @@ export default class AIManager extends ZepetoScriptBehaviour {
                     this.StartCoroutine(this.SpawnAI(message));
                 });
             });
+            this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
+                if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle)
+                    this.StartCoroutine(this.MoveAI(message.AInumber, message));
+            });
         });
     }
 
@@ -69,7 +73,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
             spawnInfo.rotation = Quaternion.Euler(rotation);
             ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
         }
-        yield new WaitForSeconds(1);
+        yield new WaitUntil(()=> ZepetoPlayers.instance.HasPlayer("AI_" + (receiveAI.length-1).toString()));
         for (let i = 0; i < receiveAI.length; i++) {
             const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
             this.AICharacters.push(aiPlayer.character);
@@ -79,13 +83,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
             zepetoGameCharacter.sessionID = "AI_" + i.toString();
         }
         //ready AI Send
-        if (this.isMasterClient) {
-            this.room.Send("ReadyAI");
-        }
-        this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
-            if (this.AICharacters[message.AInumber].CurrentState == CharacterState.Idle)
-                this.StartCoroutine(this.MoveAI(message.AInumber, message));
-        });
+        this.room.Send("ReadyAI");
     }
 
     * MoveAI(i: number, AIdestination: AIdestination) {
@@ -135,10 +133,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
 
     private
 
-    ParseVector3(vector3
-                     :
-                     Vector3
-    ):
+    ParseVector3(vector3: Vector3):
         Vector3 {
         return new Vector3(vector3.x, vector3.y, vector3.z);
     }

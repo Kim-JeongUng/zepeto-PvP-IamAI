@@ -31,6 +31,7 @@ export default class extends Sandbox {
     private sessionIdQueue: string[] = [];
     private masterClientSessionId: string;
     private NumberOfAI:number=10;
+    private PlayerReadyAI:number=0;
     private isReadyAI: boolean = false;
     private TickIndex: number = 0;
 
@@ -109,7 +110,10 @@ export default class extends Sandbox {
             this.broadcast("FirstSyncAI", AItransforms);
         });
         this.onMessage("ReadyAI", (client, message) => {
-            this.isReadyAI = true;
+            this.PlayerReadyAI++;
+            console.log(client.sessionId+"is Ready");
+            if(this.PlayerReadyAI == this.sessionIdQueue.length)
+                this.isReadyAI = true;
             //this.CoroutinAIdestination();
             //this.AllAIdestination();
         });
