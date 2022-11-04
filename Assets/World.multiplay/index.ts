@@ -47,7 +47,6 @@ export default class extends Sandbox {
     }
 
     onCreate(options: SandboxOptions) {
-
         // Room 객체가 생성될 때 호출됩니다.
         // Room 객체의 상태나 데이터 초기화를 처리 한다.
 
@@ -114,8 +113,6 @@ export default class extends Sandbox {
             console.log(client.sessionId+"is Ready");
             if(this.PlayerReadyAI == this.sessionIdQueue.length)
                 this.isReadyAI = true;
-            //this.CoroutinAIdestination();
-            //this.AllAIdestination();
         });
 
         /** Common **/
@@ -167,7 +164,6 @@ export default class extends Sandbox {
             this.masterClientSessionId = this.sessionIdQueue[0];
             console.log("master->", this.masterClientSessionId)
         }
-
         const player = new Player();
         player.sessionId = client.sessionId;
 
@@ -223,21 +219,16 @@ export default class extends Sandbox {
             this.masterClientSessionId = this.sessionIdQueue[0];
             this.broadcast("CheckMaster", this.masterClientSessionId);
             console.log("master->", this.masterClientSessionId)
+            
+            let usersID:string[]=[];
+            for(let i=0; i< this.sessionIdQueue.length; i++) {
+                usersID.push(this.state.players.get(this.sessionIdQueue[i]).zepetoUserId);
+            }
+            this.broadcast("ReceiveAllPlayer", usersID);
         }
         // allowReconnection 설정을 통해 순단에 대한 connection 유지 처리등을 할 수 있으나 기본 가이드에서는 즉시 정리.
         // delete 된 player 객체에 대한 정보를 클라이언트에서는 players 객체에 add_OnRemove 이벤트를 추가하여 확인 할 수 있음.
         this.state.players.delete(client.sessionId);
-    }
-    AllAIdestination(){
-        for(let i=0; i<this.NumberOfAI; i++) {
-            let AIdestination: AIdestination = {
-                AInumber: i,
-                Stop: this.RandInt(0,3) == 0? true : false,
-                nexPosX:this.Rand(-25,25),
-                nexPosZ:this.Rand(-25,25),
-            };
-            this.broadcast("AIdestination", AIdestination);
-        }
     }
     Rand(min:number, max:number){
         return Math.random() * (max-min) +min;

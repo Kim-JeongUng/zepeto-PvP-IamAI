@@ -131,10 +131,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
         this.room.Send("AIdestination", data.GetObject());
     }
 
-    private
-
-    ParseVector3(vector3: Vector3):
-        Vector3 {
+    private ParseVector3(vector3: Vector3): Vector3 {
         return new Vector3(vector3.x, vector3.y, vector3.z);
     }
 
