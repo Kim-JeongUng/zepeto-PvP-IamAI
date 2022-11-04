@@ -12,40 +12,34 @@ interface AItransform {
     PosZ: number,
     RotY: number,
 }
+
 interface AIdestination {
     AInumber: number,
-    nowPos: Vector3,
-    nexPosX:number,
-    nexPosZ:number
+    Stop: boolean,
+    nexPosX: number,
+    nexPosZ: number
 }
 
 export default class AIManager extends ZepetoScriptBehaviour {
-    public _AICount: number = 10;
+    public _AICount: number;
 
     @SerializeField() private _multiplay: ZepetoWorldMultiplay;
     private room: Room;
-    private isMasterClient: boolean = false;
-    private AICharacters: ZepetoCharacter[] = [];
+    private isMasterClient: boolean;
+    @SerializeField() private AICharacters: ZepetoCharacter[] = [];
 
 
     Start() {
+        this.Init();
         this._multiplay.RoomCreated += (room: Room) => {
             this.room = room;
         }
-
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
                 if (this.room.SessionId == MasterClientSessionId) {
                     if (!this.isMasterClient) {
                         this.isMasterClient = true;
-                        //this.StartCoroutine(this.SyncAIPosition(0.04));
                     }
-                    //��ü AI����ȭ(�ٸ� �÷��̾� ����)
-                    //this.SendAIDestination();
-                    for (let i = 0; i < this._AICount; i++) {
-                        //this.SendAIDestination(i);
-                    }
-                    console.log("ImMasterClient");
                 } else {
 
                 }
@@ -58,13 +52,16 @@ export default class AIManager extends ZepetoScriptBehaviour {
                     this.StartCoroutine(this.SpawnAI(message));
                 });
                 this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
-                    console.log("ASDASDADASD");
-                    this.MoveAI(message.AInumber, message);
+                    this.StartCoroutine(this.MoveAI(message.AInumber, message));
                 });
             });
         });
     }
-    
+
+    Init() {
+        this._AICount = 10;
+        this.isMasterClient = false;
+    }
 
     * SpawnAI(receiveAI: AItransform[]) {
         for (let i = 0; i < receiveAI.length; i++) {
@@ -81,35 +78,39 @@ export default class AIManager extends ZepetoScriptBehaviour {
             this.AICharacters.push(aiPlayer.character);
             this.AICharacters[i].tag = "AI";
             this.AICharacters[i].name = "AI_" + i.toString();
-            let zepetoGameCharacter = this.AICharacters[i].transform.gameObject.AddComponent<ZepetoGameCharacter>();               
+            let zepetoGameCharacter = this.AICharacters[i].transform.gameObject.AddComponent<ZepetoGameCharacter>();
             zepetoGameCharacter.sessionID = "AI_" + i.toString();
         }
-    }
-    MoveAI(i:number,AIdestination:AIdestination){
-        //const newposition = this.ParseVector3(this.AICharacters[i].transform.position);
-        //var moveDir = Vector3.op_Subtraction(newposition, this.AICharacters[i].gameObject.transform.position);
-
-        const newposition = new Vector3(AIdestination.nexPosX, 0, AIdestination.nexPosZ);
-        console.log(this.AICharacters[i].transform.position);
-        var moveDir = Vector3.op_Subtraction(newposition, this.AICharacters[i].transform.position);
-        moveDir = new Vector3(moveDir.x, 0, moveDir.z);
-
-        if (moveDir.magnitude < 0.05) {
-            this.AICharacters[i].StopMoving();
-        } else {
-            this.AICharacters[i].MoveContinuously(moveDir);
+        //ready AI Send
+        if (this.isMasterClient) {
+            this.room.Send("ReadyAI");
         }
     }
-    
-    * SyncAIPosition(tick: number) {
-        while (true) {
-            for (let i = 0; i < this._AICount; i++) {
 
-                //this.SendAIDestination(i);
+    * MoveAI(i: number, AIdestination: AIdestination) {
+        console.log(i,this.AICharacters[i].CurrentState);
+        if (this.AICharacters[i].CurrentState == CharacterState.Idle) {
+            if (AIdestination.Stop) {
+                this.AICharacters[i].StopMoving();
             }
-
-            yield new WaitForSeconds(tick);
+            else {
+                let StopSign = false;
+                while (!StopSign) {
+                    const newposition = new Vector3(AIdestination.nexPosX, 0, AIdestination.nexPosZ);
+                    var moveDir = Vector3.op_Subtraction(newposition, this.AICharacters[i].transform.position);
+                    moveDir = new Vector3(moveDir.x, 0, moveDir.z);
+                    if (moveDir.magnitude < 0.05) {
+                        this.AICharacters[i].StopMoving();
+                        StopSign = true;
+                    } else {
+                        this.AICharacters[i].MoveContinuously(moveDir);
+                    }
+                    yield new WaitForSeconds(0.1);
+                }
+            }
         }
+        else
+            yield null;
     }
 
     SendAIDestination(AInumber: number) {

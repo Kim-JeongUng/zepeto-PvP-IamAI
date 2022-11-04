@@ -1989,12 +1989,16 @@ MonoBehaviour:
     keys:
     - _AICount
     - _multiplay
+    - AICharacters
     unityValues:
     - {fileID: 0}
     - {fileID: 1418382869}
+    - {fileID: 0}
     values:
     - '{"type":"System.Single, mscorlib","value":"10"}'
     - 
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":0,\"type\":\"UnityEngine.Object,
+      UnityEngine.CoreModule\",\"isUnity\":true}"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: 3fd7ba2eb1daa45488f05670ff91c22c, type: 3}
