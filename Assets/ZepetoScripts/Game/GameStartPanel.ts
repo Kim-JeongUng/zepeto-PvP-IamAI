@@ -4,6 +4,7 @@ import {AnimationClip, RectTransform, Transform, Mathf, Texture, WaitForSeconds}
 import {Button, Image, Text,RawImage} from "UnityEngine.UI";
 import {Room} from "ZEPETO.Multiplay";
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
+import ClientStarterV2 from './ClientStarterV2';
 
 export default class GameStartPanel extends ZepetoScriptBehaviour {
 
@@ -22,15 +23,9 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
 
     private NumberOfAI: number = 10;
 
-    OnEnable(){
-        this.room.Send("CheckMaster");
-    }
     Start() {
-        this._multiplay.RoomCreated += (room: Room) => {
-            this.room = room;
-        };
-
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+            this.room = ClientStarterV2.instance.room;
             this.room.Send("CheckMaster");
             this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
                 if (this.room.SessionId == MasterClientSessionId) {

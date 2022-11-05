@@ -19,8 +19,14 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
-    GameEndPanel extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start() {\r\n   
-    }\r\n}\r\nexports.default = GameEndPanel;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2FtZUVuZFBhbmVsLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiR2FtZUVuZFBhbmVsLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBRXJELE1BQXFCLFlBQWEsU0FBUSxxQ0FBcUI7SUFFM0QsS0FBSztJQUVMLENBQUM7Q0FFSjtBQU5ELCtCQU1DIn0=","assetPath":"Assets/ZepetoScripts/Game/GameEndPanel.ts","manifest":{"properties":[],"name":"GameEndPanel","description":""},"isCompiled":true}'
-  typescriptHash: 6748d47164f782fd9aa3c7a9bff3d6c9
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ClientStarterV2_1 = require(\"./ClientStarterV2\");\r\nconst UnityEngine_1 =
+    require(\"UnityEngine\");\r\nclass GameEndPanel extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    Start() {\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.room = ClientStarterV2_1.default.instance.room;\r\n           
+    this.room.AddMessageHandler(\"OnEndGame\", (message) => {\r\n               
+    this.EndPanel.SetActive(true);\r\n            });\r\n        });\r\n    }\r\n}\r\nexports.default
+    = GameEndPanel;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2FtZUVuZFBhbmVsLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiR2FtZUVuZFBhbmVsLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELDZFQUEwRDtBQUMxRCx1REFBZ0Q7QUFFaEQsNkNBQXlDO0FBRXpDLE1BQXFCLFlBQWEsU0FBUSxxQ0FBcUI7SUFLM0QsS0FBSztRQUNELDJDQUFhLENBQUMsUUFBUSxDQUFDLGtCQUFrQixDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDdkQsSUFBSSxDQUFDLElBQUksR0FBRyx5QkFBZSxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUM7WUFDMUMsSUFBSSxDQUFDLElBQUksQ0FBQyxpQkFBaUIsQ0FBQyxXQUFXLEVBQUUsQ0FBQyxPQUFPLEVBQUUsRUFBRTtnQkFDakQsSUFBSSxDQUFDLFFBQVEsQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUM7WUFDbEMsQ0FBQyxDQUFDLENBQUM7UUFDUCxDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7Q0FFSjtBQWRELCtCQWNDIn0=","assetPath":"Assets/ZepetoScripts/Game/GameEndPanel.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"EndPanel","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"GameEndPanel","description":""},"isCompiled":true}'
+  typescriptHash: bee6242c9f8b32406affeea103c0d22f
   onlyWriteTrigger: 0

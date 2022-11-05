@@ -6,6 +6,7 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { ZepetoWorldMultiplay } from 'ZEPETO.World';
 import ZepetoGameCharacter from './ZepetoGameCharacter';
 import KillLogPanel from './KillLogPanel';
+import ClientStarterV2 from './ClientStarterV2';
 
 interface PlayerGestureInfo {
     sessionId: string,
@@ -25,8 +26,6 @@ enum MotionIndex {
 }
 
 export default class GameManager extends ZepetoScriptBehaviour {
-
-    @SerializeField() private _multiplay: ZepetoWorldMultiplay;
     @SerializeField() private _punchGesture: AnimationClip;
     @SerializeField() private _defenseGesture: AnimationClip;
     @SerializeField() private _dieGesture: AnimationClip;
@@ -34,7 +33,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
     public room: Room;
     private _myCharacter: ZepetoCharacter;   
     private _killLogPanel: KillLogPanel;
-
 
     private _punchCool: number = 5;
     private _punchFlag: boolean;
@@ -46,14 +44,13 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     private _MESSAGE = {
         OnPlayGesture: "OnPlayGesture",
-        OnHitPlayer: "OnHitPlayer"
+        OnHitPlayer: "OnHitPlayer",
+        OnEndGame:"OnEndGame",
     };
 
     Start() {
-        this._multiplay.RoomCreated += (room: Room) => {
-            this.room = room;
-        };
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+            this.room = ClientStarterV2.instance.room;
             this._myCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
             this._punchBtn = GameObject.Find("PunchBtn").GetComponent<Button>() as Button;
             this._punchBtn.onClick.AddListener(() => {
@@ -63,13 +60,16 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this._defenseBtn.onClick.AddListener(() => {
                 this.StartCoroutine(this.Defense());
             });
-            //�����κ��� ������ ������ ������ ����
             this.room.AddMessageHandler(this._MESSAGE.OnPlayGesture, (message: PlayerGestureInfo) => {
                 this.StartCoroutine(this.GestureSync(message));
             });
             this.room.AddMessageHandler(this._MESSAGE.OnHitPlayer, (message: PlayerKillInfo) => {
                 this.KillLog(message);
             });
+            this.room.AddMessageHandler(this._MESSAGE.OnEndGame, (message) => {
+                //End Game
+            });
+
         });
         this._killLogPanel = GameObject.Find("KillLogPanel").GetComponent<KillLogPanel>();
 

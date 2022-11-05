@@ -4,7 +4,7 @@ import {Room, RoomData} from 'ZEPETO.Multiplay';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay} from 'ZEPETO.World';
 import ZepetoGameCharacter from './ZepetoGameCharacter';
-
+import ClientStarterV2 from './ClientStarterV2';
 
 interface AItransform {
     AInumber: number,
@@ -31,10 +31,8 @@ export default class AIManager extends ZepetoScriptBehaviour {
 
     Start() {
         this.Init();
-        this._multiplay.RoomCreated += (room: Room) => {
-            this.room = room;
-        }
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+            this.room = ClientStarterV2.instance.room;
             this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
                 if (this.room.SessionId == MasterClientSessionId) {
                     if (!this.isMasterClient) {

@@ -4,8 +4,8 @@ import {Room, RoomData} from 'ZEPETO.Multiplay'
 import {Player, State, Vector3} from 'ZEPETO.Multiplay.Schema'
 import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState, ZepetoCharacter} from 'ZEPETO.Character.Controller'
 import * as UnityEngine from "UnityEngine";
-import ZepetoGameCharacter from './Game/ZepetoGameCharacter'
 import { Random } from 'UnityEngine'
+import ZepetoGameCharacter from './ZepetoGameCharacter'
 
 
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
@@ -30,12 +30,9 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         this.multiplay.RoomCreated += (room: Room) => {
             this.room = room;
         };
-
         this.multiplay.RoomJoined += (room: Room) => {
             room.OnStateChange += this.OnStateChange;
         };
-
-
         this.StartCoroutine(this.SendMessageLoop(0.04));
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             });
