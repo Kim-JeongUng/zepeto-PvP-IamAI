@@ -101,6 +101,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
             data.Add("attackerNickname", attacker.GetComponent<ZepetoGameCharacter>().nickname);
             data.Add("victimSessionId", victim.GetComponent<ZepetoGameCharacter>().sessionID);
             data.Add("victimNickname", victim.GetComponent<ZepetoGameCharacter>().nickname);
+            data.Add("victimTag", victim.tag);
             this.room.Send(this._MESSAGE.OnHitPlayer, data.GetObject());
         }
     }
