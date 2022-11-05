@@ -11,12 +11,21 @@ import { Random } from 'UnityEngine'
 export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
     public multiplay: ZepetoWorldMultiplay;
-
-    private room: Room;
+    public room: Room;
     private currentPlayers: Map<string, Player> = new Map<string, Player>();
 
     private zepetoPlayer: ZepetoPlayer;
-
+    public static instance: ClientStarterV2;
+    
+    /* Singleton */
+    Awake(){
+        if (ClientStarterV2.instance == null) {
+            ClientStarterV2.instance = this;
+        }
+        else{
+            return;
+        }
+    }
     private Start() {
         this.multiplay.RoomCreated += (room: Room) => {
             this.room = room;

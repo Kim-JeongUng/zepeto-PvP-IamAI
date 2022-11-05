@@ -22,13 +22,16 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
 
     private NumberOfAI: number = 10;
 
+    OnEnable(){
+        this.room.Send("CheckMaster");
+    }
     Start() {
         this._multiplay.RoomCreated += (room: Room) => {
             this.room = room;
         };
 
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.room.Send("CheckMaster")
+            this.room.Send("CheckMaster");
             this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
                 if (this.room.SessionId == MasterClientSessionId) {
                     if (!this.isMasterClient) {
@@ -75,9 +78,6 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
                     this._PlayerPanel[i].GetComponent<RawImage>().texture = this._PlayerPanelOffImage;
                 }
             });
-            this.room.AddMessageHandler("NewGame", (message) => {
-                this.StartCoroutine(this.NewGame());
-            });
             this.room.AddMessageHandler("GameStart", (message) => {
                 this.StartCoroutine(this.GameStart());
             });
@@ -89,11 +89,5 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
     * GameStart(){
         yield new WaitForSeconds(1);
         this.gameObject.SetActive(false);
-    }
-    * NewGame(){
-        //winner : ~~~
-        yield new WaitForSeconds(1);
-        //reGame
-        this.gameObject.SetActive(true);
     }
 }

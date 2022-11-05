@@ -129,7 +129,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     KillLog(playerKillInfo: PlayerKillInfo) {
         console.log(playerKillInfo.attackerNickname + "Killed " + playerKillInfo.victimNickname);
-        
         let playerGestureInfo: PlayerGestureInfo;
         playerGestureInfo = { sessionId: playerKillInfo.victimSessionId, gestureIndex: MotionIndex.Die};
         this.StartCoroutine(this.GestureSync(playerGestureInfo));
@@ -146,13 +145,4 @@ export default class GameManager extends ZepetoScriptBehaviour {
             );
     }
 
-    /*TODO
-    - transform���� ���Ǿ��̵� �������¹�
-    - ai ����ȭ ��ǥ�� ai �̵�
-
-    BUGS
-    - ��ġ �ִϸ��̼� �κ�ũ ����
-    - AI�߰��ɶ� �������� �ذ�
-    - SetGesture ���� (��� ��� ����)
-    */
 }

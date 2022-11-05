@@ -56,6 +56,9 @@ export default class AIManager extends ZepetoScriptBehaviour {
                 if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle)
                     this.StartCoroutine(this.MoveAI(message.AInumber, message));
             });
+            this.room.AddMessageHandler("EndGame",(message)=>{
+                this.DestroyAllAI();
+            });
         });
     }
 
@@ -106,29 +109,8 @@ export default class AIManager extends ZepetoScriptBehaviour {
         }
         yield null;
     }
-
-    SendAIDestination(AInumber: number) {
-        const nowX = this.AICharacters[AInumber].transform.localPosition.x;
-        const nowY = this.AICharacters[AInumber].transform.localPosition.x;
-        const nowZ = this.AICharacters[AInumber].transform.localPosition.x;
-        const nextX = nowX + Random.Range(-25, 25);
-        const nextY = nowY + Random.Range(-25, 25);
-
-        const data = new RoomData();
-        data.Add("AInumber", AInumber);
-
-        const nowPos = new RoomData();
-        nowPos.Add("x", nowX);
-        nowPos.Add("y", nowY);
-        nowPos.Add("z", nowZ);
-        data.Add("nowPos", nowPos.GetObject());
-
-        const nexPos = new RoomData();
-        nexPos.Add("x", nextX);
-        nexPos.Add("y", nextY);
-        nexPos.Add("z", 0);
-        data.Add("nexPos", nexPos.GetObject());
-        this.room.Send("AIdestination", data.GetObject());
+    
+    DestroyAllAI(){
     }
 
     private ParseVector3(vector3: Vector3): Vector3 {
