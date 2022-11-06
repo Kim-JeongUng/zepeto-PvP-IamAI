@@ -53,12 +53,11 @@ export default class extends Sandbox {
     }
 
     Init() {
-        this.sessionIdQueue = [];
-        this.masterClientSessionId = "";
-        this.NumberOfAI = 10;
         this.PlayerReadyAI = 0;
         this.isReadyAI = false;
         this.TickIndex = 0;
+        this.leftPlayerNum = 1;
+        this.StartPlayerNum =1;
     }
 
     onCreate(options: SandboxOptions) {
@@ -108,27 +107,12 @@ export default class extends Sandbox {
             if (killInfo.victimTag == "Player") {
                 this.leftPlayerNum--;
                 if (this.leftPlayerNum == 1 && this.StartPlayerNum != 1) {
-                    console.log("game End 1초후 종료");
-                    setTimeout(() => {
-                        this.broadcast("OnEndGame", client.userId);
-                        this.ReGame();
-                    }, 1000);
+                    this.broadcast("OnEndGame", client.userId);                        
+                    this.ReGame();
                 }
             }
             this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
         });
-        //EndGame => 다 죽을시 우승자 판넬 오픈
-        this.onMessage(this.MESSAGE_TYPE.OnEndGame, async (client, message) => {
-            this.broadcast(this.MESSAGE_TYPE.OnEndGame, client.userId);
-            await this.unlock();
-        });
-
-        //ReGame => 다음버튼 누를 시 로비로 이동
-        /*this.onMessage(this.MESSAGE_TYPE.EndGame, async (client, message) => {
-            this.broadcast("EndGame", client.userId);            
-            this.ReGame();
-            await this.unlock();
-        });*/
 
 
         /** AIManager **/

@@ -1,4 +1,4 @@
-import {GameObject, Transform, Quaternion, Random, Vector3, WaitForSeconds, WaitUntil} from 'UnityEngine';
+import {GameObject,Transform,Quaternion,Random,Vector3, WaitForSeconds,WaitUntil,AnimationClip} from 'UnityEngine';
 import {CharacterState, SpawnInfo, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {Room, RoomData} from 'ZEPETO.Multiplay';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
@@ -21,16 +21,15 @@ interface AIdestination {
 }
 
 export default class AIManager extends ZepetoScriptBehaviour {
-    public _AICount: number;
+    public _AICount: number =0;
+    @SerializeField() private _dieGesture: AnimationClip;
+    @SerializeField() private AICharacters: ZepetoCharacter[] = [];
 
-    @SerializeField() private _multiplay: ZepetoWorldMultiplay;
     private room: Room;
     private isMasterClient: boolean;
-    @SerializeField() private AICharacters: ZepetoCharacter[] = [];
 
 
     Start() {
-        this.Init();
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.room = ClientStarterV2.instance.room;
             this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
@@ -43,6 +42,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
                 }
             });
             this.room.AddMessageHandler("GameStart", (message: number) => {
+                this.Init();
                 this._AICount = message;
                 if (this.isMasterClient)
                     this.room.Send("FirstSyncAI", this._AICount);
@@ -54,28 +54,31 @@ export default class AIManager extends ZepetoScriptBehaviour {
                 if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle)
                     this.StartCoroutine(this.MoveAI(message.AInumber, message));
             });
-            this.room.AddMessageHandler("EndGame",(message)=>{
-                this.DestroyAllAI();
+            this.room.AddMessageHandler("OnEndGame", (message) => {
+                this.StopAllCoroutines();
+                this.StartCoroutine(this.DestroyAllAI());
             });
         });
     }
 
     Init() {
-        this._AICount = 10;
-        this.isMasterClient = false;
     }
 
-    * SpawnAI(receiveAI: AItransform[]) {
-        for (let i = 0; i < receiveAI.length; i++) {
+    * SpawnAI(receiveAI: AItransform[]) {        
+        this.AICharacters= [];
+        for (let i = 0; i < this._AICount; i++) {
             const spawnInfo = new SpawnInfo();
             const position = new Vector3(receiveAI[i].PosX, 0, receiveAI[i].PosZ);
             const rotation = new Vector3(0, receiveAI[i].RotY, 0);
             spawnInfo.position = position;
             spawnInfo.rotation = Quaternion.Euler(rotation);
+            //BUG@@@@
             ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
+            console.log(i);
         }
-        for (let i = 0; i < receiveAI.length; i++) {
-            yield new WaitUntil(()=> ZepetoPlayers.instance.HasPlayer("AI_" + i.toString()));
+        
+        for (let i = 0; i < this._AICount; i++) {
+            yield new WaitUntil(() => ZepetoPlayers.instance.HasPlayer("AI_" + i.toString()));
             const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
             this.AICharacters.push(aiPlayer.character);
             this.AICharacters[i].tag = "AI";
@@ -107,8 +110,15 @@ export default class AIManager extends ZepetoScriptBehaviour {
         }
         yield null;
     }
-    
-    DestroyAllAI(){
+
+    * DestroyAllAI() {
+        for (let i = 0; i < this._AICount; i++) {
+            const zepetoPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
+            zepetoPlayer.character.SetGesture(this._dieGesture);
+        }
+        yield new WaitForSeconds(2);
+        for (let i = 0; i < this._AICount; i++)
+            ZepetoPlayers.instance.RemovePlayer("AI_" + i.toString());
     }
 
     private ParseVector3(vector3: Vector3): Vector3 {

@@ -2764,15 +2764,12 @@ MonoBehaviour:
     - _dieGesture
     - _defenseGesture
     - _punchGesture
-    - _multiplay
     unityValues:
     - {fileID: 0}
     - {fileID: 7400000, guid: 8425b1db8a2e6324c9f50dd1bc8af2c5, type: 2}
     - {fileID: 7400000, guid: 7c1190444ee914e838dabdd9d0e926d5, type: 2}
     - {fileID: 7400000, guid: fe6f78d565595ea49890cfa0a0ff5098, type: 2}
-    - {fileID: 1418382869}
     values:
-    - 
     - 
     - 
     - 
@@ -2920,18 +2917,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - _AICount
-    - _multiplay
     - AICharacters
+    - _dieGesture
+    - _AICount
     unityValues:
     - {fileID: 0}
-    - {fileID: 1418382869}
+    - {fileID: 7400000, guid: 8425b1db8a2e6324c9f50dd1bc8af2c5, type: 2}
     - {fileID: 0}
     values:
-    - '{"type":"System.Single, mscorlib","value":"10"}'
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":0,\"type\":\"ZEPETO.Character.Controller.ZepetoCharacter,
+      ZEPETO.Character.Controller\",\"isUnity\":true}"}'
     - 
-    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":0,\"type\":\"UnityEngine.Object,
-      UnityEngine.CoreModule\",\"isUnity\":true}"}'
+    - '{"type":"System.Single, mscorlib","value":"0"}'
     unityArrayValues: []
     arrayValues: []
     script: {fileID: 4458252877524076426, guid: 3fd7ba2eb1daa45488f05670ff91c22c, type: 3}

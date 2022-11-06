@@ -67,6 +67,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
                 this.KillLog(message);
             });
             this.room.AddMessageHandler(this._MESSAGE.OnEndGame, (message) => {
+                this.StopAllCoroutines();
                 //End Game
             });
 
@@ -122,7 +123,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
             zepetoPlayer.character.transform.GetChild(0).gameObject.SetActive(false);
         }
         else
-            yield  new WaitForSeconds(2);
+            yield new WaitForSeconds(2);
         zepetoPlayer.character.CancelGesture();
     }
 
