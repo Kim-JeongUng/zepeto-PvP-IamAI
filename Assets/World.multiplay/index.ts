@@ -12,7 +12,7 @@ interface PlayerKillInfo {
     attackerNickname: string,
     victimSessionId: string,
     victimNickname: string,
-    victimTag:string
+    victimTag: string
 }
 
 interface AItransform {
@@ -36,14 +36,14 @@ export default class extends Sandbox {
     private PlayerReadyAI: number = 0;
     private isReadyAI: boolean = false;
     private TickIndex: number = 0;
-    private leftPlayerNum:number =1;
-    private StartPlayerNum:number =1;
+    private leftPlayerNum: number = 1;
+    private StartPlayerNum: number = 1;
 
     MESSAGE_TYPE = {
         OnPlayGesture: "OnPlayGesture",
         OnHitPlayer: "OnHitPlayer",
-        EndGame:"EndGame",
-        
+        OnEndGame: "OnEndGame",
+
     };
 
     storageMap: Map<string, DataStorage> = new Map<string, DataStorage>();
@@ -103,27 +103,32 @@ export default class extends Sandbox {
                 attackerNickname: message.attackerNickname,
                 victimSessionId: message.victimSessionId,
                 victimNickname: message.victimNickname,
-                victimTag :message.victimTag
+                victimTag: message.victimTag
             };
-            if(killInfo.victimTag == "Player"){
+            if (killInfo.victimTag == "Player") {
                 this.leftPlayerNum--;
-                if(this.leftPlayerNum==1 && this.StartPlayerNum!=1){
-                    this.broadcast("EndGame", client.userId);
+                if (this.leftPlayerNum == 1 && this.StartPlayerNum != 1) {
+                    console.log("game End 1초후 종료");
+                    setTimeout(() => {
+                        this.broadcast("OnEndGame", client.userId);
+                        this.ReGame();
+                    }, 1000);
                 }
             }
             this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
         });
         //EndGame => 다 죽을시 우승자 판넬 오픈
-        this.onMessage(this.MESSAGE_TYPE.EndGame, async (client, message) => {
-            this.broadcast("EndGame", client.userId);
+        this.onMessage(this.MESSAGE_TYPE.OnEndGame, async (client, message) => {
+            this.broadcast(this.MESSAGE_TYPE.OnEndGame, client.userId);
+            await this.unlock();
         });
 
         //ReGame => 다음버튼 누를 시 로비로 이동
-        this.onMessage(this.MESSAGE_TYPE.EndGame, async (client, message) => {
+        /*this.onMessage(this.MESSAGE_TYPE.EndGame, async (client, message) => {
             this.broadcast("EndGame", client.userId);            
             this.ReGame();
             await this.unlock();
-        });
+        });*/
 
 
         /** AIManager **/
@@ -168,14 +173,14 @@ export default class extends Sandbox {
         });
         this.onMessage("GameStart", async (client, message: number) => {
             this.broadcast("GameStart", message);
-            this.StartPlayerNum == this.sessionIdQueue.length;
-            this.leftPlayerNum == this.sessionIdQueue.length;
+            this.StartPlayerNum = this.sessionIdQueue.length;
+            this.leftPlayerNum = this.sessionIdQueue.length;
             await this.lock();
         });
         this.onMessage("ChangeNumberOfAI", (client, message: number) => {
             this.broadcast("ChangeNumberOfAI", message);
         });
-        
+
         /** TEST **/
         this.onMessage("Debug", (client, message) => {
             console.log("debug by " + client.sessionId);
@@ -255,15 +260,17 @@ export default class extends Sandbox {
         }
         // 살아있는 사람이면
         //this.leftPlayerNum --;
-        
+
         // allowReconnection 설정을 통해 순단에 대한 connection 유지 처리등을 할 수 있으나 기본 가이드에서는 즉시 정리.
         // delete 된 player 객체에 대한 정보를 클라이언트에서는 players 객체에 add_OnRemove 이벤트를 추가하여 확인 할 수 있음.
         this.state.players.delete(client.sessionId);
     }
-    
-    ReGame(){
+
+    async ReGame() {
+        await this.unlock();
         this.Init();
     }
+
     Rand(min: number, max: number) {
         return Math.random() * (max - min) + min;
     }
