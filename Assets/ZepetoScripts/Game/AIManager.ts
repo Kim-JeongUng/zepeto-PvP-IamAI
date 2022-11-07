@@ -32,36 +32,37 @@ export default class AIManager extends ZepetoScriptBehaviour {
     Start() {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.room = ClientStarterV2.instance.room;
-            this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
-                if (this.room.SessionId == MasterClientSessionId) {
-                    if (!this.isMasterClient) {
-                        this.isMasterClient = true;
-                    }
-                } else {
-
-                }
-            });
-            this.room.AddMessageHandler("GameStart", (message: number) => {
-                this.Init();
-                this._AICount = message;
-                if (this.isMasterClient)
-                    this.room.Send("FirstSyncAI", this._AICount);
-                this.room.AddMessageHandler("FirstSyncAI", (message: AItransform[]) => {
-                    this.StartCoroutine(this.SpawnAI(message));
-                });
-            });
-            this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
-                if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle)
-                    this.StartCoroutine(this.MoveAI(message.AInumber, message));
-            });
-            this.room.AddMessageHandler("OnEndGame", (message) => {
-                this.StopAllCoroutines();
-                this.StartCoroutine(this.DestroyAllAI());
-            });
+            this.Init();
         });
     }
 
     Init() {
+        this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
+            if (this.room.SessionId == MasterClientSessionId) {
+                if (!this.isMasterClient) {
+                    this.isMasterClient = true;
+                }
+            } else {
+
+            }
+        });
+        this.room.AddMessageHandler("GameStart", (message: number) => {
+            this.Init();
+            this._AICount = message;
+            if (this.isMasterClient)
+                this.room.Send("FirstSyncAI", this._AICount);
+        });
+        this.room.AddMessageHandler("FirstSyncAI", (message: AItransform[]) => {
+            this.StartCoroutine(this.SpawnAI(message));
+        });
+        this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
+            if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle)
+                this.StartCoroutine(this.MoveAI(message.AInumber, message));
+        });
+        this.room.AddMessageHandler("OnEndGame", (message) => {
+            this.StopAllCoroutines();
+            this.StartCoroutine(this.DestroyAllAI());
+        });
     }
 
     * SpawnAI(receiveAI: AItransform[]) {        
@@ -112,11 +113,12 @@ export default class AIManager extends ZepetoScriptBehaviour {
     }
 
     * DestroyAllAI() {
+        yield new WaitForSeconds(0.2);
         for (let i = 0; i < this._AICount; i++) {
             const zepetoPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
             zepetoPlayer.character.SetGesture(this._dieGesture);
         }
-        yield new WaitForSeconds(2);
+        yield new WaitForSeconds(3);
         for (let i = 0; i < this._AICount; i++)
             ZepetoPlayers.instance.RemovePlayer("AI_" + i.toString());
     }

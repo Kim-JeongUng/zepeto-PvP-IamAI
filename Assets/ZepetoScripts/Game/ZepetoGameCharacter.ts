@@ -5,6 +5,8 @@ import GameManager from './GameManager';
 import PunchManager from './PunchManager';
 import {Users, ZepetoWorldHelper} from "ZEPETO.World";
 import {Text} from "UnityEngine.UI";
+import {Room} from "ZEPETO.Multiplay";
+import ClientStarterV2 from './ClientStarterV2';
 
 interface PlayerKillInfo {
     attackerSessionId: string,
@@ -19,6 +21,7 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
 
     private punchManager: PunchManager;
     private _hitFlag: boolean = false;
+    private room:Room;
 
     Awake() {
         this.punchManager = this.transform.GetChild(0).gameObject.AddComponent<PunchManager>();
@@ -41,5 +44,12 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
         else{
             this.nickname = this.sessionID;
         }
+
+        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+            this.room = ClientStarterV2.instance.room;
+            this.room.AddMessageHandler("GameStart", (message) => {
+                this.transform.GetChild(0).gameObject.SetActive(true);
+            });
+        });
     }
 }

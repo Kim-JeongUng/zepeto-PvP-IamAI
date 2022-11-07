@@ -31,7 +31,7 @@ export default class GameEndPanel extends ZepetoScriptBehaviour {
             },()=>{console.log(userId[0]);});
         },()=>{
             this.winnerName.text = "null";});
-        yield new WaitForSeconds(2);
+        yield new WaitForSeconds(3);
         
         this.EndPanel.SetActive(true);
     }
