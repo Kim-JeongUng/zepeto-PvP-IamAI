@@ -15,8 +15,8 @@ interface PlayerKillInfo {
     victimTag: string
 }
 
-interface AItransform {
-    AInumber: number,
+interface SyncTransform {
+    SessionId: string,
     PosX: number,
     PosZ: number,
     RotY: number,
@@ -116,20 +116,6 @@ export default class extends Sandbox {
 
 
         /** AIManager **/
-        this.onMessage("FirstSyncAI", (client, message: number) => {
-            this.NumberOfAI = message;
-            let AItransforms: AItransform[] = [];
-            for (let i = 0; i < this.NumberOfAI; i++) {
-                let AItransform: AItransform = {
-                    AInumber: i,
-                    PosX: this.Rand(-25, 25),
-                    PosZ: this.Rand(-25, 25),
-                    RotY: Math.random() * 360 - 180,
-                };
-                AItransforms.push(AItransform);
-            }
-            this.broadcast("FirstSyncAI", AItransforms);
-        });
         this.onMessage("ReadyAI", (client, message) => {
             this.PlayerReadyAI++;
             console.log(client.sessionId + "is Ready");
@@ -157,8 +143,10 @@ export default class extends Sandbox {
         });
         this.onMessage("GameStart", async (client, message: number) => {
             this.broadcast("GameStart", message);
+            this.NumberOfAI = message;
             this.StartPlayerNum = this.sessionIdQueue.length;
             this.leftPlayerNum = this.sessionIdQueue.length;
+            this.SyncAllTransform();
             await this.lock();
         });
         this.onMessage("ChangeNumberOfAI", (client, message: number) => {
@@ -249,7 +237,31 @@ export default class extends Sandbox {
         // delete 된 player 객체에 대한 정보를 클라이언트에서는 players 객체에 add_OnRemove 이벤트를 추가하여 확인 할 수 있음.
         this.state.players.delete(client.sessionId);
     }
+    SyncAllTransform(){
+        let AItransforms: SyncTransform[] = [];
+        for (let i = 0; i < this.NumberOfAI; i++) {
+            let AItransform: SyncTransform = {
+                SessionId:"AI_"+i.toString(),
+                PosX: this.Rand(-25, 25),
+                PosZ: this.Rand(-25, 25),
+                RotY: Math.random() * 360 - 180,
+            };
+            AItransforms.push(AItransform);
+        }
+        this.broadcast("FirstSyncAI", AItransforms);
 
+        let Playertransforms: SyncTransform[] = [];
+        for (let i = 0; i < this.sessionIdQueue.length; i++) {
+            let Playertransform: SyncTransform = {
+                SessionId:this.sessionIdQueue[i],
+                PosX: this.Rand(-25, 25),
+                PosZ: this.Rand(-25, 25),
+                RotY: Math.random() * 360 - 180,
+            };
+            Playertransforms.push(Playertransform);
+        }
+        this.broadcast("FirstSyncPlayer", Playertransforms);
+    }
     async ReGame() {
         await this.unlock();
         this.Init();

@@ -19,6 +19,13 @@ interface PlayerKillInfo {
     victimNickname: string,
 }
 
+interface SyncTransform {
+    SessionId: string,
+    PosX: number,
+    PosZ: number,
+    RotY: number,
+}
+
 enum MotionIndex {
     "Punch" = 0,
     "Defense",
@@ -71,6 +78,9 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this.room.AddMessageHandler("StartGame", (message) => {
                 this.ResetAllVar();
             });
+            this.room.AddMessageHandler("FirstSyncPlayer", (message:SyncTransform[]) => {
+                this.PlayerSync(message);
+            });
             
             this.room.AddMessageHandler(this._MESSAGE.OnEndGame, (message) => {
                 //End Game
@@ -86,7 +96,16 @@ export default class GameManager extends ZepetoScriptBehaviour {
         this._defenseFlag = false;
         this._onEndFlag = false;
     }
-
+    
+    PlayerSync(receivePlayer : SyncTransform[]){
+        for(let i=0; i<receivePlayer.length; i++) {
+            const position = new Vector3(receivePlayer[i].PosX, 0, receivePlayer[i].PosZ);
+            const rotation = Quaternion.Euler(new Vector3(0, receivePlayer[i].RotY, 0));
+            const Player = ZepetoPlayers.instance.GetPlayer(receivePlayer[i].SessionId);
+            Player.character.Teleport(position,rotation);
+        }
+    }
+    
     * Punch() {
         console.log(this._punchFlag);
         if (!this._punchFlag) {

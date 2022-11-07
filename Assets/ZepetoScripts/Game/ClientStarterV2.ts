@@ -119,7 +119,6 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
     private OnLeavePlayer(sessionId: string, player: Player) {
         console.log(`[OnRemove] players - sessionId : ${sessionId}`);
         this.currentPlayers.delete(sessionId);
-
         ZepetoPlayers.instance.RemovePlayer(sessionId);
     }
 
