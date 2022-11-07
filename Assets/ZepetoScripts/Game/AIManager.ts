@@ -47,7 +47,6 @@ export default class AIManager extends ZepetoScriptBehaviour {
             }
         });
         this.room.AddMessageHandler("GameStart", (message: number) => {
-            this.Init();
             this._AICount = message;
             if (this.isMasterClient)
                 this.room.Send("FirstSyncAI", this._AICount);
@@ -73,19 +72,18 @@ export default class AIManager extends ZepetoScriptBehaviour {
             const rotation = new Vector3(0, receiveAI[i].RotY, 0);
             spawnInfo.position = position;
             spawnInfo.rotation = Quaternion.Euler(rotation);
-            //BUG@@@@
             ZepetoPlayers.instance.CreatePlayerWithUserId("AI_" + i.toString(), "", spawnInfo, false);
-            console.log(i);
         }
         
         for (let i = 0; i < this._AICount; i++) {
-            yield new WaitUntil(() => ZepetoPlayers.instance.HasPlayer("AI_" + i.toString()));
-            const aiPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
+            let AISessionId = "AI_" + i.toString();
+            yield new WaitUntil(() => ZepetoPlayers.instance.HasPlayer(AISessionId));
+            const aiPlayer = ZepetoPlayers.instance.GetPlayer(AISessionId);
             this.AICharacters.push(aiPlayer.character);
             this.AICharacters[i].tag = "AI";
-            this.AICharacters[i].name = "AI_" + i.toString();
+            this.AICharacters[i].name = AISessionId;
             let zepetoGameCharacter = this.AICharacters[i].transform.gameObject.AddComponent<ZepetoGameCharacter>();
-            zepetoGameCharacter.sessionID = "AI_" + i.toString();
+            zepetoGameCharacter.sessionID = AISessionId;
         }
         //ready AI Send
         this.room.Send("ReadyAI");

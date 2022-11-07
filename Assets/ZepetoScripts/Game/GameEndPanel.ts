@@ -19,6 +19,10 @@ export default class GameEndPanel extends ZepetoScriptBehaviour {
             this.room.AddMessageHandler("OnEndGame", (message:string) => {
                 this.StartCoroutine(this.GameEndPanelOpen(message));
             });
+
+            this.room.AddMessageHandler("StartGame", (message:string) => {
+                this.EndPanel.SetActive(false);
+            });
         });
     }
     * GameEndPanelOpen(winnerID:string){

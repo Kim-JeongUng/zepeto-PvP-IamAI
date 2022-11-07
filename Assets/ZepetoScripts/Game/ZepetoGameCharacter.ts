@@ -23,12 +23,10 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
     private _hitFlag: boolean = false;
     private room:Room;
 
-    Awake() {
-        this.punchManager = this.transform.GetChild(0).gameObject.AddComponent<PunchManager>();
-        this.isAI = this.transform.CompareTag("AI") ? true: false;
-    }
 
     Start() {
+        this.punchManager = this.transform.GetChild(0).gameObject.AddComponent<PunchManager>();
+        this.isAI = this.transform.CompareTag("AI") ? true: false;
         if (this.userID != null) {
             let usersID: string[] = [];
             usersID.push(this.userID);
@@ -45,11 +43,10 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
             this.nickname = this.sessionID;
         }
 
-        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.room = ClientStarterV2.instance.room;
-            this.room.AddMessageHandler("GameStart", (message) => {
-                this.transform.GetChild(0).gameObject.SetActive(true);
-            });
+        this.room = ClientStarterV2.instance.room;
+        this.room.AddMessageHandler("GameStart", (message) => {
+            this.punchManager.gameObject.SetActive(true);
         });
+        
     }
 }

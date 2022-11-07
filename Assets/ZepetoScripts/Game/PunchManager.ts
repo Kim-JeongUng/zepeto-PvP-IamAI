@@ -8,7 +8,7 @@ export default class PunchManager extends ZepetoScriptBehaviour {
     public animator: Animator;
     public rightHand: SphereCollider;
 
-    private Awake() {
+    private Start() {
         this.animator = this.GetComponentInChildren<Animator>();
         this.rightHand = this.animator.GetBoneTransform(HumanBodyBones.RightHand).gameObject.AddComponent<SphereCollider>();
         this.rightHand.gameObject.AddComponent<RightHand>();

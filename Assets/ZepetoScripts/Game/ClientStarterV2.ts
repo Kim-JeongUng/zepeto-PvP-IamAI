@@ -105,10 +105,10 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
         this.currentPlayers.set(sessionId, player);
 
         const spawnInfo = new SpawnInfo();
-        /*const position = this.ParseVector3(player.transform.position);
-        const rotation = this.ParseVector3(player.transform.rotation);*/
-        const position = new UnityEngine.Vector3(Random.Range(-25, 25), 0, Random.Range(-25, 25));
-        const rotation = new UnityEngine.Vector3(0, Random.Range(-180, 180), 0);
+        const position = this.ParseVector3(player.transform.position);
+        const rotation = this.ParseVector3(player.transform.rotation);
+        /*const position = new UnityEngine.Vector3(Random.Range(-25, 25), 0, Random.Range(-25, 25));
+        const rotation = new UnityEngine.Vector3(0, Random.Range(-180, 180), 0);*/
         spawnInfo.position = position;
         spawnInfo.rotation = UnityEngine.Quaternion.Euler(rotation);
         const isLocal = this.room.SessionId === player.sessionId;

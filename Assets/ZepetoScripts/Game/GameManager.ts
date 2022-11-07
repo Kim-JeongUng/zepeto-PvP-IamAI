@@ -41,6 +41,8 @@ export default class GameManager extends ZepetoScriptBehaviour {
     private _defenseCool: number = 5;
     private _defenseFlag: boolean;
     private _defenseBtn: Button;
+    
+    private _onEndFlag: boolean;
 
     private _MESSAGE = {
         OnPlayGesture: "OnPlayGesture",
@@ -66,17 +68,27 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this.room.AddMessageHandler(this._MESSAGE.OnHitPlayer, (message: PlayerKillInfo) => {
                 this.KillLog(message);
             });
+            this.room.AddMessageHandler("StartGame", (message) => {
+                this.ResetAllVar();
+            });
+            
             this.room.AddMessageHandler(this._MESSAGE.OnEndGame, (message) => {
-                this.StopAllCoroutines();
                 //End Game
+                this._onEndFlag = true;
             });
 
         });
         this._killLogPanel = GameObject.Find("KillLogPanel").GetComponent<KillLogPanel>();
 
     }
+    ResetAllVar(){
+        this._punchFlag = false;
+        this._defenseFlag = false;
+        this._onEndFlag = false;
+    }
 
     * Punch() {
+        console.log(this._punchFlag);
         if (!this._punchFlag) {
             this._punchFlag = true;
             this.room.Send(this._MESSAGE.OnPlayGesture, MotionIndex.Punch);
@@ -119,8 +131,14 @@ export default class GameManager extends ZepetoScriptBehaviour {
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
             zepetoPlayer.character.SetGesture(this._dieGesture);
-            yield new WaitForSeconds(10);
-            zepetoPlayer.character.transform.GetChild(0).gameObject.SetActive(false);
+            for(let i=0; i<3; i++) {
+                yield new WaitForSeconds(3);
+                if(this._onEndFlag) {
+                    break;
+                }
+                else if(i==2)
+                    zepetoPlayer.character.transform.GetChild(0).gameObject.SetActive(false);
+            }
         }
         else
             yield new WaitForSeconds(2);
