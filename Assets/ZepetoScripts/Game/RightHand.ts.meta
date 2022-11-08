@@ -20,14 +20,18 @@ ScriptedImporter:
   wrapperOutputDirectory: Generated
   compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
     \\\"__esModule\\\", { value: true });\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst
-    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst GameManager_1 = require(\\\"./GameManager\\\");\\r\\nclass
-    RightHand extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    Start() {\\r\\n       
+    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst GameManager_1 = require(\\\"./GameManager\\\");\\r\\nconst
+    ZepetoGameCharacter_1 = require(\\\"./ZepetoGameCharacter\\\");\\r\\nclass RightHand
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    Start() {\\r\\n       
     this.gameManager = UnityEngine_1.GameObject.FindObjectOfType($typeof(GameManager_1.default));\\r\\n       
     this.rightHand = this.GetComponent($typeof(UnityEngine_1.SphereCollider));\\r\\n   
     }\\r\\n    //\uB204\uAD74 \uB54C\uB9AC\uBA74\\r\\n    OnTriggerEnter(coll) {\\r\\n       
     if (coll.transform.root == this.transform.root)\\r\\n            return;\\r\\n       
-    this.gameManager.Kill(this.transform.root, coll.transform.root);\\r\\n       
-    this.rightHand.enabled = false;\\r\\n    }\\r\\n}\\r\\nexports.default = RightHand;\\r\\n//#
-    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUmlnaHRIYW5kLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUmlnaHRIYW5kLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELDZDQUFpRTtBQUNqRSwrQ0FBd0M7QUFFeEMsTUFBcUIsU0FBVSxTQUFRLHFDQUFxQjtJQUt4RCxLQUFLO1FBQ0QsSUFBSSxDQUFDLFdBQVcsR0FBRyx3QkFBVSxDQUFDLGdCQUFnQixTQUFDLHFCQUFXLEVBQUcsQ0FBQztRQUM5RCxJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsNEJBQWMsRUFBRyxDQUFDO0lBQ3pELENBQUM7SUFFRCxRQUFRO0lBQ1IsY0FBYyxDQUFDLElBQWM7UUFDekIsSUFBSSxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksSUFBSSxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUk7WUFDMUMsT0FBTztRQUNYLElBQUksQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUE7UUFDL0QsSUFBSSxDQUFDLFNBQVMsQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO0lBQ25DLENBQUM7Q0FDSjtBQWpCRCw0QkFpQkMifQ==\",\"assetPath\":\"Assets/ZepetoScripts/Game/RightHand.ts\",\"manifest\":{\"properties\":[],\"name\":\"RightHand\",\"description\":\"\"},\"isCompiled\":true}"
-  typescriptHash: 99ebfcd4751c92c788d202319ffcbf60
+    if (coll.transform.root.GetComponent($typeof(ZepetoGameCharacter_1.default)).motionState
+    == ZepetoGameCharacter_1.MotionState.Idle\\r\\n            || (coll.transform.root.GetComponent($typeof(ZepetoGameCharacter_1.default)).motionState
+    == ZepetoGameCharacter_1.MotionState.Punch)) {\\r\\n            this.gameManager.Kill(this.transform.root,
+    coll.transform.root);\\r\\n            this.rightHand.enabled = false;\\r\\n       
+    }\\r\\n        else\\r\\n            return;\\r\\n    }\\r\\n}\\r\\nexports.default
+    = RightHand;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUmlnaHRIYW5kLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUmlnaHRIYW5kLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELDZDQUFpRTtBQUNqRSwrQ0FBd0M7QUFDeEMsK0RBQXlFO0FBRXpFLE1BQXFCLFNBQVUsU0FBUSxxQ0FBcUI7SUFLeEQsS0FBSztRQUNELElBQUksQ0FBQyxXQUFXLEdBQUcsd0JBQVUsQ0FBQyxnQkFBZ0IsU0FBQyxxQkFBVyxFQUFHLENBQUM7UUFDOUQsSUFBSSxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUMsWUFBWSxTQUFDLDRCQUFjLEVBQUcsQ0FBQztJQUN6RCxDQUFDO0lBRUQsUUFBUTtJQUNSLGNBQWMsQ0FBQyxJQUFjO1FBQ3pCLElBQUksSUFBSSxDQUFDLFNBQVMsQ0FBQyxJQUFJLElBQUksSUFBSSxDQUFDLFNBQVMsQ0FBQyxJQUFJO1lBQzFDLE9BQU87UUFDWCxJQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLFlBQVksU0FBQyw2QkFBbUIsR0FBSSxXQUFXLElBQUksaUNBQVcsQ0FBQyxJQUFJO2VBQ3BGLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsWUFBWSxTQUFDLDZCQUFtQixHQUFJLFdBQVcsSUFBSSxpQ0FBVyxDQUFDLEtBQUssQ0FBQyxFQUFFO1lBQzlGLElBQUksQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUE7WUFDL0QsSUFBSSxDQUFDLFNBQVMsQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO1NBQ2xDOztZQUVHLE9BQU87SUFDZixDQUFDO0NBQ0o7QUF0QkQsNEJBc0JDIn0=\",\"assetPath\":\"Assets/ZepetoScripts/Game/RightHand.ts\",\"manifest\":{\"properties\":[],\"name\":\"RightHand\",\"description\":\"\"},\"isCompiled\":true}"
+  typescriptHash: 40d303b4b7a06029e655b02c28ceeed0
   onlyWriteTrigger: 0

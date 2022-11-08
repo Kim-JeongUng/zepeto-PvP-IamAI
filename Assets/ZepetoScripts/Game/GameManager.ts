@@ -4,7 +4,7 @@ import { LocalPlayer, SpawnInfo, ZepetoCharacter, ZepetoPlayer, ZepetoPlayers } 
 import { Room, RoomData } from 'ZEPETO.Multiplay';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { ZepetoWorldMultiplay } from 'ZEPETO.World';
-import ZepetoGameCharacter from './ZepetoGameCharacter';
+import ZepetoGameCharacter, { MotionState } from './ZepetoGameCharacter';
 import KillLogPanel from './KillLogPanel';
 import ClientStarterV2 from './ClientStarterV2';
 
@@ -63,11 +63,13 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this._myCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
             this._punchBtn = GameObject.Find("PunchBtn").GetComponent<Button>() as Button;
             this._punchBtn.onClick.AddListener(() => {
-                this.StartCoroutine(this.Punch());
+                if(this._myCharacter.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle)
+                    this.StartCoroutine(this.Punch());
             });
             this._defenseBtn = GameObject.Find("DefenseBtn").GetComponent<Button>() as Button;
             this._defenseBtn.onClick.AddListener(() => {
-                this.StartCoroutine(this.Defense());
+                if(this._myCharacter.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle)
+                    this.StartCoroutine(this.Defense());
             });
             this.room.AddMessageHandler(this._MESSAGE.OnPlayGesture, (message: PlayerGestureInfo) => {
                 this.StartCoroutine(this.GestureSync(message));
@@ -89,8 +91,8 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
         });
         this._killLogPanel = GameObject.Find("KillLogPanel").GetComponent<KillLogPanel>();
-
     }
+    
     ResetAllVar(){
         this._punchFlag = false;
         this._defenseFlag = false;
@@ -124,7 +126,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this._defenseFlag = false;
         }
     }
-    
 
     Kill(attacker: Transform, victim: Transform) {
         if(this.room.SessionId == attacker.GetComponent<ZepetoGameCharacter>().sessionID) {
@@ -139,29 +140,35 @@ export default class GameManager extends ZepetoScriptBehaviour {
     }
 
     * GestureSync(playerGestureInfo: PlayerGestureInfo) {
-        const zepetoPlayer = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId);
+        const zepetoCharacter = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId).character;
         if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {
-            zepetoPlayer.character.SetGesture(this._punchGesture);
-            yield new WaitForSeconds(2);
+            zepetoCharacter.SetGesture(this._punchGesture);
+            yield new WaitForSeconds(0.2);
+            zepetoCharacter.GetComponent<ZepetoGameCharacter>().PunchStart();
+            yield new WaitForSeconds(this._punchGesture.length-0.2);
+            zepetoCharacter.GetComponent<ZepetoGameCharacter>().PunchStop();
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Defense) {
-            zepetoPlayer.character.SetGesture(this._defenseGesture);
-            yield new WaitForSeconds(2);
+            zepetoCharacter.SetGesture(this._defenseGesture);
+            zepetoCharacter.GetComponent<ZepetoGameCharacter>().DefenseStart();
+            yield new WaitForSeconds(this._defenseGesture.length);
+            zepetoCharacter.GetComponent<ZepetoGameCharacter>().DefenseStop();
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
-            zepetoPlayer.character.SetGesture(this._dieGesture);
+            zepetoCharacter.SetGesture(this._dieGesture);
+            zepetoCharacter.GetComponent<ZepetoGameCharacter>().Die();
             for(let i=0; i<3; i++) {
                 yield new WaitForSeconds(3);
                 if(this._onEndFlag) {
                     break;
                 }
                 else if(i==2)
-                    zepetoPlayer.character.transform.GetChild(0).gameObject.SetActive(false);
+                    zepetoCharacter.transform.GetChild(0).gameObject.SetActive(false);
             }
         }
         else
             yield new WaitForSeconds(2);
-        zepetoPlayer.character.CancelGesture();
+        zepetoCharacter.CancelGesture();
     }
 
 
