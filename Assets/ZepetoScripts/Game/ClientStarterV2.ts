@@ -2,9 +2,16 @@ import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay} from 'ZEPETO.World'
 import {Room, RoomData} from 'ZEPETO.Multiplay'
 import {Player, State, Vector3} from 'ZEPETO.Multiplay.Schema'
-import {CharacterState, SpawnInfo, ZepetoPlayers, ZepetoPlayer, CharacterJumpState, ZepetoCharacter} from 'ZEPETO.Character.Controller'
+import {
+    CharacterState,
+    SpawnInfo,
+    ZepetoPlayers,
+    ZepetoPlayer,
+    CharacterJumpState,
+    ZepetoCharacter
+} from 'ZEPETO.Character.Controller'
 import * as UnityEngine from "UnityEngine";
-import { Random } from 'UnityEngine'
+import {Random} from 'UnityEngine'
 import ZepetoGameCharacter from './ZepetoGameCharacter'
 
 
@@ -16,16 +23,16 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
     private zepetoPlayer: ZepetoPlayer;
     public static instance: ClientStarterV2;
-    
+
     /* Singleton */
-    Awake(){
+    private Awake() {
         if (ClientStarterV2.instance == null) {
             ClientStarterV2.instance = this;
-        }
-        else{
+        } else {
             return;
         }
     }
+
     private Start() {
         this.multiplay.RoomCreated += (room: Room) => {
             this.room = room;
@@ -34,8 +41,6 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
             room.OnStateChange += this.OnStateChange;
         };
         this.StartCoroutine(this.SendMessageLoop(0.04));
-        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            });
     }
 
     // Send the local character transform to the server at the scheduled Interval Time.
@@ -46,7 +51,7 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
             if (this.room != null && this.room.IsConnected) {
                 const hasPlayer = ZepetoPlayers.instance.HasPlayer(this.room.SessionId);
                 if (hasPlayer) {
-                    const character = ZepetoPlayers.instance.GetPlayer(this.room.SessionId).character;                                  
+                    const character = ZepetoPlayers.instance.GetPlayer(this.room.SessionId).character;
                     this.SendTransform(character.transform);
                     this.SendState(character.CurrentState);
                 }
@@ -73,7 +78,7 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
                     // [RoomState] Called whenever the state of the player instance is updated. 
                     player.OnChange += (changeValues) => this.OnUpdatePlayer(sessionId, player);
-                }    
+                }
                 const nowJoinPlayer = ZepetoPlayers.instance.GetPlayer(sessionId).character;
                 nowJoinPlayer.tag = "Player";
                 nowJoinPlayer.name = sessionId;
@@ -151,7 +156,7 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
     private SendTransform(transform: UnityEngine.Transform) {
         const data = new RoomData();
-        
+
         const pos = new RoomData();
         pos.Add("x", transform.localPosition.x);
         pos.Add("y", transform.localPosition.y);
@@ -169,7 +174,7 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
     private SendState(state: CharacterState) {
         const data = new RoomData();
         data.Add("state", state);
-        if(state === CharacterState.Jump) { 
+        if (state === CharacterState.Jump) {
             data.Add("subState", this.zepetoPlayer.character.MotionV2.CurrentJumpState);
         }
         this.room.Send("onChangedState", data.GetObject());

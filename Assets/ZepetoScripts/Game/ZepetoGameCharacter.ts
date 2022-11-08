@@ -21,7 +21,7 @@ interface PlayerKillInfo {
     victimSessionId: string,
 }
 
-export enum MotionState{
+export enum MotionState {
     Idle,
     Punch,
     Defense,
@@ -32,19 +32,18 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
     public sessionID: string;
     public nickname: string;
     public userID: string;
-    public motionState:MotionState;
-    
-    public animator: Animator;
+    public motionState: MotionState;
     public rightHand: SphereCollider;
 
-    private _hitFlag: boolean = false;
-    private room:Room;
+    private room: Room;    
+    private animator: Animator;
 
-    
-    Start() {
+
+    private Start() {
         if (this.userID != null) {
             let usersID: string[] = [];
             usersID.push(this.userID);
+            // 닉네임가져오기
             ZepetoWorldHelper.GetUserInfo(usersID, (info: Users[]) => {
                     for (let i = 0; i < info.length; i++) {
                         this.nickname = info[0].name;
@@ -53,8 +52,7 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
                 (error) => {
                     console.log(error);
                 });
-        }
-        else{
+        } else {
             this.nickname = this.sessionID;
         }
 
@@ -74,9 +72,10 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
     public PunchStart() {
         this.rightHand.enabled = true;
     }
+
     public PunchStop() {
         this.rightHand.enabled = false;
         this.motionState = MotionState.Idle;
     }
-    
+
 }

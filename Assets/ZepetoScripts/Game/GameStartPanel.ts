@@ -23,14 +23,14 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
 
     private NumberOfAI: number = 10;
 
-    Start() {
+    private Start() {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.room = ClientStarterV2.instance.room;
             this.Init();
         });
     }
-    
-    Init(){
+
+    private Init(){
         this.room.Send("CheckMaster");
         this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
             if (this.room.SessionId == MasterClientSessionId) {
@@ -84,7 +84,7 @@ export default class GameStartPanel extends ZepetoScriptBehaviour {
             this.NumberOfAIText.text = message.toString();
         });
     }
-    * GameStart(){
+    private * GameStart(){
         yield new WaitForSeconds(1);
         this.gameObject.SetActive(false);
     }

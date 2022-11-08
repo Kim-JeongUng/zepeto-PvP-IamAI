@@ -7,14 +7,14 @@ export default class RightHand extends ZepetoScriptBehaviour {
 
     private gameManager: GameManager;
     private rightHand :SphereCollider;
-    
-    Start() {
+
+    private Start() {
         this.gameManager = GameObject.FindObjectOfType<GameManager>();
         this.rightHand = this.GetComponent<SphereCollider>();
     }
 
     //누굴 때리면
-    OnTriggerEnter(coll: Collider) {
+    private OnTriggerEnter(coll: Collider) {
         if (coll.transform.root == this.transform.root)
             return;
         if(coll.transform.root.GetComponent<ZepetoGameCharacter>().motionState == MotionState.Idle

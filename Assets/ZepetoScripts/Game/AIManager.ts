@@ -1,4 +1,13 @@
-import {GameObject,Transform,Quaternion,Random,Vector3, WaitForSeconds,WaitUntil,AnimationClip} from 'UnityEngine';
+import {
+    GameObject,
+    Transform,
+    Quaternion,
+    Random,
+    Vector3,
+    WaitForSeconds,
+    WaitUntil,
+    AnimationClip
+} from 'UnityEngine';
 import {CharacterState, SpawnInfo, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {Room, RoomData} from 'ZEPETO.Multiplay';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
@@ -21,22 +30,21 @@ interface AIdestination {
 }
 
 export default class AIManager extends ZepetoScriptBehaviour {
-    public _AICount: number =0;
     @SerializeField() private _dieGesture: AnimationClip;
     @SerializeField() private AICharacters: ZepetoCharacter[] = [];
 
     private room: Room;
     private isMasterClient: boolean;
+    private _AICount: number = 0;
 
-
-    Start() {
+    private Start() {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.room = ClientStarterV2.instance.room;
             this.Init();
         });
     }
 
-    Init() {
+    private Init() {
         this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
             if (this.room.SessionId == MasterClientSessionId) {
                 if (!this.isMasterClient) {
@@ -62,8 +70,8 @@ export default class AIManager extends ZepetoScriptBehaviour {
         });
     }
 
-    * SpawnAI(receiveAI: SyncTransform[]) {        
-        this.AICharacters= [];
+    private* SpawnAI(receiveAI: SyncTransform[]) {
+        this.AICharacters = [];
         for (let i = 0; i < this._AICount; i++) {
             const spawnInfo = new SpawnInfo();
             const position = new Vector3(receiveAI[i].PosX, 0, receiveAI[i].PosZ);
@@ -85,7 +93,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
         this.room.Send("ReadyAI");
     }
 
-    * MoveAI(i: number, AIdestination: AIdestination) {
+    private* MoveAI(i: number, AIdestination: AIdestination) {
         if (AIdestination.Stop) {
             this.AICharacters[i].StopMoving();
         } else {
@@ -106,13 +114,13 @@ export default class AIManager extends ZepetoScriptBehaviour {
         yield null;
     }
 
-    * DestroyAllAI() {
-        yield new WaitForSeconds(0.2);
+    private* DestroyAllAI() {
+        yield new WaitForSeconds(0.5);
         for (let i = 0; i < this._AICount; i++) {
             const zepetoPlayer = ZepetoPlayers.instance.GetPlayer("AI_" + i.toString());
             zepetoPlayer.character.SetGesture(this._dieGesture);
         }
-        yield new WaitForSeconds(3);
+        yield new WaitForSeconds(2.5);
         for (let i = 0; i < this._AICount; i++)
             ZepetoPlayers.instance.RemovePlayer("AI_" + i.toString());
     }
