@@ -1,4 +1,4 @@
-import { AnimationClip, GameObject, Quaternion, Random, SpriteRenderer, Texture2D, Transform, Vector3, WaitForSeconds } from 'UnityEngine';
+import { Animator,AnimationClip, GameObject, Quaternion, Random, SpriteRenderer, Texture2D, Transform, Vector3, WaitForSeconds } from 'UnityEngine';
 import { Button,Image } from 'UnityEngine.UI';
 import { LocalPlayer, SpawnInfo, ZepetoCharacter, ZepetoPlayer, ZepetoPlayers } from 'ZEPETO.Character.Controller';
 import { Room, RoomData } from 'ZEPETO.Multiplay';
@@ -47,8 +47,9 @@ export default class GameManager extends ZepetoScriptBehaviour {
     
     private _defenseCool: number = 5;
     private _defenseFlag: boolean;
-    private _defenseBtn: Button;
-    
+    private _defenseBtn: Button;    
+
+
     private _onEndFlag: boolean;
 
     private _MESSAGE = {
@@ -61,36 +62,44 @@ export default class GameManager extends ZepetoScriptBehaviour {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.room = ClientStarterV2.instance.room;
             this._myCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
-            this._punchBtn = GameObject.Find("PunchBtn").GetComponent<Button>() as Button;
-            this._punchBtn.onClick.AddListener(() => {
-                if(this._myCharacter.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle)
-                    this.StartCoroutine(this.Punch());
-            });
-            this._defenseBtn = GameObject.Find("DefenseBtn").GetComponent<Button>() as Button;
-            this._defenseBtn.onClick.AddListener(() => {
-                if(this._myCharacter.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle)
-                    this.StartCoroutine(this.Defense());
-            });
-            this.room.AddMessageHandler(this._MESSAGE.OnPlayGesture, (message: PlayerGestureInfo) => {
-                this.StartCoroutine(this.GestureSync(message));
-            });
-            this.room.AddMessageHandler(this._MESSAGE.OnHitPlayer, (message: PlayerKillInfo) => {
-                this.KillLog(message);
-            });
-            this.room.AddMessageHandler("StartGame", (message) => {
-                this.ResetAllVar();
-            });
-            this.room.AddMessageHandler("FirstSyncPlayer", (message:SyncTransform[]) => {
-                this.PlayerSync(message);
-            });
-            
-            this.room.AddMessageHandler(this._MESSAGE.OnEndGame, (message) => {
-                //End Game
-                this._onEndFlag = true;
-            });
-
+            this.InitMessageHandler();
+            this.InitBtnHandler();
         });
         this._killLogPanel = GameObject.Find("KillLogPanel").GetComponent<KillLogPanel>();
+    }
+    
+    InitMessageHandler() {
+        this.room.AddMessageHandler(this._MESSAGE.OnPlayGesture, (message: PlayerGestureInfo) => {
+            this.StartCoroutine(this.GestureSync(message));
+        });
+        this.room.AddMessageHandler(this._MESSAGE.OnHitPlayer, (message: PlayerKillInfo) => {
+            this.KillLog(message);
+        });
+        this.room.AddMessageHandler("StartGame", (message) => {
+            this.ResetAllVar();
+        });
+        this.room.AddMessageHandler("FirstSyncPlayer", (message: SyncTransform[]) => {
+            this.PlayerSync(message);
+        });
+
+        this.room.AddMessageHandler(this._MESSAGE.OnEndGame, (message) => {
+            //End Game
+            this._onEndFlag = true;
+        });
+    } 
+    
+    InitBtnHandler(){
+        this._punchBtn = GameObject.Find("PunchBtn").GetComponent<Button>() as Button;
+        this._punchBtn.onClick.AddListener(() => {
+            if(this._myCharacter.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle) {
+                this.StartCoroutine(this.Punch());
+            }
+        });
+        this._defenseBtn = GameObject.Find("DefenseBtn").GetComponent<Button>() as Button;
+        this._defenseBtn.onClick.AddListener(() => {
+            if(this._myCharacter.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle)
+                this.StartCoroutine(this.Defense());
+        });
     }
     
     ResetAllVar(){
@@ -109,9 +118,10 @@ export default class GameManager extends ZepetoScriptBehaviour {
     }
     
     * Punch() {
-        console.log(this._punchFlag);
         if (!this._punchFlag) {
             this._punchFlag = true;
+            this._punchBtn.GetComponentInChildren<Animator>().speed = 5/this._punchCool
+            this._punchBtn.GetComponentInChildren<Animator>().Play("ButtonAnim");
             this.room.Send(this._MESSAGE.OnPlayGesture, MotionIndex.Punch);
             yield new WaitForSeconds(this._punchCool);
             this._punchFlag = false;
@@ -121,12 +131,14 @@ export default class GameManager extends ZepetoScriptBehaviour {
    * Defense() {
         if (!this._defenseFlag) {
             this._defenseFlag = true;
-            this.room.Send(this._MESSAGE.OnPlayGesture, MotionIndex.Defense);
+            this._defenseBtn.GetComponentInChildren<Animator>().speed = 5/this._defenseCool
+            this._defenseBtn.GetComponentInChildren<Animator>().Play("ButtonAnim");
+            this.room.Send(this._MESSAGE.OnPlayGesture, MotionIndex.Defense);            
             yield new WaitForSeconds(this._defenseCool);
             this._defenseFlag = false;
         }
     }
-
+    
     Kill(attacker: Transform, victim: Transform) {
         if(this.room.SessionId == attacker.GetComponent<ZepetoGameCharacter>().sessionID) {
             const data = new RoomData();
@@ -141,8 +153,11 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     * GestureSync(playerGestureInfo: PlayerGestureInfo) {
         const zepetoCharacter = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId).character;
+        let motionState = zepetoCharacter.GetComponent<ZepetoGameCharacter>().motionState;
+        
         if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {
-            zepetoCharacter.SetGesture(this._punchGesture);
+            zepetoCharacter.SetGesture(this._punchGesture);            
+            motionState = MotionState.Punch;
             yield new WaitForSeconds(0.2);
             zepetoCharacter.GetComponent<ZepetoGameCharacter>().PunchStart();
             yield new WaitForSeconds(this._punchGesture.length-0.2);
@@ -150,13 +165,13 @@ export default class GameManager extends ZepetoScriptBehaviour {
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Defense) {
             zepetoCharacter.SetGesture(this._defenseGesture);
-            zepetoCharacter.GetComponent<ZepetoGameCharacter>().DefenseStart();
+            motionState = MotionState.Defense;
             yield new WaitForSeconds(this._defenseGesture.length);
-            zepetoCharacter.GetComponent<ZepetoGameCharacter>().DefenseStop();
+            motionState = MotionState.Idle;
         }
         else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
-            zepetoCharacter.SetGesture(this._dieGesture);
-            zepetoCharacter.GetComponent<ZepetoGameCharacter>().Die();
+            zepetoCharacter.SetGesture(this._dieGesture);            
+            motionState = MotionState.Die;
             for(let i=0; i<3; i++) {
                 yield new WaitForSeconds(3);
                 if(this._onEndFlag) {

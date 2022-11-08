@@ -354,6 +354,7 @@ GameObject:
   - component: {fileID: 2787167780495546286}
   - component: {fileID: 2787167780495546280}
   - component: {fileID: 2787167780495546281}
+  - component: {fileID: 2784440602318781508}
   m_Layer: 5
   m_Name: Defense
   m_TagString: Untagged
@@ -418,6 +419,25 @@ MonoBehaviour:
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &2784440602318781508
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2787167780495546287}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 57a7d79cb082c45d5b660656e800d548, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2787167781068910612
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,6 +987,7 @@ GameObject:
   - component: {fileID: 7514570958279086558}
   - component: {fileID: 1163885519458363023}
   - component: {fileID: 185516716281546773}
+  - component: {fileID: 1659899635190914657}
   m_Layer: 5
   m_Name: Punch
   m_TagString: Untagged
@@ -1031,6 +1052,25 @@ MonoBehaviour:
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &1659899635190914657
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894912521411769015}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 55ea7e40b639d4da496a181ef70d8fc8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8060709332449327000
 GameObject:
   m_ObjectHideFlags: 0

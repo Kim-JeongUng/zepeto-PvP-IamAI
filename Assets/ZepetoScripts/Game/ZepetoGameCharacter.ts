@@ -73,20 +73,10 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
 
     public PunchStart() {
         this.rightHand.enabled = true;
-        this.motionState = MotionState.Punch;
     }
     public PunchStop() {
         this.rightHand.enabled = false;
         this.motionState = MotionState.Idle;
-    }
-    public DefenseStart() {
-        this.motionState = MotionState.Defense;
-    }
-    public DefenseStop() {
-        this.motionState = MotionState.Idle;
-    }
-    public Die() {
-        this.motionState = MotionState.Die;
     }
     
 }
