@@ -1,6 +1,8 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import {Transform,GameObject, WaitForSeconds} from 'UnityEngine';
 import { Text } from 'UnityEngine.UI';
+import {ZepetoPlayers} from "ZEPETO.Character.Controller";
+import ClientStarterV2 from './ClientStarterV2';
 
 
 
@@ -14,7 +16,16 @@ interface PlayerKillInfo {
 export default class KillLogPanel extends ZepetoScriptBehaviour {
     @SerializeField() private _LogObjectPool: Transform;
     @SerializeField() private _destroyDelay: number = 10;
+    @SerializeField() private _leftPlayer: Text
     private nowKillLogCount:number = 0;
+
+    Start() {
+        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
+            ClientStarterV2.instance.room.AddMessageHandler("LeftPlayer", (message: number) => {
+                this._leftPlayer.text = message.toString();
+            });;
+        });
+    }
     
     public GetKillLog(killInfo:PlayerKillInfo){
 

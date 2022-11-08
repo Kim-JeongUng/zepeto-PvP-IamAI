@@ -52,10 +52,13 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     private _onEndFlag: boolean;
 
-    private _MESSAGE = {
+    private MESSAGE = {
         OnPlayGesture: "OnPlayGesture",
-        OnHitPlayer: "OnHitPlayer",
+        OnKillPlayer: "OnKillPlayer",
         OnEndGame:"OnEndGame",
+        LeftPlayer:"LeftPlayer",
+        GameStart:"GameStart",
+        FirstSyncPlayer:"FirstSyncPlayer",
     };
 
     Start() {
@@ -69,20 +72,20 @@ export default class GameManager extends ZepetoScriptBehaviour {
     }
     
     InitMessageHandler() {
-        this.room.AddMessageHandler(this._MESSAGE.OnPlayGesture, (message: PlayerGestureInfo) => {
+        this.room.AddMessageHandler(this.MESSAGE.OnPlayGesture, (message: PlayerGestureInfo) => {
             this.StartCoroutine(this.GestureSync(message));
         });
-        this.room.AddMessageHandler(this._MESSAGE.OnHitPlayer, (message: PlayerKillInfo) => {
+        this.room.AddMessageHandler(this.MESSAGE.OnKillPlayer, (message: PlayerKillInfo) => {
             this.KillLog(message);
         });
-        this.room.AddMessageHandler("StartGame", (message) => {
+        this.room.AddMessageHandler(this.MESSAGE.GameStart, (message) => {
             this.ResetAllVar();
         });
-        this.room.AddMessageHandler("FirstSyncPlayer", (message: SyncTransform[]) => {
+        this.room.AddMessageHandler(this.MESSAGE.FirstSyncPlayer, (message: SyncTransform[]) => {
             this.PlayerSync(message);
         });
 
-        this.room.AddMessageHandler(this._MESSAGE.OnEndGame, (message) => {
+        this.room.AddMessageHandler(this.MESSAGE.OnEndGame, (message) => {
             //End Game
             this._onEndFlag = true;
         });
@@ -122,7 +125,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this._punchFlag = true;
             this._punchBtn.GetComponentInChildren<Animator>().speed = 5/this._punchCool
             this._punchBtn.GetComponentInChildren<Animator>().Play("ButtonAnim");
-            this.room.Send(this._MESSAGE.OnPlayGesture, MotionIndex.Punch);
+            this.room.Send(this.MESSAGE.OnPlayGesture, MotionIndex.Punch);
             yield new WaitForSeconds(this._punchCool);
             this._punchFlag = false;
         }
@@ -133,7 +136,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
             this._defenseFlag = true;
             this._defenseBtn.GetComponentInChildren<Animator>().speed = 5/this._defenseCool
             this._defenseBtn.GetComponentInChildren<Animator>().Play("ButtonAnim");
-            this.room.Send(this._MESSAGE.OnPlayGesture, MotionIndex.Defense);            
+            this.room.Send(this.MESSAGE.OnPlayGesture, MotionIndex.Defense);            
             yield new WaitForSeconds(this._defenseCool);
             this._defenseFlag = false;
         }
@@ -147,7 +150,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
             data.Add("victimSessionId", victim.GetComponent<ZepetoGameCharacter>().sessionID);
             data.Add("victimNickname", victim.GetComponent<ZepetoGameCharacter>().nickname);
             data.Add("victimTag", victim.tag);
-            this.room.Send(this._MESSAGE.OnHitPlayer, data.GetObject());
+            this.room.Send(this.MESSAGE.OnKillPlayer, data.GetObject());
         }
     }
 

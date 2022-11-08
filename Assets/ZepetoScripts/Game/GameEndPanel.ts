@@ -20,7 +20,7 @@ export default class GameEndPanel extends ZepetoScriptBehaviour {
                 this.StartCoroutine(this.GameEndPanelOpen(message));
             });
 
-            this.room.AddMessageHandler("StartGame", (message:string) => {
+            this.room.AddMessageHandler("GameStart", (message:string) => {
                 this.EndPanel.SetActive(false);
             });
         });

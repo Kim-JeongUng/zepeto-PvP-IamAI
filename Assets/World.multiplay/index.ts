@@ -41,9 +41,18 @@ export default class extends Sandbox {
 
     MESSAGE_TYPE = {
         OnPlayGesture: "OnPlayGesture",
-        OnHitPlayer: "OnHitPlayer",
+        OnKillPlayer: "OnKillPlayer",
         OnEndGame: "OnEndGame",
-
+        LeftPlayer:"LeftPlayer",
+        GameStart:"GameStart",
+        FirstSyncPlayer:"FirstSyncPlayer",
+        FirstSyncAI:"FirstSyncAI",
+        ReadyAI:"ReadyAI",
+        CheckMaster:"CheckMaster",
+        ReceiveAllPlayer:"ReceiveAllPlayer",
+        ChangeNumberOfAI:"ChangeNumberOfAI",
+        AIdestination:"AIdestination",
+        
     };
 
     storageMap: Map<string, DataStorage> = new Map<string, DataStorage>();
@@ -96,27 +105,28 @@ export default class extends Sandbox {
             this.broadcast(this.MESSAGE_TYPE.OnPlayGesture, gestureInfo);
         });
 
-        this.onMessage(this.MESSAGE_TYPE.OnHitPlayer, (client, message) => {
+        this.onMessage(this.MESSAGE_TYPE.OnKillPlayer, (client, message) => {
             let killInfo: PlayerKillInfo = {
                 attackerSessionId: message.attackerSessionId,
                 attackerNickname: message.attackerNickname,
                 victimSessionId: message.victimSessionId,
                 victimNickname: message.victimNickname,
                 victimTag: message.victimTag
-            };
+            };            
+            this.broadcast(this.MESSAGE_TYPE.OnKillPlayer, killInfo);
             if (killInfo.victimTag == "Player") {
                 this.leftPlayerNum--;
+                this.broadcast(this.MESSAGE_TYPE.LeftPlayer, this.leftPlayerNum);
                 if (this.leftPlayerNum == 1 && this.StartPlayerNum != 1) {
-                    this.broadcast("OnEndGame", client.userId);                        
+                    this.broadcast(this.MESSAGE_TYPE.OnEndGame, client.userId);                        
                     this.ReGame();
                 }
             }
-            this.broadcast(this.MESSAGE_TYPE.OnHitPlayer, killInfo);
         });
 
 
         /** AIManager **/
-        this.onMessage("ReadyAI", (client, message) => {
+        this.onMessage(this.MESSAGE_TYPE.ReadyAI, (client, message) => {
             this.PlayerReadyAI++;
             console.log(client.sessionId + "is Ready");
             if (this.PlayerReadyAI == this.sessionIdQueue.length)
@@ -124,33 +134,34 @@ export default class extends Sandbox {
         });
 
         /** Common **/
-        this.onMessage("CheckMaster", (client, message) => {
+        this.onMessage(this.MESSAGE_TYPE.CheckMaster, (client, message) => {
             if (this.masterClientSessionId != this.sessionIdQueue[0]) {
                 this.masterClientSessionId = this.sessionIdQueue[0];
                 console.log("master->", this.masterClientSessionId)
             }
-            this.broadcast("CheckMaster", this.masterClientSessionId);
+            this.broadcast(this.MESSAGE_TYPE.CheckMaster, this.masterClientSessionId);
         });
 
         /** GameStartPanel **/
-        this.onMessage("ReceiveAllPlayer", (client, message) => {
+        this.onMessage(this.MESSAGE_TYPE.ReceiveAllPlayer, (client, message) => {
             let usersID: string[] = [];
             for (let i = 0; i < this.sessionIdQueue.length; i++) {
                 usersID.push(this.state.players.get(this.sessionIdQueue[i]).zepetoUserId);
             }
-            this.broadcast("ReceiveAllPlayer", usersID);
+            this.broadcast(this.MESSAGE_TYPE.ReceiveAllPlayer, usersID);
             //this.broadcast("ReceiveAllPlayer", this.state.players.get(this.sessionIdQueue[0]).zepetoUserId);
         });
-        this.onMessage("GameStart", async (client, message: number) => {
-            this.broadcast("GameStart", message);
+        this.onMessage(this.MESSAGE_TYPE.GameStart, async (client, message: number) => {
+            this.broadcast(this.MESSAGE_TYPE.GameStart, message);
             this.NumberOfAI = message;
             this.StartPlayerNum = this.sessionIdQueue.length;
             this.leftPlayerNum = this.sessionIdQueue.length;
+            this.broadcast(this.MESSAGE_TYPE.LeftPlayer, this.leftPlayerNum);
             this.SyncAllTransform();
             await this.lock();
         });
-        this.onMessage("ChangeNumberOfAI", (client, message: number) => {
-            this.broadcast("ChangeNumberOfAI", message);
+        this.onMessage(this.MESSAGE_TYPE.ChangeNumberOfAI, (client, message: number) => {
+            this.broadcast(this.MESSAGE_TYPE.ChangeNumberOfAI, message);
         });
 
         /** TEST **/
@@ -162,6 +173,9 @@ export default class extends Sandbox {
 
 
     async onJoin(client: SandboxPlayer) {
+        console.log(this.locked+"@@");
+        setTimeout(()=>{        console.log(this.locked+"@@@");
+        },3000);
         // schemas.json 에서 정의한 player 객체를 생성 후 초기값 설정.
         console.log(`[OnJoin] sessionId : ${client.sessionId}, HashCode : ${client.hashCode}, userId : ${client.userId}`)
         this.sessionIdQueue.push(client.sessionId.toString());
@@ -211,7 +225,7 @@ export default class extends Sandbox {
                     nexPosZ: this.Rand(-25, 25),
                 };
                 //타겟 프로퍼티 추가
-                this.broadcast("AIdestination", AIdestination);
+                this.broadcast(this.MESSAGE_TYPE.AIdestination, AIdestination);
                 this.TickIndex = 0;
             }
         }
@@ -228,7 +242,7 @@ export default class extends Sandbox {
             for (let i = 0; i < this.sessionIdQueue.length; i++) {
                 usersID.push(this.state.players.get(this.sessionIdQueue[i]).zepetoUserId);
             }
-            this.broadcast("ReceiveAllPlayer", usersID);
+            this.broadcast(this.MESSAGE_TYPE.ReceiveAllPlayer, usersID);
         }
         // 살아있는 사람이면
         //this.leftPlayerNum --;
@@ -237,6 +251,7 @@ export default class extends Sandbox {
         // delete 된 player 객체에 대한 정보를 클라이언트에서는 players 객체에 add_OnRemove 이벤트를 추가하여 확인 할 수 있음.
         this.state.players.delete(client.sessionId);
     }
+    
     SyncAllTransform(){
         let AItransforms: SyncTransform[] = [];
         for (let i = 0; i < this.NumberOfAI; i++) {
@@ -248,7 +263,7 @@ export default class extends Sandbox {
             };
             AItransforms.push(AItransform);
         }
-        this.broadcast("FirstSyncAI", AItransforms);
+        this.broadcast(this.MESSAGE_TYPE.FirstSyncAI, AItransforms);
 
         let Playertransforms: SyncTransform[] = [];
         for (let i = 0; i < this.sessionIdQueue.length; i++) {
@@ -260,8 +275,9 @@ export default class extends Sandbox {
             };
             Playertransforms.push(Playertransform);
         }
-        this.broadcast("FirstSyncPlayer", Playertransforms);
+        this.broadcast(this.MESSAGE_TYPE.FirstSyncPlayer, Playertransforms);
     }
+    
     async ReGame() {
         await this.unlock();
         this.Init();
