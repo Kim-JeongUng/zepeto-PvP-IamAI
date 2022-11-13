@@ -165,23 +165,24 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     private* GestureSync(playerGestureInfo: PlayerGestureInfo) {
         const zepetoCharacter = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId).character;
-        let motionState = zepetoCharacter.GetComponent<ZepetoGameCharacter>().motionState;
+        const CharacterScript = zepetoCharacter.GetComponent<ZepetoGameCharacter>();
+
 
         if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {
             zepetoCharacter.SetGesture(this._punchGesture);
-            motionState = MotionState.Punch;
+            CharacterScript.motionState = MotionState.Punch;
             yield new WaitForSeconds(0.2);
             zepetoCharacter.GetComponent<ZepetoGameCharacter>().PunchStart();
             yield new WaitForSeconds(this._punchGesture.length - 0.2);
             zepetoCharacter.GetComponent<ZepetoGameCharacter>().PunchStop();
         } else if (playerGestureInfo.gestureIndex == MotionIndex.Defense) {
             zepetoCharacter.SetGesture(this._defenseGesture);
-            motionState = MotionState.Defense;
+            CharacterScript.motionState = MotionState.Defense;
             yield new WaitForSeconds(this._defenseGesture.length);
-            motionState = MotionState.Idle;
+            CharacterScript.motionState = MotionState.Idle;
         } else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
             zepetoCharacter.SetGesture(this._dieGesture);
-            motionState = MotionState.Die;
+            CharacterScript.motionState = MotionState.Die;
             for (let i = 0; i < 3; i++) {
                 yield new WaitForSeconds(3);
                 if (this._onEndFlag) {

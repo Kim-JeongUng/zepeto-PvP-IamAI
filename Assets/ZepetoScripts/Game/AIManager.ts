@@ -12,7 +12,7 @@ import {CharacterState, SpawnInfo, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.
 import {Room, RoomData} from 'ZEPETO.Multiplay';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay} from 'ZEPETO.World';
-import ZepetoGameCharacter from './ZepetoGameCharacter';
+import ZepetoGameCharacter, { MotionState } from './ZepetoGameCharacter';
 import ClientStarterV2 from './ClientStarterV2';
 
 interface SyncTransform {
@@ -61,7 +61,8 @@ export default class AIManager extends ZepetoScriptBehaviour {
             this.StartCoroutine(this.SpawnAI(message));
         });
         this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
-            if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle)
+            if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle 
+                && this.AICharacters[message.AInumber]?.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle)
                 this.StartCoroutine(this.MoveAI(message.AInumber, message));
         });
         this.room.AddMessageHandler("OnEndGame", (message) => {
