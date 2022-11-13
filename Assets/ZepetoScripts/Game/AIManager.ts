@@ -6,7 +6,8 @@ import {
     Vector3,
     WaitForSeconds,
     WaitUntil,
-    AnimationClip
+    AnimationClip,
+    LayerMask
 } from 'UnityEngine';
 import {CharacterState, SpawnInfo, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {Room, RoomData} from 'ZEPETO.Multiplay';
@@ -61,8 +62,8 @@ export default class AIManager extends ZepetoScriptBehaviour {
             this.StartCoroutine(this.SpawnAI(message));
         });
         this.room.AddMessageHandler("AIdestination", (message: AIdestination) => {
-            if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle 
-                && this.AICharacters[message.AInumber]?.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle)
+            if (this.AICharacters[message.AInumber]?.CurrentState == CharacterState.Idle
+            && this.AICharacters[message.AInumber]?.GetComponent<ZepetoGameCharacter>().motionState==MotionState.Idle)
                 this.StartCoroutine(this.MoveAI(message.AInumber, message));
         });
         this.room.AddMessageHandler("OnEndGame", (message) => {

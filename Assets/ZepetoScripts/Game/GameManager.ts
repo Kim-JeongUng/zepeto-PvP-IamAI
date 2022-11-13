@@ -8,7 +8,8 @@ import {
     Texture2D,
     Transform,
     Vector3,
-    WaitForSeconds
+    WaitForSeconds,
+    LayerMask
 } from 'UnityEngine';
 import {Button, Image} from 'UnityEngine.UI';
 import {LocalPlayer, SpawnInfo, ZepetoCharacter, ZepetoPlayer, ZepetoPlayers} from 'ZEPETO.Character.Controller';
@@ -183,6 +184,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
         } else if (playerGestureInfo.gestureIndex == MotionIndex.Die) {
             zepetoCharacter.SetGesture(this._dieGesture);
             CharacterScript.motionState = MotionState.Die;
+            zepetoCharacter.gameObject.layer = LayerMask.NameToLayer("DeadPlayer");
             for (let i = 0; i < 3; i++) {
                 yield new WaitForSeconds(3);
                 if (this._onEndFlag) {

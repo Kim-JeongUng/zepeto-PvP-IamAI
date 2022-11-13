@@ -5,7 +5,7 @@ import {
     SphereCollider,
     Vector3,
     Animator,
-    HumanBodyBones
+    HumanBodyBones, LayerMask
 } from 'UnityEngine'
 import {ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
@@ -59,7 +59,8 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
         this.room = ClientStarterV2.instance.room;
         this.room.AddMessageHandler("GameStart", (message) => {
             this.transform.GetChild(0).gameObject.SetActive(true);
-            this.motionState = MotionState.Idle;
+            this.motionState = MotionState.Idle;            
+            this.gameObject.layer = LayerMask.NameToLayer("Default");
         });
 
         this.animator = this.GetComponentInChildren<Animator>();

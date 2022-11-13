@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45142233, g: 0.5008327, b: 0.57186896, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142233, g: 0.5008327, b: 0.571869, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2725,7 +2725,7 @@ GameObject:
   - component: {fileID: 635886663}
   - component: {fileID: 635886662}
   - component: {fileID: 635886661}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2840,17 +2840,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - room
     - _dieGesture
     - _defenseGesture
     - _punchGesture
     unityValues:
-    - {fileID: 0}
     - {fileID: 7400000, guid: 8425b1db8a2e6324c9f50dd1bc8af2c5, type: 2}
     - {fileID: 7400000, guid: 7c1190444ee914e838dabdd9d0e926d5, type: 2}
     - {fileID: 7400000, guid: c336c787829e8462fbd0b1162d61877a, type: 2}
     values:
-    - 
     - 
     - 
     - 
