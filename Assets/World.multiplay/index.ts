@@ -67,6 +67,7 @@ export default class extends Sandbox {
         this.TickIndex = 0;
         this.leftPlayerNum = 1;
         this.StartPlayerNum =1;
+        this.state.players.forEach((p:Player)=> {p.isDie = false});
     }
 
     onCreate(options: SandboxOptions) {
@@ -115,6 +116,7 @@ export default class extends Sandbox {
             };            
             this.broadcast(this.MESSAGE_TYPE.OnKillPlayer, killInfo);
             if (killInfo.victimTag == "Player") {
+                this.state.players.get(killInfo.victimSessionId).isDie = true;
                 this.leftPlayerNum--;
                 this.broadcast(this.MESSAGE_TYPE.LeftPlayer, this.leftPlayerNum);
                 if (this.leftPlayerNum == 1 && this.StartPlayerNum != 1) {
@@ -137,7 +139,7 @@ export default class extends Sandbox {
         this.onMessage(this.MESSAGE_TYPE.CheckMaster, (client, message) => {
             if (this.masterClientSessionId != this.sessionIdQueue[0]) {
                 this.masterClientSessionId = this.sessionIdQueue[0];
-                console.log("master->", this.masterClientSessionId)
+                console.log("master->", this.masterClientSessionId);
             }
             this.broadcast(this.MESSAGE_TYPE.CheckMaster, this.masterClientSessionId);
         });
@@ -192,7 +194,9 @@ export default class extends Sandbox {
         if (client.userId) {
             player.zepetoUserId = client.userId;
         }
-
+        player.isDie = false;
+        player.isMasterClient = false;
+        
         // [DataStorage] 입장한 Player의 DataStorage Load
         const storage: DataStorage = client.loadDataStorage();
 
@@ -245,8 +249,11 @@ export default class extends Sandbox {
             this.broadcast(this.MESSAGE_TYPE.ReceiveAllPlayer, usersID);
         }
         // 살아있는 사람이면
-        //this.leftPlayerNum --;
-
+        const player = this.state.players.get(client.sessionId);
+        if(!player.isDie){
+            this.leftPlayerNum --;
+            this.broadcast(this.MESSAGE_TYPE.LeftPlayer, this.leftPlayerNum);
+        }
         // allowReconnection 설정을 통해 순단에 대한 connection 유지 처리등을 할 수 있으나 기본 가이드에서는 즉시 정리.
         // delete 된 player 객체에 대한 정보를 클라이언트에서는 players 객체에 add_OnRemove 이벤트를 추가하여 확인 할 수 있음.
         this.state.players.delete(client.sessionId);

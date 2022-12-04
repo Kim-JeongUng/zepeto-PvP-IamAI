@@ -13,6 +13,8 @@ declare module "ZEPETO.Multiplay.Schema" {
 		transform: Transform;
 		state: number;
 		subState: number;
+		isDie: boolean;
+		isMasterClient: boolean;
 	}
 	class Transform extends Schema {
 		position: Vector3;
