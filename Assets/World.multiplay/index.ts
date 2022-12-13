@@ -175,9 +175,6 @@ export default class extends Sandbox {
 
 
     async onJoin(client: SandboxPlayer) {
-        console.log(this.locked+"@@");
-        setTimeout(()=>{        console.log(this.locked+"@@@");
-        },3000);
         // schemas.json 에서 정의한 player 객체를 생성 후 초기값 설정.
         console.log(`[OnJoin] sessionId : ${client.sessionId}, HashCode : ${client.hashCode}, userId : ${client.userId}`)
         this.sessionIdQueue.push(client.sessionId.toString());

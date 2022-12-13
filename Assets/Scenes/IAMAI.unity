@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4469189, g: 0.49680644, b: 0.5750164, a: 1}
+  m_IndirectSpecularColor: {r: 0.44691873, g: 0.49680603, b: 0.57501566, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16111,6 +16111,10 @@ PrefabInstance:
       value: BG_halloween_town_wood_fence_short
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 5f30ab2b20aae204f9359f72167e6493, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5f30ab2b20aae204f9359f72167e6493, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 3
       objectReference: {fileID: 0}
@@ -23124,6 +23128,10 @@ PrefabInstance:
       value: BG_halloween_town_wood_fence_long
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 419fed325bb3389489ebdd5d360c2305, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 419fed325bb3389489ebdd5d360c2305, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 3
       objectReference: {fileID: 0}
@@ -23285,6 +23293,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: be4594b571296ed48bc282f883acc189, type: 3}
       propertyPath: m_Name
       value: RPG_Box_002
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: be4594b571296ed48bc282f883acc189, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: be4594b571296ed48bc282f883acc189, type: 3}
       propertyPath: m_RootOrder
@@ -31434,6 +31446,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: be4594b571296ed48bc282f883acc189, type: 3}
       propertyPath: m_Name
       value: RPG_Box_002 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: be4594b571296ed48bc282f883acc189, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: be4594b571296ed48bc282f883acc189, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -45372,8 +45388,8 @@ MonoBehaviour:
   setting: {fileID: 0}
   cameraData:
     cameraPrefab: {fileID: 5806182858035002866, guid: 5be4eddc5b02f4ec0a07a69db26df962, type: 3}
-    maxZoomDistance: 15
-    minZoomDistance: 1
+    maxZoomDistance: 4
+    minZoomDistance: 3
     maxPitch: 80
     minPitch: -80
     offset: {x: 0, y: 1, z: 0}

@@ -72,6 +72,9 @@ export default class ClientStarterV2 extends ZepetoScriptBehaviour {
 
             // [CharacterController] (Local) Called when the Player instance is fully loaded in Scene
             ZepetoPlayers.instance.OnAddedPlayer.AddListener((sessionId: string) => {
+                if(sessionId.includes("AI_"))
+                    return
+                
                 const isLocal = this.room.SessionId === sessionId;
                 if (!isLocal) {
                     const player: Player = this.currentPlayers.get(sessionId);
