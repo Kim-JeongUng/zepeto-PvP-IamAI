@@ -40,6 +40,7 @@ export default class GameEndPanel extends ZepetoScriptBehaviour {
             this.winnerName.text = "null";
         });
         yield new WaitForSeconds(3);
+        //var bestScore = this.leaderboardManager.transform.Find("LeaderboardPanel").GetComponent<LeaderBoardManager>().SendScore(score);
 
         this.EndPanel.SetActive(true);
     }
