@@ -49,7 +49,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
     @SerializeField() private _punchGesture: AnimationClip;
     @SerializeField() private _defenseGesture: AnimationClip;
     @SerializeField() private _dieGesture: AnimationClip;
-
+     
     private room: Room;
     private _myCharacter: ZepetoCharacter;
     private _killLogPanel: KillLogPanel;

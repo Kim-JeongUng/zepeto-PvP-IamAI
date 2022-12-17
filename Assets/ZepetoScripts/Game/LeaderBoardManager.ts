@@ -4,7 +4,7 @@ import { GameObject, Transform } from "UnityEngine";
 import ITM_LeaderBoard from './ITM_LeaderBoard'
 export default class LeaderboardManager extends ZepetoScriptBehaviour {
 
-    public leaderboardId: string = "a3e9b5ca-4a91-4615-9749-aa54d12ec9bf\n"
+    public leaderboardId: string = "a3e9b5ca-4a91-4615-9749-aa54d12ec9bf"
     public resetRule: ResetRule;
     private startRank: number = 1;
     private endRank: number = 10000; // Ranking information can be processed up to 10,000 cases at a time
