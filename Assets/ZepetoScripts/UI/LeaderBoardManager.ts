@@ -2,9 +2,10 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { GetRangeRankResponse, LeaderboardAPI, ResetRule } from "ZEPETO.Script.Leaderboard";
 import { GameObject, Transform } from "UnityEngine";
 import ITM_LeaderBoard from './ITM_LeaderBoard'
+import {Button} from "UnityEngine.UI";
 export default class LeaderboardManager extends ZepetoScriptBehaviour {
 
-    public leaderboardId: string = "a3e9b5ca-4a91-4615-9749-aa54d12ec9bf"
+    public leaderboardId: string = "1ee41bb4-932f-4f6b-a9fb-653f9e556e01"
     public resetRule: ResetRule;
     private startRank: number = 1;
     private endRank: number = 10000; // Ranking information can be processed up to 10,000 cases at a time
@@ -13,6 +14,8 @@ export default class LeaderboardManager extends ZepetoScriptBehaviour {
     @SerializeField() private myScoreGroup: GameObject;
     @SerializeField() private contentsParent: GameObject;
     @SerializeField() private ITM_Prefab: GameObject;
+    @SerializeField() private m_LeaderboardBtn: Button;
+
 
     public static instance: LeaderboardManager;
     /* Singleton */
@@ -23,14 +26,12 @@ export default class LeaderboardManager extends ZepetoScriptBehaviour {
             return;
         }
     }
-    
-    OnEnable(){
-        this.SendScore(0);
-        this.LoadLeaderboard();
-    }
-
-    OnDisable(){
-        this.UnLoadLeaderboard();
+    private Start(){
+        this.m_LeaderboardBtn.onClick.AddListener(()=>{
+            this.UnLoadLeaderboard();
+            this.SendScore(0);
+            this.LoadLeaderboard();
+        })
     }
 
     public SendScore(score: number){

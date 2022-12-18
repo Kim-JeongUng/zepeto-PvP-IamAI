@@ -33559,22 +33559,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - leaderboardId
-    - resetRule
-    - myScoreGroup
-    - contentsParent
     - ITM_Prefab
+    - contentsParent
+    - myScoreGroup
+    - resetRule
+    - leaderboardId
+    - m_LeaderboardBtn
     unityValues:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 2037604589}
-    - {fileID: 1849424972}
     - {fileID: 6131178185794935502, guid: 026eb1e19f7ebc04db00852eb3d6c2ff, type: 3}
+    - {fileID: 1849424972}
+    - {fileID: 2037604589}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 576250840}
     values:
-    - '{"type":"System.String, mscorlib","value":"1ee41bb4-932f-4f6b-a9fb-653f9e556e01"}'
+    - 
+    - 
+    - 
     - '{"type":"ZEPETO.Script.Leaderboard.ResetRule, ZEPETO.Script.Leaderboard","value":"{\"value__\":0}"}'
-    - 
-    - 
+    - '{"type":"System.String, mscorlib","value":"1ee41bb4-932f-4f6b-a9fb-653f9e556e01"}'
     - 
     unityArrayValues: []
     arrayValues: []
