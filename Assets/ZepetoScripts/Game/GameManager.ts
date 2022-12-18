@@ -17,7 +17,7 @@ import {Room, RoomData} from 'ZEPETO.Multiplay';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay} from 'ZEPETO.World';
 import ZepetoGameCharacter, {MotionState} from './ZepetoGameCharacter';
-import KillLogPanel from './KillLogPanel';
+import KillLogPanel from '../UI/KillLogPanel';
 import ClientStarterV2 from './ClientStarterV2';
 
 interface PlayerGestureInfo {

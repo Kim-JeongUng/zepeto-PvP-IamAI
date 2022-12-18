@@ -1,0 +1,42 @@
+fileFormatVersion: 2
+guid: c09771c975f22f742a5cb0a75f748f4d
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nclass
+    PopupInfo extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        //private m_infoText:Text;\r\n       
+    this.m_disapearCoroutine = null;\r\n        this.m_disapperTime = 1.5;\r\n   
+    }\r\n    Awake() {\r\n        this.m_bg = this.GetComponentInChildren($typeof(UnityEngine_UI_1.Image));\r\n       
+    //this.m_infoText = this.m_bg.GetComponentInChildren<Text>();\r\n    }\r\n   
+    OnEnable() {\r\n        if (this.m_disapearCoroutine != null) {\r\n           
+    this.StopCoroutine(this.m_disapearCoroutine);\r\n            this.m_bg.color
+    = new UnityEngine_1.Color(this.m_bg.color.r, this.m_bg.color.g, this.m_bg.color.b,
+    0.94);\r\n        }\r\n        this.m_disapearCoroutine = this.StartCoroutine(this.CloseInfo());\r\n   
+    }\r\n    *CloseInfo() {\r\n        let time = 0;\r\n        while (time < this.m_disapperTime)
+    {\r\n            time += UnityEngine_1.Time.deltaTime;\r\n            yield null;\r\n       
+    }\r\n        while (this.m_bg.color.a > 0.1) {\r\n            this.m_bg.color
+    = new UnityEngine_1.Color(this.m_bg.color.r, this.m_bg.color.g, this.m_bg.color.b,
+    this.m_bg.color.a - (5 * UnityEngine_1.Time.deltaTime));\r\n            //this.m_infoText.color
+    = new Color(this.m_bg.color.r, this.m_bg.color.g, this.m_bg.color.b, this.m_bg.color.a
+    - (5 * Time.deltaTime));\r\n            yield null;\r\n        }\r\n        UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n   
+    }\r\n}\r\nexports.default = PopupInfo;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUG9wdXBJbmZvLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUG9wdXBJbmZvLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQW1EO0FBQ25ELDZDQUErRDtBQUMvRCxtREFBcUM7QUFFckMsTUFBcUIsU0FBVSxTQUFRLHFDQUFxQjtJQUE1RDs7UUFHSSwwQkFBMEI7UUFFbEIsd0JBQW1CLEdBQWEsSUFBSSxDQUFDO1FBQ3JDLG1CQUFjLEdBQVUsR0FBRyxDQUFDO0lBb0N4QyxDQUFDO0lBbENHLEtBQUs7UUFDRCxJQUFJLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQyxzQkFBc0IsU0FBQyxzQkFBSyxFQUFHLENBQUM7UUFDakQsNkRBQTZEO0lBQ2pFLENBQUM7SUFFTSxRQUFRO1FBRVgsSUFBSSxJQUFJLENBQUMsbUJBQW1CLElBQUksSUFBSSxFQUNwQztZQUNJLElBQUksQ0FBQyxhQUFhLENBQUMsSUFBSSxDQUFDLG1CQUFtQixDQUFDLENBQUM7WUFDN0MsSUFBSSxDQUFDLElBQUksQ0FBQyxLQUFLLEdBQUcsSUFBSSxtQkFBSyxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUMsRUFBRSxJQUFJLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLEVBQUUsSUFBSSxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQyxFQUFFLElBQUksQ0FBQyxDQUFDO1NBQzlGO1FBRUQsSUFBSSxDQUFDLG1CQUFtQixHQUFHLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLFNBQVMsRUFBRSxDQUFDLENBQUM7SUFDckUsQ0FBQztJQUVPLENBQUMsU0FBUztRQUVkLElBQUksSUFBSSxHQUFVLENBQUMsQ0FBQztRQUNwQixPQUFPLElBQUksR0FBRyxJQUFJLENBQUMsY0FBYyxFQUNqQztZQUNJLElBQUksSUFBSSxrQkFBSSxDQUFDLFNBQVMsQ0FBQztZQUN2QixNQUFNLElBQUksQ0FBQztTQUNkO1FBRUQsT0FBTyxJQUFJLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLEdBQUcsR0FBRyxFQUM5QjtZQUNJLElBQUksQ0FBQyxJQUFJLENBQUMsS0FBSyxHQUFHLElBQUksbUJBQUssQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLEVBQUUsSUFBSSxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQyxFQUFFLElBQUksQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUMsRUFBRSxJQUFJLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLEdBQUcsQ0FBQyxDQUFDLEdBQUcsa0JBQUksQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDO1lBQy9ILHVJQUF1STtZQUN2SSxNQUFNLElBQUksQ0FBQztTQUNkO1FBRUQsd0JBQVUsQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxDQUFDO0lBQ3hDLENBQUM7Q0FDSjtBQTFDRCw0QkEwQ0MifQ==","assetPath":"Assets/ZepetoScripts/UI/PopupInfo.ts","manifest":{"properties":[],"name":"PopupInfo","description":""},"isCompiled":true}'
+  typescriptHash: d64bee24f4bde73bf19ca058bd79a0ee
+  onlyWriteTrigger: 0

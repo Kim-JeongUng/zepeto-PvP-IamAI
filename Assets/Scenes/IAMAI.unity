@@ -5952,7 +5952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &141307684
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31993,7 +31993,7 @@ GameObject:
   - component: {fileID: 875757399}
   - component: {fileID: 875757403}
   m_Layer: 5
-  m_Name: GameStartPanel
+  m_Name: LobyPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32094,30 +32094,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   script:
     keys:
-    - NumberOfAIText
-    - _PlayerPanelOffImage
-    - _PlayerPanelOnImage
-    - _PlayerPanel
-    - _AICountDownBtn
-    - _AICountUpBtn
-    - _StartBtn
-    - _multiplay
+    - m_multiplay
+    - m_StartBtn
+    - m_AICountUpBtn
+    - m_AICountDownBtn
+    - m_PlayerPanel
+    - m_PlayerPanelOnImage
+    - m_PlayerPanelOffImage
+    - m_NumberOfAIText
     unityValues:
-    - {fileID: 200158446}
-    - {fileID: 2800000, guid: 721b4edc53d1fe74086d0f356afa831f, type: 3}
-    - {fileID: 2800000, guid: 88613957c21ad794280a329ad9f3f8cf, type: 3}
-    - {fileID: 0}
-    - {fileID: 37740243}
-    - {fileID: 268493250}
-    - {fileID: 947522581}
     - {fileID: 1418382869}
+    - {fileID: 947522581}
+    - {fileID: 268493250}
+    - {fileID: 37740243}
+    - {fileID: 0}
+    - {fileID: 2800000, guid: 88613957c21ad794280a329ad9f3f8cf, type: 3}
+    - {fileID: 2800000, guid: 721b4edc53d1fe74086d0f356afa831f, type: 3}
+    - {fileID: 554825401}
     values:
     - 
     - 
     - 
-    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":8,\"type\":\"UnityEngine.Object,
-      UnityEngine.CoreModule\",\"isUnity\":true}"}'
     - 
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":8,\"type\":\"UnityEngine.RectTransform,
+      UnityEngine.CoreModule\",\"isUnity\":true}"}'
     - 
     - 
     - 
@@ -55594,7 +55594,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 300, y: 0.0000076293945}
+  m_AnchoredPosition: {x: 200, y: 0.0000076293945}
   m_SizeDelta: {x: 360, y: 640}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1576338421
@@ -59025,7 +59025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1652656272
 RectTransform:
   m_ObjectHideFlags: 0

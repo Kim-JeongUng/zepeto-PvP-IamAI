@@ -1,6 +1,6 @@
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
-import ClientStarterV2 from './ClientStarterV2';
+import ClientStarterV2 from '../Game/ClientStarterV2';
 import {Room} from "ZEPETO.Multiplay";
 import {GameObject, Texture, WaitForSeconds} from 'UnityEngine';
 import {RawImage, Text} from "UnityEngine.UI";

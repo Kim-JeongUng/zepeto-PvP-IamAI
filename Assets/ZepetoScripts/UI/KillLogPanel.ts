@@ -2,7 +2,7 @@ import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {Transform, GameObject, WaitForSeconds} from 'UnityEngine';
 import {Text} from 'UnityEngine.UI';
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
-import ClientStarterV2 from './ClientStarterV2';
+import ClientStarterV2 from '../Game/ClientStarterV2';
 
 
 interface PlayerKillInfo {
