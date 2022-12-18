@@ -233,18 +233,20 @@ export default class extends Sandbox {
     }
 
     async onLeave(client: SandboxPlayer, consented?: boolean) {
-        this.sessionIdQueue.splice((this.sessionIdQueue.indexOf(client.sessionId)), 1)
-        if (this.masterClientSessionId != this.sessionIdQueue[0]) {
-            this.masterClientSessionId = this.sessionIdQueue[0];
-            this.broadcast("CheckMaster", this.masterClientSessionId);
-            console.log("master->", this.masterClientSessionId)
+        console.log(client.sessionId+"leave");
+        this.sessionIdQueue.splice((this.sessionIdQueue.indexOf(client.sessionId)), 1);
+        
+        this.masterClientSessionId = this.sessionIdQueue[0];
+        this.broadcast("CheckMaster", this.masterClientSessionId);
+        console.log("master->", this.masterClientSessionId);
 
-            let usersID: string[] = [];
-            for (let i = 0; i < this.sessionIdQueue.length; i++) {
-                usersID.push(this.state.players.get(this.sessionIdQueue[i]).zepetoUserId);
-            }
-            this.broadcast(this.MESSAGE_TYPE.ReceiveAllPlayer, usersID);
+        let usersID: string[] = [];
+        for (let i = 0; i < this.sessionIdQueue.length; i++) {
+            usersID.push(this.state.players.get(this.sessionIdQueue[i]).zepetoUserId);
         }
+        this.broadcast(this.MESSAGE_TYPE.ReceiveAllPlayer, usersID);
+
+        
         // 살아있는 사람이면
         const player = this.state.players.get(client.sessionId);
         if(!player.isDie){

@@ -39,6 +39,9 @@ export default class LobyPanel extends ZepetoScriptBehaviour {
         this.room.Send("CheckMaster");
         this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
             if (this.room.SessionId == MasterClientSessionId) {
+                this.m_StartBtn.interactable = true;
+                this.m_AICountUpBtn.interactable = true;
+                this.m_AICountDownBtn.interactable = true;
                 if (!this.m_isMasterClient) {
                     this.m_isMasterClient = true;
                     console.log("Master");
