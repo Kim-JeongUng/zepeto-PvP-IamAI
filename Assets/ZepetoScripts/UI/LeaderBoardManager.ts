@@ -14,13 +14,18 @@ export default class LeaderboardManager extends ZepetoScriptBehaviour {
     @SerializeField() private contentsParent: GameObject;
     @SerializeField() private ITM_Prefab: GameObject;
 
-    Awake(){
-        this.LoadLeaderboard();
-        this.UnLoadLeaderboard();
-        this.gameObject.SetActive(false);
+    public static instance: LeaderboardManager;
+    /* Singleton */
+    private Awake() {
+        if (LeaderboardManager.instance == null) {
+            LeaderboardManager.instance = this;
+        } else {
+            return;
+        }
     }
-
+    
     OnEnable(){
+        this.SendScore(0);
         this.LoadLeaderboard();
     }
 

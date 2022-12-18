@@ -4,7 +4,9 @@ import ClientStarterV2 from '../Game/ClientStarterV2';
 import {Room} from "ZEPETO.Multiplay";
 import {GameObject, Texture, WaitForSeconds} from 'UnityEngine';
 import {RawImage, Text} from "UnityEngine.UI";
-import {Users, ZepetoWorldHelper} from "ZEPETO.World";
+import {Users, WorldService, ZepetoWorldHelper} from "ZEPETO.World";
+import LeaderBoardManager from './LeaderBoardManager'
+
 
 export default class GameEndPanel extends ZepetoScriptBehaviour {
     @SerializeField() private EndPanel: GameObject;
@@ -29,6 +31,14 @@ export default class GameEndPanel extends ZepetoScriptBehaviour {
     private* GameEndPanelOpen(winnerID: string) {
         const userId: string[] = [];
         userId.push(winnerID);
+        
+        if(WorldService.userId == winnerID) {
+            LeaderBoardManager.instance.SendScore(3);
+            console.log("Winner");
+        }
+        else
+            LeaderBoardManager.instance.SendScore(1);
+
         ZepetoWorldHelper.GetUserInfo(userId, (info: Users[]) => {
             this.winnerName.text = info[0].name;
             ZepetoWorldHelper.GetProfileTexture(userId[0], (thumb: Texture) => {

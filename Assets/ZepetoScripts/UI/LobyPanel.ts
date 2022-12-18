@@ -47,7 +47,7 @@ export default class LobyPanel extends ZepetoScriptBehaviour {
                         if(this.m_playerCount < 2){
                             Object.Instantiate(this.m_popupInfo,this.transform);
                             this.m_StartBtn.interactable = true;
-                            //return; testcode
+                            return; //testcode
                         }
                         this.room.Send("GameStart", this.NumberOfAI);
                         console.log("GameStart");
@@ -65,13 +65,18 @@ export default class LobyPanel extends ZepetoScriptBehaviour {
                 this.room.Send("ChangeNumberOfAI", this.NumberOfAI);
                 this.room.Send("ReceiveAllPlayer");
             }
+            else{
+                this.m_StartBtn.interactable = false;
+                this.m_AICountUpBtn.interactable = false;
+                this.m_AICountDownBtn.interactable = false;
+            }
         });
 
         this.room.AddMessageHandler("ReceiveAllPlayer", (usersID: string[]) => {
             ZepetoWorldHelper.GetUserInfo(usersID, (info: Users[]) => {
                 this.m_playerCount = info.length;
                 for (let i = 0; i < this.m_playerCount; i++) {
-                    this.m_PlayerPanel[i].GetComponentInChildren<Text>().text = info[i].name
+                    this.m_PlayerPanel[i].GetComponentInChildren<Text>().text = info[i].name;
                     this.m_PlayerPanel[i].GetComponent<RawImage>().texture = this.m_PlayerPanelOnImage;
                     ZepetoWorldHelper.GetProfileTexture(usersID[i],(thumb:Texture)=>{
                         this.m_PlayerPanel[i].GetComponent<RawImage>().texture = thumb;
