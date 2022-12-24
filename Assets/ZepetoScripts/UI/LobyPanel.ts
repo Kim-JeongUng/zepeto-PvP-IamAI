@@ -23,9 +23,10 @@ export default class LobyPanel extends ZepetoScriptBehaviour {
     private m_isMasterClient: boolean = false;
     private m_PlayerMaxLength: number = 8;
     private m_playerCount: number = 0;
+    private m_users: Users[] = [];
 
     private NumberOfAI: number = 10;
-
+   
     private Start() {
         this.m_popupInfo = Resources.Load("PopupInfo") as GameObject;
 
@@ -35,16 +36,50 @@ export default class LobyPanel extends ZepetoScriptBehaviour {
         });
     }
 
-    private Init(){
+    private Init() {
+        this.room.AddMessageHandler("GameStart", (message) => {
+            this.StartCoroutine(this.GameStart());
+        });
+        this.room.AddMessageHandler("ChangeNumberOfAI", (message: number) => {
+            this.m_NumberOfAIText.text = message.toString();
+        });
+
+        this.room.AddMessageHandler("ReceiveAllPlayer", (usersID: string[]) => {
+            ZepetoWorldHelper.GetUserInfo(usersID, (info: Users[]) => {
+                this.m_playerCount = info.length;
+                for (let i = 0; i < this.m_playerCount; i++) {
+                    if (this.m_users[i]?.zepetoId != info[i]?.zepetoId) {
+                        this.m_PlayerPanel[i].GetComponentInChildren<Text>().text = info[i].name;
+                        this.m_PlayerPanel[i].GetComponent<RawImage>().texture = this.m_PlayerPanelOnImage;
+                        ZepetoWorldHelper.GetProfileTexture(usersID[i], (thumb: Texture) => {
+                            this.m_PlayerPanel[i].GetComponent<RawImage>().texture = thumb;
+                        }, (error) => {
+                            console.log(error);
+                        });
+                        console.log(`userId : ${info[i].userOid}, name : ${info[i].name}, zepetoId : ${info[i].zepetoId}`);
+                    }
+                }
+                this.m_users = info;
+            }, (error) => {
+                console.log(error);
+            });
+            for (let i = usersID.length; i < this.m_PlayerMaxLength; i++) {
+                this.m_PlayerPanel[i].GetComponentInChildren<Text>().text = "";
+                this.m_PlayerPanel[i].GetComponent<RawImage>().texture = this.m_PlayerPanelOffImage;
+            }
+        });
+
         this.room.Send("CheckMaster");
         this.room.AddMessageHandler("CheckMaster", (MasterClientSessionId) => {
             if (this.room.SessionId == MasterClientSessionId) {
-                this.m_StartBtn.interactable = true;
-                this.m_AICountUpBtn.interactable = true;
-                this.m_AICountDownBtn.interactable = true;
-                if (!this.m_isMasterClient) {
+                if (!this.m_isMasterClient) { //처음 한번만
                     this.m_isMasterClient = true;
                     console.log("Master");
+
+                    this.m_StartBtn.interactable = true;
+                    this.m_AICountUpBtn.interactable = true;
+                    this.m_AICountDownBtn.interactable = true;
+
                     //방장만 게임시작 버튼 활성화                            
                     this.m_StartBtn.onClick.AddListener(() => {
                         if(this.m_playerCount < 2){
@@ -73,34 +108,6 @@ export default class LobyPanel extends ZepetoScriptBehaviour {
                 this.m_AICountUpBtn.interactable = false;
                 this.m_AICountDownBtn.interactable = false;
             }
-        });
-
-        this.room.AddMessageHandler("ReceiveAllPlayer", (usersID: string[]) => {
-            ZepetoWorldHelper.GetUserInfo(usersID, (info: Users[]) => {
-                this.m_playerCount = info.length;
-                for (let i = 0; i < this.m_playerCount; i++) {
-                    this.m_PlayerPanel[i].GetComponentInChildren<Text>().text = info[i].name;
-                    this.m_PlayerPanel[i].GetComponent<RawImage>().texture = this.m_PlayerPanelOnImage;
-                    ZepetoWorldHelper.GetProfileTexture(usersID[i],(thumb:Texture)=>{
-                        this.m_PlayerPanel[i].GetComponent<RawImage>().texture = thumb;
-                    },(error) => {
-                        console.log(error);
-                    });
-                    console.log(`userId : ${info[i].userOid}, name : ${info[i].name}, zepetoId : ${info[i].zepetoId}`);
-                }
-            }, (error) => {
-                console.log(error);
-            });
-            for (let i = usersID.length; i < this.m_PlayerMaxLength; i++) {
-                this.m_PlayerPanel[i].GetComponentInChildren<Text>().text = "";
-                this.m_PlayerPanel[i].GetComponent<RawImage>().texture = this.m_PlayerPanelOffImage;
-            }
-        });
-        this.room.AddMessageHandler("GameStart", (message) => {
-            this.StartCoroutine(this.GameStart());
-        });
-        this.room.AddMessageHandler("ChangeNumberOfAI", (message: number) => {
-            this.m_NumberOfAIText.text = message.toString();
         });
     }
     private * GameStart(){
