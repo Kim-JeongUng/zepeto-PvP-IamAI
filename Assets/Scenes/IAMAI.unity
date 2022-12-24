@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44691873, g: 0.49680603, b: 0.57501566, a: 1}
+  m_IndirectSpecularColor: {r: 0.4469189, g: 0.49680644, b: 0.5750164, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6831,10 +6831,10 @@ RectTransform:
   m_Father: {fileID: 1541425692}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -470, y: 0}
-  m_SizeDelta: {x: 100, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 275, y: 0}
+  m_SizeDelta: {x: -550, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &166286166
 MonoBehaviour:
@@ -6850,15 +6850,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 0
-    m_Right: 0
+    m_Right: 100
     m_Top: 80
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 40
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -7942,7 +7942,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 721b4edc53d1fe74086d0f356afa831f, type: 3}
+  m_Texture: {fileID: 2800000, guid: 88613957c21ad794280a329ad9f3f8cf, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -36046,8 +36046,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -170.27777}
-  m_SizeDelta: {x: 1661.1111, y: 180.55554}
+  m_AnchoredPosition: {x: 0, y: -193.61111}
+  m_SizeDelta: {x: 1699.9998, y: 227.22221}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &974685141
 MonoBehaviour:
@@ -36056,7 +36056,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974685139}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
@@ -36096,7 +36096,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "- The room manager can limit the number of ai \nand start the game."
+  m_Text: '- The room manager can limit the number of ai and start the game.'
 --- !u!222 &974685143
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -41341,7 +41341,6 @@ GameObject:
   - component: {fileID: 1136451293}
   - component: {fileID: 1136451296}
   - component: {fileID: 1136451295}
-  - component: {fileID: 1136451294}
   m_Layer: 5
   m_Name: Text (1)
   m_TagString: Untagged
@@ -41365,23 +41364,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -454.16663}
-  m_SizeDelta: {x: 1509.7222, y: 180.55554}
+  m_AnchoredPosition: {x: 0, y: -460.83334}
+  m_SizeDelta: {x: 1699.9998, y: 227.22221}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &1136451294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136451292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!114 &1136451295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41415,8 +41400,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "- It's a game where you find a real player \nbetween characters who all
-    look the same."
+  m_Text: '- It''s a game where you find a real player between characters who all
+    look the same.'
 --- !u!222 &1136451296
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -54292,8 +54277,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -900, y: -700}
+  m_AnchoredPosition: {x: 0, y: -25}
+  m_SizeDelta: {x: -900, y: -750}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1541425693
 MonoBehaviour:
@@ -55557,7 +55542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: 0.0000076293945}
+  m_AnchoredPosition: {x: 100, y: 0.0000076293945}
   m_SizeDelta: {x: 360, y: 640}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1576338421
@@ -60153,7 +60138,6 @@ GameObject:
   - component: {fileID: 1677834745}
   - component: {fileID: 1677834748}
   - component: {fileID: 1677834747}
-  - component: {fileID: 1677834746}
   m_Layer: 5
   m_Name: Text (2)
   m_TagString: Untagged
@@ -60177,23 +60161,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -692.22217}
-  m_SizeDelta: {x: 1216.6666, y: 88.888885}
+  m_AnchoredPosition: {x: 0, y: -682.2222}
+  m_SizeDelta: {x: 1699.9998, y: 135.55556}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &1677834746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677834744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!114 &1677834747
 MonoBehaviour:
   m_ObjectHideFlags: 0
