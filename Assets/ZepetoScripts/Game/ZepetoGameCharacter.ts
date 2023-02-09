@@ -15,6 +15,7 @@ import {Text} from "UnityEngine.UI";
 import {Room} from "ZEPETO.Multiplay";
 import RightHand from './RightHand';
 import MultiplayManager from '../MultiplaySync/Common/MultiplayManager';
+import PlayerSync from '../MultiplaySync/Player/PlayerSync';
 
 interface PlayerKillInfo {
     attackerSessionId: string,
@@ -40,6 +41,7 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
 
 
     private Start() {
+        this.userID = this.GetComponent<PlayerSync>()?.player?.zepetoUserId;
         if (this.userID != null) {
             let usersID: string[] = [];
             usersID.push(this.userID);

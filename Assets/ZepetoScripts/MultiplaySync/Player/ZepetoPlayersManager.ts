@@ -102,8 +102,10 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     }
     
     private AddPlayerSync(sessionId:string){
-        const isLocal:boolean = this.room.SessionId === sessionId;
         const player: Player = this.currentPlayers.get(sessionId);
+        if(!player)
+            return;
+        const isLocal:boolean = this.room.SessionId === sessionId;
         const zepetoPlayer = ZepetoPlayers.instance.GetPlayer(sessionId);
         
         const tfHelper = zepetoPlayer.character.transform.gameObject.AddComponent<TransformSyncHelper>();
@@ -151,7 +153,7 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
             spawnInfo.position = this.transform.position;
             spawnInfo.rotation = this.transform.rotation;
             const isLocal = this.room.SessionId === player.sessionId;
-            ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, player.zepetoUserId, spawnInfo, isLocal);
+            ZepetoPlayers.instance.CreatePlayerWithUserId(sessionId, "", spawnInfo, isLocal);
         }
     }
 

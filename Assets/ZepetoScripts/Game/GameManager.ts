@@ -9,7 +9,8 @@ import {
     Transform,
     Vector3,
     WaitForSeconds,
-    LayerMask
+    LayerMask,
+    Object
 } from 'UnityEngine';
 import {Button, Image} from 'UnityEngine.UI';
 import {LocalPlayer, SpawnInfo, ZepetoCharacter, ZepetoPlayer, ZepetoPlayers} from 'ZEPETO.Character.Controller';
@@ -132,6 +133,9 @@ export default class GameManager extends ZepetoScriptBehaviour {
         this._punchFlag = false;
         this._defenseFlag = false;
         this._onEndFlag = false;
+        Object.FindObjectsOfType<ZepetoGameCharacter>().forEach((zgc)=>{
+            zgc.transform.GetChild(0).gameObject.SetActive(true);
+        });
     }
 
     private PlayerSync(receivePlayer: SyncTransform[]) {
@@ -197,13 +201,8 @@ export default class GameManager extends ZepetoScriptBehaviour {
             zepetoCharacter.SetGesture(this._dieGesture);
             CharacterScript.motionState = MotionState.Die;
             zepetoCharacter.gameObject.layer = LayerMask.NameToLayer("DeadPlayer");
-            for (let i = 0; i < 3; i++) {
-                yield new WaitForSeconds(3);
-                if (this._onEndFlag) {
-                    break;
-                } else if (i == 2)
-                    zepetoCharacter.transform.GetChild(0).gameObject.SetActive(false);
-            }
+            yield new WaitForSeconds(3);
+            zepetoCharacter.transform.GetChild(0).gameObject.SetActive(false);
         } else
             yield new WaitForSeconds(2);
         zepetoCharacter.CancelGesture();

@@ -1,6 +1,6 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { GetRangeRankResponse, LeaderboardAPI, ResetRule } from "ZEPETO.Script.Leaderboard";
-import { GameObject, Transform } from "UnityEngine";
+import { GameObject, Transform, WaitUntil } from "UnityEngine";
 import ITM_LeaderBoard from './ITM_LeaderBoard'
 import {Button} from "UnityEngine.UI";
 export default class LeaderboardManager extends ZepetoScriptBehaviour {
@@ -30,7 +30,7 @@ export default class LeaderboardManager extends ZepetoScriptBehaviour {
         this.m_LeaderboardBtn.onClick.AddListener(()=>{
             this.UnLoadLeaderboard();
             this.SendScore(0);
-            this.LoadLeaderboard();
+            this.StartCoroutine(this.LoadLeaderboard());
         })
     }
 
@@ -43,11 +43,22 @@ export default class LeaderboardManager extends ZepetoScriptBehaviour {
         return this.myBestScore;
     }
 
-    LoadLeaderboard(){
-        LeaderboardAPI.GetRangeRank(this.leaderboardId, this.startRank, this.endRank, this.resetRule ,false ,
-            (result)=>{this.OnResult(result);},
-            (error)=>{console.error(error);}
-        );
+    private *LoadLeaderboard(){
+        let isResponsed = false;
+        for(let i=0; i<100; i++) {
+            LeaderboardAPI.GetRangeRank(this.leaderboardId, i*10, i*10+10, this.resetRule, false,
+                (result) => {
+                    this.OnResult(result);
+                    isResponsed = true;
+                },
+                (error) => {
+                    console.error(error);
+                    isResponsed = true;
+                }
+            );
+            yield new WaitUntil(()=>isResponsed);
+            isResponsed = false;
+        }
     }
 
     OnResult(result: GetRangeRankResponse) {
