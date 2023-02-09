@@ -2,8 +2,7 @@ import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {Transform, GameObject, WaitForSeconds} from 'UnityEngine';
 import {Text} from 'UnityEngine.UI';
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
-import ClientStarterV2 from '../Game/ClientStarterV2';
-
+import MultiplayManager from '../MultiplaySync/Common/MultiplayManager';
 
 interface PlayerKillInfo {
     attackerSessionId: string,
@@ -20,7 +19,7 @@ export default class KillLogPanel extends ZepetoScriptBehaviour {
 
     private Start() {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            ClientStarterV2.instance.room.AddMessageHandler("LeftPlayer", (message: number) => {
+            MultiplayManager.instance.room.AddMessageHandler("LeftPlayer", (message: number) => {
                 this._leftPlayer.text = message.toString();
             });
         });

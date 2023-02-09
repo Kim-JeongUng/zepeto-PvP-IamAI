@@ -18,7 +18,7 @@ import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay} from 'ZEPETO.World';
 import ZepetoGameCharacter, {MotionState} from './ZepetoGameCharacter';
 import KillLogPanel from '../UI/KillLogPanel';
-import ClientStarterV2 from './ClientStarterV2';
+import MultiplayManager from '../MultiplaySync/Common/MultiplayManager';
 
 interface PlayerGestureInfo {
     sessionId: string,
@@ -73,12 +73,25 @@ export default class GameManager extends ZepetoScriptBehaviour {
     };
 
     private Start() {
+        
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.room = ClientStarterV2.instance.room;
+            this.room = MultiplayManager.instance.room;
             this._myCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
             this.InitMessageHandler();
             this.InitBtnHandler();
         });
+        
+        ZepetoPlayers.instance.OnAddedPlayer.AddListener((sessionId) => {
+            if(sessionId.includes("AI_"))
+                return
+            
+            const nowJoinPlayer = ZepetoPlayers.instance.GetPlayer(sessionId).character;
+            nowJoinPlayer.tag = "Player";
+            nowJoinPlayer.name = sessionId;
+            let zepetoGameCharacter = nowJoinPlayer.transform.gameObject.AddComponent<ZepetoGameCharacter>();
+            zepetoGameCharacter.sessionID = sessionId;
+        });
+        
         this._killLogPanel = GameObject.Find("KillLogPanel").GetComponent<KillLogPanel>();
     }
 
@@ -168,7 +181,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
         const zepetoCharacter = ZepetoPlayers.instance.GetPlayer(playerGestureInfo.sessionId).character;
         const CharacterScript = zepetoCharacter.GetComponent<ZepetoGameCharacter>();
 
-
         if (playerGestureInfo.gestureIndex == MotionIndex.Punch) {
             zepetoCharacter.SetGesture(this._punchGesture);
             CharacterScript.motionState = MotionState.Punch;
@@ -203,15 +215,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
         playerGestureInfo = {sessionId: playerKillInfo.victimSessionId, gestureIndex: MotionIndex.Die};
         this.StartCoroutine(this.GestureSync(playerGestureInfo));
         this._killLogPanel.GetKillLog(playerKillInfo);
-    }
-
-    private ParseVector3(vector3: Vector3): Vector3 {
-        return new Vector3
-        (
-            vector3.x,
-            vector3.y,
-            vector3.z
-        );
     }
 
 }

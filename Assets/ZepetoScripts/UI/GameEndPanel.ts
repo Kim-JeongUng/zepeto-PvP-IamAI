@@ -1,11 +1,11 @@
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
-import ClientStarterV2 from '../Game/ClientStarterV2';
 import {Room} from "ZEPETO.Multiplay";
 import {GameObject, Texture, WaitForSeconds} from 'UnityEngine';
 import {RawImage, Text} from "UnityEngine.UI";
 import {Users, WorldService, ZepetoWorldHelper} from "ZEPETO.World";
 import LeaderBoardManager from './LeaderBoardManager'
+import MultiplayManager from '../MultiplaySync/Common/MultiplayManager';
 
 
 export default class GameEndPanel extends ZepetoScriptBehaviour {
@@ -17,7 +17,7 @@ export default class GameEndPanel extends ZepetoScriptBehaviour {
 
     private Start() {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.room = ClientStarterV2.instance.room;
+            this.room = MultiplayManager.instance.room;
             this.room.AddMessageHandler("OnEndGame", (message: string) => {
                 this.StartCoroutine(this.GameEndPanelOpen(message));
             });

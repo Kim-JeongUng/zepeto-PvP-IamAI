@@ -13,8 +13,8 @@ import {CharacterState, SpawnInfo, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.
 import {Room, RoomData} from 'ZEPETO.Multiplay';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {ZepetoWorldMultiplay} from 'ZEPETO.World';
+import MultiplayManager from '../MultiplaySync/Common/MultiplayManager';
 import ZepetoGameCharacter, { MotionState } from './ZepetoGameCharacter';
-import ClientStarterV2 from './ClientStarterV2';
 
 interface SyncTransform {
     SessionId: string,
@@ -40,7 +40,7 @@ export default class AIManager extends ZepetoScriptBehaviour {
 
     private Start() {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.room = ClientStarterV2.instance.room;
+            this.room = MultiplayManager.instance.room;
             this.Init();
         });
     }

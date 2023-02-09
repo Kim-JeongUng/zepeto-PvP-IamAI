@@ -13,8 +13,8 @@ import GameManager from './GameManager';
 import {Users, ZepetoWorldHelper} from "ZEPETO.World";
 import {Text} from "UnityEngine.UI";
 import {Room} from "ZEPETO.Multiplay";
-import ClientStarterV2 from './ClientStarterV2';
 import RightHand from './RightHand';
+import MultiplayManager from '../MultiplaySync/Common/MultiplayManager';
 
 interface PlayerKillInfo {
     attackerSessionId: string,
@@ -56,7 +56,7 @@ export default class ZepetoGameCharacter extends ZepetoScriptBehaviour {
             this.nickname = this.sessionID;
         }
 
-        this.room = ClientStarterV2.instance.room;
+        this.room = MultiplayManager.instance.room;
         this.room.AddMessageHandler("GameStart", (message) => {
             this.transform.GetChild(0).gameObject.SetActive(true);
             this.motionState = MotionState.Idle;            

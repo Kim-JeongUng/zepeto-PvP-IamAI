@@ -4,11 +4,9 @@ import {AnimationClip, RectTransform, Transform, Mathf, Texture, WaitForSeconds,
 import {Button, Image, Text,RawImage} from "UnityEngine.UI";
 import {Room} from "ZEPETO.Multiplay";
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
-import ClientStarterV2 from '../Game/ClientStarterV2';
+import MultiplayManager from '../MultiplaySync/Common/MultiplayManager';
 
 export default class LobyPanel extends ZepetoScriptBehaviour {
-
-    @SerializeField() private m_multiplay: ZepetoWorldMultiplay;
     @SerializeField() private m_StartBtn: Button;
     @SerializeField() private m_AICountUpBtn: Button;
     @SerializeField() private m_AICountDownBtn: Button;
@@ -31,7 +29,7 @@ export default class LobyPanel extends ZepetoScriptBehaviour {
         this.m_popupInfo = Resources.Load("PopupInfo") as GameObject;
 
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.room = ClientStarterV2.instance.room;
+            this.room = MultiplayManager.instance.room;
             this.Init();
         });
     }

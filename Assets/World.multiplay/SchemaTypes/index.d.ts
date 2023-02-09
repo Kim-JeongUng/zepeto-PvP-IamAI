@@ -14,6 +14,8 @@ declare module "ZEPETO.Multiplay.Schema" {
 		playerAdditionalValue: PlayerAdditionalValue;
 		animationParam: ZepetoAnimationParam;
 		gestureName: string;
+		isDie: boolean;
+		isMasterClient: boolean;
 	}
 	class sVector3 extends Schema {
 		x: number;
