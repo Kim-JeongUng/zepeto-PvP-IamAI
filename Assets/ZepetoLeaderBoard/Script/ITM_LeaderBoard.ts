@@ -15,14 +15,19 @@ export default class ITM_LeaderBoard extends ZepetoScriptBehaviour {
     
     public SetGroup(rank : Rank){
         if(this._rankCache?.member != rank.member){
-
-            // Set player's ProfileTexture
-            ZepetoWorldHelper.GetProfileTexture(rank.member,(texture:Texture)=>{
-                this.playerImage.sprite = this.GetSprite(texture);
-            },(error)=>{
-                console.warn("GetProfileTexture Error : " + error);
-            });
-            this.playerNameText.text = rank.name;
+            if(rank.name != null) {
+                // Set player's ProfileTexture
+                ZepetoWorldHelper.GetProfileTexture(rank.member, (texture: Texture) => {
+                    if(texture!=null)
+                        this.playerImage.sprite = this.GetSprite(texture);
+                }, (error) => {
+                    console.warn("GetProfileTexture Error : " + error);
+                });
+            }
+            else{
+                console.warn(rank.rank+" member null : " + rank.name);
+            }
+            this.playerNameText.text = rank.name ?? "withdrawn user.";
         }
         // Set player's rank, and score
         this.playerRankText.text = rank.rank.toString();

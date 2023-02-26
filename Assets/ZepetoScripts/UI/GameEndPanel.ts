@@ -4,7 +4,7 @@ import {Room} from "ZEPETO.Multiplay";
 import {GameObject, Texture, WaitForSeconds} from 'UnityEngine';
 import {RawImage, Text} from "UnityEngine.UI";
 import {Users, WorldService, ZepetoWorldHelper} from "ZEPETO.World";
-import LeaderBoardManager from './LeaderBoardManager'
+import LeaderBoardManager from '../../ZepetoLeaderBoard/Script/LeaderBoardManager'
 import MultiplayManager from '../MultiplaySync/Common/MultiplayManager';
 
 

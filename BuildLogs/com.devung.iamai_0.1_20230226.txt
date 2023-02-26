@@ -1,0 +1,130 @@
+[World Settings]
+world id             com.devung.iamai    
+version              0.1                 
+max clients          8                   
+orientation          horizontal          
+disable invite       false               
+disable room list    false               
+disable private room false               
+
+[Build Manifest]
+[scenes]
+2 mb                 assets/scenes/iamai.unity
+[assets]
+294 kb               assets/_resources/001_desert/fbx/it_bunker_door.fbx
+13 kb                packages/zepeto.character.controller/runtime/_resources/images/touchpad_handle_base.png
+2 kb                 packages/zepeto.character.controller/runtime/_resources/animations/ui/controller/touchpad_handle_off.anim
+542 kb               assets/_resources/001_desert/materials/materials/texture/it_ground_skyline.png
+34 kb                assets/_resources/[scriptsshader]/dynamicstarrysky/models/skysphere.fbx
+4 mb                 assets/_resources/001_desert/materials/materials/texture/it_splatting_alp.tga
+35 kb                packages/zepeto.character.controller/runtime/_resources/inputactions/zepetoinputcontrol.inputactions
+170 kb               assets/_resources/001_desert/fbx/bg_halloween_town_wood_fence_short.fbx
+600 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/landing_slight.anim
+1 mb                 assets/_resources/001_desert/materials/materials/texture/it_sandpattern3.png
+305 kb               assets/_resources/001_desert/materials/materials/texture/it_ground_rock.png
+187 kb               assets/_resources/001_desert/fbx/collider/it_ground_raycast.fbx
+4 kb                 assets/_resources/100_samplemap/sample/prefab/test_map_001_cage_1x10.prefab
+62 kb                packages/zepeto.character.controller/runtime/_resources/animations/base/action1.anim
+280 kb               assets/_resources/001_desert/materials/materials/texture/it_sandpattern.png
+4 mb                 assets/_resources/001_desert/materials/materials/texture/it_color_tex.png
+3 kb                 assets/packagecopy/defense.controller
+3 kb                 packages/zepeto.character.controller/runtime/_resources/animations/ui/controller/touchpad_handle_ziggle.anim
+1 mb                 packages/zepeto.character.controller/runtime/_resources/animations/base/walk.anim
+2 kb                 packages/zepeto.character.controller/runtime/_resources/animations/ui/controller/touchpad_handle_on.anim
+2 kb                 assets/_resources/001_desert/materials/materials/it_ground_skyline.mat
+29 kb                assets/_resources/001_desert/fbx/snp_stairs_001.fbx
+1 mb                 assets/_resources/[skybox]/dayskygradient.mat
+185 kb               assets/_resources/001_desert/fbx/it_ground_rock_s.fbx
+1 mb                 packages/zepeto.character.controller/runtime/_resources/animations/base/jump_move.anim
+190 kb               assets/_resources/001_desert/fbx/it_ground_rock_m.fbx
+61 kb                assets/_resources/002_sakura/fbx/sk_wall.fbx
+27 kb                packages/zepeto.character.controller/runtime/_resources/prefabs/uicontroller_touchpad_horizontal.prefab
+3 kb                 assets/_resources/001_desert/materials/materials/it_splatte.mat
+7 kb                 packages/zepeto.character.controller/runtime/_resources/animatorcontroller/uicontrollertouchpadhandleorigin.controller
+574 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/landing_roll.anim
+1 mb                 assets/_resources/100_samplemap/sample/fbx/test_main.png
+33 kb                assets/packagecopy/uicontroller_touchpad_horizontal.prefab
+3 kb                 assets/_resources/001_desert/materials/materials/it_sandpattern.mat
+41 kb                assets/_resources/001_desert/fbx/bpm_setb_toolbox_001.fbx
+62 kb                packages/zepeto.character.controller/runtime/_resources/animations/base/action2.anim
+27 kb                packages/zepeto.character.controller/runtime/_resources/prefabs/uicontroller_touchpad_vertical.prefab
+16 kb                assets/_resources/[scriptsshader]/dynamicstarrysky/shaders/starrysky.shader
+185 kb               assets/_resources/100_samplemap/sample/fbx/test_map_001_cage_1x10.fbx
+1 kb                 packages/com.unity.inputsystem/inputsystem/editor/icons/inputsystemuiinputmodule@64.png
+192 kb               assets/_resources/001_desert/fbx/it_obj_drum_red.fbx
+7 kb                 packages/zepeto.character.controller/runtime/_resources/animatorcontroller/uicontrollertouchpadhandle.controller
+3 kb                 assets/_resources/100_samplemap/sample/test_main.mat
+451 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/jump_dash.anim
+2 kb                 assets/_resources/001_desert/materials/bg_halloween_town_nat.mat
+489 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/move_walk_fast.anim
+3 kb                 packages/zepeto.character.controller/runtime/_resources/prefabs/shadow/charactershadow.prefab
+191 kb               assets/_resources/001_desert/fbx/it_ground_bigsand_l.fbx
+12 kb                packages/zepeto.character.controller/runtime/_resources/images/touchpad_jump_base.png
+1 mb                 assets/_resources/[skybox]/test_map_dayskygradient.mat
+442 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/jump_move.anim
+192 kb               assets/_resources/001_desert/fbx/it_obj_drum_gray.fbx
+378 kb               assets/_resources/001_desert/materials/materials/texture/it_bigsand.png
+62 kb                packages/zepeto.character.controller/runtime/_resources/animations/base/gesture.anim
+2 kb                 assets/_resources/001_desert/materials/materials/it_stonepattern.mat
+18 kb                packages/zepeto.character.controller/runtime/_resources/animatorcontroller/zepetoanimator.controller
+21 kb                assets/_resources/[materials]/texture/basecolor_002.png
+1 mb                 assets/_resources/001_desert/materials/materials/texture/it_sandpattern2.png
+2 kb                 assets/_resources/100_samplemap/plane.mat
+2 kb                 packages/zepeto.character.controller/runtime/_resources/animations/ui/controller/touchpad_handle_origin_on.anim
+197 kb               assets/_resources/001_desert/fbx/it_ground_rock_l.fbx
+4 mb                 assets/_resources/001_desert/materials/materials/texture/it_splatting_tex.tga
+560 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/idle.anim
+3 mb                 assets/_resources/001_desert/halloween_tex/bg_halloween_town_nat.png
+191 kb               assets/_resources/001_desert/fbx/it_ground_bigsand_s.fbx
+1 kb                 packages/zepeto.character.controller/runtime/_resources/prefabs/shadow/fxt_blobshadow.png
+3 kb                 assets/_resources/100_samplemap/sample/_test_map_001_splatte 1.mat
+2 kb                 assets/_resources/002_sakura/materials/sk_wood_001.mat
+185 kb               assets/_resources/001_desert/fbx/it_ground_rock_ss.fbx
+195 kb               assets/_resources/001_desert/fbx/it_ground_under.fbx
+295 kb               packages/zepeto.character.controller/runtime/_resources/animatorcontroller/zepetoanimatorv2.controller
+1 mb                 packages/zepeto.character.controller/runtime/_resources/animations/gesture/4_ok.anim
+2 kb                 assets/_resources/001_desert/materials/materials/it_bigsand.mat
+374 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/move_run_fast.anim
+828 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/move_turn.anim
+1 mb                 packages/zepeto.character.controller/runtime/_resources/animations/base/v2/landing_deep.anim
+4 mb                 assets/_resources/100_samplemap/sample/_test_map_001_splatting_tex 1.tga
+2 kb                 assets/_resources/[materials]/basecolor_002.mat
+69 kb                assets/zepetoscreenshot/zepetoscreenshotmodule.prefab
+445 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/move_run.anim
+1 mb                 packages/zepeto.character.controller/runtime/_resources/animations/base/jump_idle.anim
+2 kb                 assets/_resources/[materials]/colortexture_001.mat
+2 kb                 packages/zepeto.character.controller/runtime/_resources/animations/ui/controller/touchpad_handle_origin_off.anim
+171 kb               assets/_resources/001_desert/fbx/bg_halloween_town_wood_fence_long.fbx
+330 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/falling.anim
+2 kb                 assets/_resources/001_desert/materials/materials/it_color_tex.mat
+5 kb                 packages/zepeto.character.controller/runtime/_resources/images/touchpad_handle_icon.png
+618 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/jump_idle.anim
+451 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/stamp.anim
+5 kb                 packages/zepeto.character.controller/runtime/_resources/images/touchpad_jump_icon.png
+207 kb               assets/_resources/001_desert/fbx/it_ground.fbx
+3 kb                 assets/_resources/[skybox]/skygradient_day.prefab
+4 kb                 assets/_resources/001_desert/materials/ground_splatting_lightmap.shader
+150 kb               assets/_resources/001_desert/fbx/rpg_box_002.fbx
+940 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/run.anim
+1 kb                 packages/zepeto.character.controller/runtime/_resources/camera/zepetocamera.prefab
+537 kb               assets/_resources/001_desert/fbx/it_obj_junk car.fbx
+3 kb                 assets/packagecopy/punch.controller
+28 kb                assets/_resources/[materials]/texture/colortexture_001.png
+191 kb               assets/_resources/001_desert/fbx/it_ground_bigsand_m.fbx
+1 mb                 packages/zepeto.character.controller/runtime/_resources/animations/base/v2/move_walk.anim
+7 kb                 assets/packagecopy/buttonanim.anim
+2 kb                 packages/zepeto.character.controller/runtime/_resources/prefabs/shadow/fxt_blobshadow.mat
+2 kb                 packages/zepeto.character.controller/runtime/_resources/prefabs/eventsystem.prefab
+1014 kb              packages/zepeto.character.controller/runtime/_resources/animations/base/v2/idle.anim
+25 kb                assets/zepetoleaderboard/prefab/leaderboard.prefab
+1 mb                 packages/zepeto.character.controller/runtime/_resources/animations/base/fall_end.anim
+26 kb                assets/_resources/002_sakura/materials/texture/sk_wood_001.png
+464 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/v2/jump_double.anim
+428 kb               packages/zepeto.character.controller/runtime/_resources/animations/base/hand_idle_01.anim
+31 kb                packages/com.unity.inputsystem/inputsystem/plugins/playerinput/defaultinputactions.inputactions
+223 kb               assets/_resources/001_desert/fbx/it_ground_skyline.fbx
+3 kb                 packages/zepeto.character.controller/runtime/_resources/animations/ui/controller/touchpad_handle_origin_ziggle.anim
+[resources]
+0 b                  assets/resources    
+0 b                  assets/zepetoleaderboard/resources
+[streamingAssets]
