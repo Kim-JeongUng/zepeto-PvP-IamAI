@@ -1,6 +1,9 @@
 # zepeto-multiplay-I_am_AI
 
-제페토 탬플릿 내에서 멀티플레이 게임을 구현합니다.<br>
+제페토 탬플릿 내에서 멀티플레이 PvP게임을 구현합니다.<br>
+
+[클라이언트 코드](https://github.com/Kim-JeongUng/zepeto-PvP-IamAI/tree/main/Assets/ZepetoScripts) <br>
+[서버 코드](https://github.com/Kim-JeongUng/zepeto-PvP-IamAI/blob/main/Assets/World.multiplay/index.ts)
 
 ## 유사 게임
 - [I am AI](https://play.google.com/store/apps/details?id=com.torus.imai.game&hl=ko&gl=US)<br>
